@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 from async_yoomoney.models.payment_submodels.receipt_submodels.customer_model import (
     Customer,
@@ -18,7 +18,7 @@ class Receipt(BaseModel):
     customer: Customer | None = None
     items: list[ReceiptItem]
     phone: str | None = Field(min_length=11, max_length=11)
-    email: str | None = None
-    tax_system_code: str | None = Field(max_length=6)
+    email: EmailStr | None = None
+    tax_system_code: int | None = Field(le=6)
     receipt_industry_details: list[PaymentSubjectIndustryDetails] | None = None
     receipt_operational_details: ReceiptOperationalDetails | None = None

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class MarkQuantity(BaseModel):
-    numerator: int
-    denominator: int
+    numerator: int = Field(ge=1)
+    denominator: int = Field(ge=1)
