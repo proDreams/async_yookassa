@@ -7,6 +7,7 @@ jobs:
   lint:
     env:
       RUNNER_TOOL_CACHE: /opt/hostedtoolcache
+      PIP_CACHE_DIR: /tmp/pip_cache
 
     runs-on: ubuntu-latest
     container:
@@ -24,6 +25,7 @@ jobs:
           cache: 'pip'
         env:
           AGENT_TOOLSDIRECTORY: /opt/hostedtoolcache
+          PIP_CACHE_DIR: /tmp/pip_cache
 
       - name: Cache pre-commit hooks
         id: cache-pre-commit
