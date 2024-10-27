@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
 
-class Transfers(BaseModel):
+class Transfer(BaseModel):
     account_id: str
     amount: Amount
     platform_fee_amount: Amount

@@ -12,7 +12,7 @@ from async_yookassa.models.payment_submodels.payment_method_data_model import (
 from async_yookassa.models.payment_submodels.receipt_model import Receipt
 from async_yookassa.models.payment_submodels.receiver_model import Receiver
 from async_yookassa.models.payment_submodels.recipient_model import Recipient
-from async_yookassa.models.payment_submodels.transfers_model import Transfers
+from async_yookassa.models.payment_submodels.transfers_model import Transfer
 
 
 class PaymentRequest(BaseModel):
@@ -29,7 +29,7 @@ class PaymentRequest(BaseModel):
     client_ip: str | None = None
     metadata: dict[str, Any] | None = None
     airline: Airline | None = None
-    transfers: list[Transfers] | None = None
+    transfers: list[Transfer] | None = None
     deal: Deal | None = None
-    merchant_customer_id: str | None = None
+    merchant_customer_id: str | None = Field(max_length=200, default=None)
     receiver: Receiver | None = None
