@@ -1,18 +1,10 @@
-from enum import Enum
-
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-
-class TypeEnum(str, Enum):
-    embedded = "embedded"
-    external = "external"
-    mobile_application = "mobile_application"
-    qr = "qr"
-    redirect = "redirect"
+from async_yookassa.models.enums.confirmation_enums import ConfirmationTypeEnum
 
 
 class ConfirmationBase(BaseModel):
-    type: TypeEnum
+    type: ConfirmationTypeEnum
     return_url: str | None = Field(max_length=2048, default=None)
     enforce: bool | None = None
 
@@ -26,11 +18,11 @@ class Confirmation(ConfirmationBase):
     def validate_required_fields(cls, values):
         type_value = values.get("type")
 
-        if type_value == TypeEnum.mobile_application:
+        if type_value == ConfirmationTypeEnum.mobile_application:
             if not values.get("return_url"):
                 raise ValueError("Field 'return_url' is required for type 'mobile_application'")
 
-        if type_value == TypeEnum.redirect:
+        if type_value == ConfirmationTypeEnum.redirect:
             if not values.get("return_url"):
                 raise ValueError("Field 'return_url' is required for type 'redirect'")
 
@@ -46,16 +38,16 @@ class ConfirmationResponse(ConfirmationBase):
     def validate_required_fields(cls, values):
         type_value = values.get("type")
 
-        if type_value == TypeEnum.embedded:
+        if type_value == ConfirmationTypeEnum.embedded:
             if not values.get("confirmation_token"):
                 raise ValueError("Field 'confirmation_token' is required for type 'embedded'")
-        elif type_value == TypeEnum.mobile_application:
+        elif type_value == ConfirmationTypeEnum.mobile_application:
             if not values.get("confirmation_url"):
                 raise ValueError("Field 'confirmation_url' is required for type 'mobile_application'")
-        elif type_value == TypeEnum.redirect:
+        elif type_value == ConfirmationTypeEnum.redirect:
             if not values.get("confirmation_url"):
                 raise ValueError("Field 'confirmation_url' is required for type 'redirect'")
-        elif type_value == TypeEnum.qr:
+        elif type_value == ConfirmationTypeEnum.qr:
             if not values.get("confirmation_data"):
                 raise ValueError("Field 'confirmation_data' is required for type 'qr'")
 

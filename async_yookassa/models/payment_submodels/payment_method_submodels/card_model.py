@@ -1,8 +1,8 @@
 import re
-from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from async_yookassa.models.enums.card_enums import CardTypeEnum, SourceEnum
 from async_yookassa.models.payment_submodels.payment_method_submodels.card_product_model import (
     CardProduct,
 )
@@ -14,30 +14,6 @@ class CardRequest(BaseModel):
     expiry_month: str
     cardholder: str | None = None
     csc: str | None = None
-
-
-class CardTypeEnum(str, Enum):
-    MasterCard = "MasterCard"
-    Visa = "Visa"
-    Mir = "Mir"
-    UnionPay = "UnionPay"
-    JCB = "JCB"
-    AmericanExpress = "AmericanExpress"
-    DinersClub = "DinersClub"
-    DiscoverCard = "DiscoverCard"
-    InstaPayment = "InstaPayment"
-    InstaPaymentTM = "InstaPaymentTM"
-    Laser = "Laser"
-    Dankort = "Dankort"
-    Solo = "Solo"
-    Switch = "Switch"
-    Unknown = "Unknown"
-
-
-class SourceEnum(str, Enum):
-    mir_pay = "mir_pay"
-    apple_pay = "apple_pay"
-    google_pay = "google_pay"
 
 
 class CardResponse(BaseModel):
@@ -62,7 +38,7 @@ class CardResponse(BaseModel):
 
     @field_validator("last4", mode="before")
     def validate_last4(cls, value: str) -> str:
-        if not re.match(r"^[\d]{4}$", value):
+        if not re.match(r"^\d{4}$", value):
             raise ValueError("Invalid last4 value")
 
         return value

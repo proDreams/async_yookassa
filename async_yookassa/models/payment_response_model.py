@@ -1,9 +1,12 @@
 from datetime import datetime
-from enum import Enum
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from async_yookassa.models.enums.payment_response_enums import (
+    PaymentResponseStatusEnum,
+    ReceiptRegistrationEnum,
+)
 from async_yookassa.models.payment_submodels.amount_model import Amount
 from async_yookassa.models.payment_submodels.authorization_details_model import (
     AuthorizationDetails,
@@ -19,22 +22,9 @@ from async_yookassa.models.payment_submodels.recipient_model import RecipientRes
 from async_yookassa.models.payment_submodels.transfers_model import TransferResponse
 
 
-class StatusEnum(str, Enum):
-    pending = "pending"
-    waiting_for_capture = "waiting_for_capture"
-    succeeded = "succeeded"
-    canceled = "canceled"
-
-
-class ReceiptRegistrationEnum(str, Enum):
-    pending = "pending"
-    succeeded = "succeeded"
-    canceled = "canceled"
-
-
 class PaymentResponse(BaseModel):
     id: str = Field(min_length=36, max_length=36)
-    status: StatusEnum
+    status: PaymentResponseStatusEnum
     amount: Amount
     income_amount: Amount
     description: str | None = Field(max_length=128, default=None)

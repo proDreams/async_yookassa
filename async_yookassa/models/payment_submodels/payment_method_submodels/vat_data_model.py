@@ -1,25 +1,11 @@
-from enum import Enum
-
 from pydantic import BaseModel, ConfigDict, model_validator
 
+from async_yookassa.models.enums.vat_data_enums import RateEnum, VatDataTypeEnum
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
 
-class TypeEnum(str, Enum):
-    untaxed = "untaxed"
-    calculated = "calculated"
-    mixed = "mixed"
-
-
-class RateEnum(str, Enum):
-    seven = "7"
-    ten = "10"
-    eighteen = "18"
-    twenty = "20"
-
-
 class VatData(BaseModel):
-    type: TypeEnum
+    type: VatDataTypeEnum
     amount: Amount | None = None
     rate: RateEnum | None = None
 
@@ -29,12 +15,12 @@ class VatData(BaseModel):
     def validate_required_fields(cls, values):
         type_value = values.get("type")
 
-        if type_value == TypeEnum.calculated:
+        if type_value == VatDataTypeEnum.calculated:
             if not values.get("amount"):
                 raise ValueError("Field 'payment_purpose' are required for type 'calculated'")
             if not values.get("rate"):
                 raise ValueError("Field 'vat_data' are required for type 'calculated'")
-        elif type_value == TypeEnum.mixed:
+        elif type_value == VatDataTypeEnum.mixed:
             if not values.get("amount"):
                 raise ValueError("Field 'payment_purpose' are required for type 'mixed'")
 

@@ -1,7 +1,6 @@
-from enum import Enum
-
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from async_yookassa.models.enums.payment_method_enums import PaymentMethodTypeEnum
 from async_yookassa.models.payment_submodels.amount_model import Amount
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
     ArticleResponse,
@@ -21,28 +20,8 @@ from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data_m
 )
 
 
-class TypeEnum(str, Enum):
-    sber_loan = "sber_loan"
-    alfabank = "alfabank"
-    mobile_balance = "mobile_balance"
-    bank_card = "bank_card"
-    installments = "installments"
-    cash = "cash"
-    sbp = "sbp"
-    b2b_sberbank = "b2b_sberbank"
-    electronic_certificate = "electronic_certificate"
-    yoo_money = "yoo_money"
-    apple_pay = "apple_pay"
-    google_pay = "google_pay"
-    qiwi = "qiwi"
-    sberbank = "sberbank"
-    tinkoff_bank = "tinkoff_bank"
-    wechat = "wechat"
-    webmoney = "webmoney"
-
-
 class PaymentMethod(BaseModel):
-    type: TypeEnum
+    type: PaymentMethodTypeEnum
     id: str
     saved: bool
     title: str | None = None
@@ -65,10 +44,10 @@ class PaymentMethod(BaseModel):
     def validate_required_fields(cls, values):
         type_value = values.get("type")
 
-        if type_value == TypeEnum.sbp:
+        if type_value == PaymentMethodTypeEnum.sbp:
             if data := values.get("payer_bank_details"):
                 values["payer_bank_details"] = SBPPayerBankDetails(**data)
-        elif type_value == TypeEnum.b2b_sberbank:
+        elif type_value == PaymentMethodTypeEnum.b2b_sberbank:
             if not values.get("payment_purpose"):
                 raise ValueError("Field 'payment_purpose' are required for type 'b2b_sberbank'")
             if not values.get("vat_data"):
