@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.models.payment_submodels.amount_model import Amount
 from async_yookassa.models.payment_submodels.authorization_details_model import (
@@ -57,5 +57,4 @@ class PaymentResponse(BaseModel):
     merchant_customer_id: str | None = Field(max_length=200, default=None)
     invoice_details: InvoiceDetails | None = None
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)

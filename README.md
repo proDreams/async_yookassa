@@ -1,3 +1,3 @@
-# Async YooMoney
+# Async YooKassa
 
 ...будет позже...

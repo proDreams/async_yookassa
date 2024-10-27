@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, ConfigDict, model_validator
 
 
 class TypeEnum(str, Enum):
@@ -20,8 +20,7 @@ class ConfirmationBase(BaseModel):
 class Confirmation(ConfirmationBase):
     locale: str | None = None
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
     @model_validator(mode="before")
     def validate_required_fields(cls, values):
@@ -34,6 +33,8 @@ class Confirmation(ConfirmationBase):
         if type_value == TypeEnum.redirect:
             if not values.get("return_url"):
                 raise ValueError("Field 'return_url' is required for type 'redirect'")
+
+        return values
 
 
 class ConfirmationResponse(ConfirmationBase):
@@ -57,3 +58,5 @@ class ConfirmationResponse(ConfirmationBase):
         elif type_value == TypeEnum.qr:
             if not values.get("confirmation_data"):
                 raise ValueError("Field 'confirmation_data' is required for type 'qr'")
+
+        return values

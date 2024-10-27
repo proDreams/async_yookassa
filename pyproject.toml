@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-pydantic = "^2.9.2"
+pydantic = {extras = ["email"], version = "^2.9.2"}
 pre-commit = "^4.0.1"
 
 

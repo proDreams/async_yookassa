@@ -1,9 +1,9 @@
 from enum import Enum
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
-    Articles,
+    Article,
 )
 from async_yookassa.models.payment_submodels.payment_method_submodels.card_model import (
     CardRequest,
@@ -35,11 +35,10 @@ class PaymentMethodData(BaseModel):
     card: CardRequest | None = None
     payment_purpose: str | None = Field(max_length=210, default=None)
     vat_data: VatData | None = None
-    articles: list[Articles] | None = None
+    articles: list[Article] | None = None
     electronic_certificate: ElectronicCertificate | None = None
 
-    class Config:
-        use_enum_values = True
+    model_config = ConfigDict(use_enum_values=True)
 
     @model_validator(mode="before")
     def validate_required_fields(cls, values):
