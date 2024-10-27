@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from pydantic.v1 import Field
 
-from async_yoomoney.models.payment_submodels.airline_submodels.legs_model import Legs
-from async_yoomoney.models.payment_submodels.airline_submodels.passengers_model import (
+from async_yookassa.models.payment_submodels.airline_submodels.legs_model import Legs
+from async_yookassa.models.payment_submodels.airline_submodels.passengers_model import (
     Passengers,
 )
 

@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from async_yoomoney.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.amount_model import Amount
 
 
 class Transfers(BaseModel):

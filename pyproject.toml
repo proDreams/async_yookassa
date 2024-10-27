@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "async_yoomoney"
+name = "async_yookassa"
 version = "0.1.0"
 description = ""
 authors = ["prodream <sushkoos@gmail.com>"]

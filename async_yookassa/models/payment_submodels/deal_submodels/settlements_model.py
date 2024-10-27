@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from async_yoomoney.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.amount_model import Amount
 
 
 class Settlement(BaseModel):

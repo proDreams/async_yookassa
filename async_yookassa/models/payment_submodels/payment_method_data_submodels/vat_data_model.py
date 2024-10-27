@@ -2,7 +2,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from async_yoomoney.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.amount_model import Amount
 
 
 class TypeEnum(str, Enum):

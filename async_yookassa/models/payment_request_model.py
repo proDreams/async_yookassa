@@ -2,17 +2,17 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from async_yoomoney.models.payment_submodels.airline_model import Airline
-from async_yoomoney.models.payment_submodels.amount_model import Amount
-from async_yoomoney.models.payment_submodels.confirmation_model import Confirmation
-from async_yoomoney.models.payment_submodels.deal_model import Deal
-from async_yoomoney.models.payment_submodels.payment_method_data_model import (
+from async_yookassa.models.payment_submodels.airline_model import Airline
+from async_yookassa.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.confirmation_model import Confirmation
+from async_yookassa.models.payment_submodels.deal_model import Deal
+from async_yookassa.models.payment_submodels.payment_method_data_model import (
     PaymentMethodData,
 )
-from async_yoomoney.models.payment_submodels.receipt_model import Receipt
-from async_yoomoney.models.payment_submodels.receiver_model import Receiver
-from async_yoomoney.models.payment_submodels.recipient_model import Recipient
-from async_yoomoney.models.payment_submodels.transfers_model import Transfers
+from async_yookassa.models.payment_submodels.receipt_model import Receipt
+from async_yookassa.models.payment_submodels.receiver_model import Receiver
+from async_yookassa.models.payment_submodels.recipient_model import Recipient
+from async_yookassa.models.payment_submodels.transfers_model import Transfers
 
 
 class PaymentRequest(BaseModel):

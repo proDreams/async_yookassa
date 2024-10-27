@@ -2,16 +2,16 @@ from enum import Enum
 
 from pydantic import BaseModel, Field, model_validator
 
-from async_yoomoney.models.payment_submodels.payment_method_data_submodels.articles_model import (
+from async_yookassa.models.payment_submodels.payment_method_data_submodels.articles_model import (
     Articles,
 )
-from async_yoomoney.models.payment_submodels.payment_method_data_submodels.card_model import (
+from async_yookassa.models.payment_submodels.payment_method_data_submodels.card_model import (
     Card,
 )
-from async_yoomoney.models.payment_submodels.payment_method_data_submodels.electronic_certificate_model import (
+from async_yookassa.models.payment_submodels.payment_method_data_submodels.electronic_certificate_model import (
     ElectronicCertificate,
 )
-from async_yoomoney.models.payment_submodels.payment_method_data_submodels.vat_data_model import (
+from async_yookassa.models.payment_submodels.payment_method_data_submodels.vat_data_model import (
     VatData,
 )
 

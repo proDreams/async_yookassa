@@ -4,14 +4,14 @@ from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
-from async_yoomoney.models.payment_submodels.amount_model import Amount
-from async_yoomoney.models.payment_submodels.receipt_submodels.mark_code_info_model import (
+from async_yookassa.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.receipt_submodels.mark_code_info_model import (
     MarkCodeInfo,
 )
-from async_yoomoney.models.payment_submodels.receipt_submodels.mark_quantity_model import (
+from async_yookassa.models.payment_submodels.receipt_submodels.mark_quantity_model import (
     MarkQuantity,
 )
-from async_yoomoney.models.payment_submodels.receipt_submodels.payment_subject_industry_details_model import (
+from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details_model import (
     PaymentSubjectIndustryDetails,
 )
 
