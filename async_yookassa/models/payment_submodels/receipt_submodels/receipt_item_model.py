@@ -25,8 +25,8 @@ class ReceiptItem(BaseModel):
     mark_quantity: MarkQuantity | None = None
     payment_subject: str | None = None
     payment_mode: str | None = None
-    country_of_origin_code: str | None = Field(min_length=2, max_length=2)
-    customs_declaration_number: str | None = Field(max_length=32)
+    country_of_origin_code: str | None = Field(min_length=2, max_length=2, default=None)
+    customs_declaration_number: str | None = Field(max_length=32, default=None)
     excise: Decimal | None = None
     product_code: str | None = None
     mark_code_info: MarkCodeInfo | None = None

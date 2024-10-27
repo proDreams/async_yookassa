@@ -33,6 +33,3 @@ class PaymentRequest(BaseModel):
     deal: Deal | None = None
     merchant_customer_id: str | None = None
     receiver: Receiver | None = None
-
-
-print(PaymentRequest(**{"amount": {"value": 1000, "currency": "euq"}}).model_dump())

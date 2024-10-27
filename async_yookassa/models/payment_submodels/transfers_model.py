@@ -9,5 +9,5 @@ class Transfers(BaseModel):
     account_id: str
     amount: Amount
     platform_fee_amount: Amount
-    description: str | None = Field(max_length=128)
+    description: str | None = Field(max_length=128, default=None)
     metadata: dict[str, Any] | None = None

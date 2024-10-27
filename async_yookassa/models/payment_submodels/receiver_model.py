@@ -11,6 +11,6 @@ class TypeEnum(str, Enum):
 
 class Receiver(BaseModel):
     type: TypeEnum
-    account_number: str | None = Field(min_length=20, max_length=20)
-    bic: str | None = Field(min_length=9, max_length=9)
-    phone: str | None = Field(min_length=11, max_length=15)
+    account_number: str | None = Field(min_length=20, max_length=20, default=None)
+    bic: str | None = Field(min_length=9, max_length=9, default=None)
+    phone: str | None = Field(min_length=11, max_length=15, default=None)
