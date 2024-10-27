@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class TypeEnum(str, Enum):
@@ -13,7 +13,7 @@ class TypeEnum(str, Enum):
 
 class ConfirmationBase(BaseModel):
     type: TypeEnum
-    return_url: str | None = None
+    return_url: str | None = Field(max_length=2048, default=None)
     enforce: bool | None = None
 
 

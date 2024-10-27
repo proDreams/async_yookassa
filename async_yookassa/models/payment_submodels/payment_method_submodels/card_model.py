@@ -1,6 +1,7 @@
+import re
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from async_yookassa.models.payment_submodels.payment_method_submodels.card_product_model import (
     CardProduct,
@@ -33,6 +34,12 @@ class CardTypeEnum(str, Enum):
     Unknown = "Unknown"
 
 
+class SourceEnum(str, Enum):
+    mir_pay = "mir_pay"
+    apple_pay = "apple_pay"
+    google_pay = "google_pay"
+
+
 class CardResponse(BaseModel):
     first6: str | None = None
     last4: str
@@ -40,6 +47,36 @@ class CardResponse(BaseModel):
     expiry_month: str
     card_type: CardTypeEnum
     card_product: CardProduct | None = None
-    issuer_country: str | None = None
+    issuer_country: str | None = Field(min_length=2, max_length=2, default=None)
     issuer_name: str | None = None
-    source: str | None = None
+    source: SourceEnum | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
+
+    @field_validator("first6", mode="before")
+    def validate_first6(cls, value: str) -> str:
+        if not re.match("^[0-9]{6}$", value):
+            raise ValueError("Invalid first6 value")
+
+        return value
+
+    @field_validator("last4", mode="before")
+    def validate_last4(cls, value: str) -> str:
+        if not re.match(r"^[\d]{4}$", value):
+            raise ValueError("Invalid last4 value")
+
+        return value
+
+    @field_validator("expiry_year", mode="before")
+    def validate_expiry_year(cls, value: str) -> str:
+        if not re.match(r"^\d\d\d\d$", value) and 2000 < int(value) < 2200:
+            raise ValueError("Invalid card expiry year value")
+
+        return value
+
+    @field_validator("expiry_month", mode="before")
+    def validate_expiry_month(cls, value: str) -> str:
+        if not re.match(r"^\d\d$", value) and 0 < int(value) <= 12:
+            raise ValueError("Invalid card expiry month value")
+
+        return value

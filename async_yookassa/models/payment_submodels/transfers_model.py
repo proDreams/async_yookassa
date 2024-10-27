@@ -1,8 +1,16 @@
+from enum import Enum
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.models.payment_submodels.amount_model import Amount
+
+
+class StatusEnum(str, Enum):
+    pending = "pending"
+    waiting_for_capture = "waiting_for_capture"
+    succeeded = "succeeded"
+    canceled = "canceled"
 
 
 class TransferBase(BaseModel):
@@ -17,5 +25,7 @@ class Transfer(TransferBase):
 
 
 class TransferResponse(TransferBase):
-    status: str
+    status: StatusEnum
     platform_fee_amount: Amount | None = None
+
+    model_config = ConfigDict(use_enum_values=True)

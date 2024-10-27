@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, ConfigDict, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from async_yookassa.models.payment_submodels.amount_model import Amount
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
@@ -51,7 +51,7 @@ class PaymentMethod(BaseModel):
     login: str | None = None
     payer_bank_details: SBPPayerBankDetails | B2BSBPayerBankDetails | None = None
     sbp_operation_id: str | None = None
-    payment_purpose: str | None = None
+    payment_purpose: str | None = Field(max_length=210, default=None)
     vat_data: VatData | None = None
     articles: ArticleResponse | None = None
     card: CardResponse | None = None

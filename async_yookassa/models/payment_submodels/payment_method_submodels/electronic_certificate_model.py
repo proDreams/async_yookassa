@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
@@ -9,7 +9,7 @@ class ElectronicCertificate(BaseModel):
 
 
 class Certificate(BaseModel):
-    certificate_id: str
+    certificate_id: str = Field(min_length=20, max_length=30)
     tru_quantity: int
     available_compensation: Amount
     applied_compensation: Amount

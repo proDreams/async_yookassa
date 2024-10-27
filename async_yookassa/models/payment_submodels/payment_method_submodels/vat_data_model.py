@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
@@ -11,10 +11,19 @@ class TypeEnum(str, Enum):
     mixed = "mixed"
 
 
+class RateEnum(str, Enum):
+    seven = "7"
+    ten = "10"
+    eighteen = "18"
+    twenty = "20"
+
+
 class VatData(BaseModel):
     type: TypeEnum
     amount: Amount | None = None
-    rate: str | None = None
+    rate: RateEnum | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
 
     @model_validator(mode="before")
     def validate_required_fields(cls, values):
