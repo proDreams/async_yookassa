@@ -91,9 +91,10 @@ class Configuration:
             verify=cls.verify,
         )
 
-    def api_endpoint(self) -> str:
+    @staticmethod
+    def api_endpoint() -> str:
         """Возвращает URL для API Кассы."""
-        return self.api_url
+        return Configuration.api_url
 
     def has_api_credentials(self) -> bool:
         """Проверка наличия параметров базовой авторизации."""

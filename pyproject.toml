@@ -6,9 +6,10 @@ authors = ["prodream <sushkoos@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = "^3.12"
 pydantic = {extras = ["email"], version = "^2.9.2"}
 pre-commit = "^4.0.1"
+distro = "^1.9.0"
 
 
 [build-system]
