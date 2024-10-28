@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "async_yookassa"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Unofficial API client for YooKassa"
 authors = ["prodream <sushkoos@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/proDreams/async_yookassa"
+license = "MIT"
+keywords = ["yoomoney", "yookassa", "payout", "sdk", "python"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
