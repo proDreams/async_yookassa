@@ -62,7 +62,7 @@ class UserAgent(BaseModel):
 
     def get_header_string(self) -> str:
         """Возвращает значения header в виде строки."""
-        part_delimiter: str = Field(default=" ")
+        part_delimiter = " "
         headers = [str(self.os), str(self.python)]
         if self.framework:
             headers.append(str(self.framework))
