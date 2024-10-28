@@ -1,8 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.models.enums.payment_method_data_enums import (
-    PaymentMethodDataTypeEnum,
-)
+from async_yookassa.enums.payment_method_data_enums import PaymentMethodDataTypeEnum
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
     Article,
 )

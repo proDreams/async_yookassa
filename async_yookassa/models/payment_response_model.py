@@ -3,7 +3,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.models.enums.payment_response_enums import (
+from async_yookassa.enums.payment_response_enums import (
     PaymentResponseStatusEnum,
     ReceiptRegistrationEnum,
 )

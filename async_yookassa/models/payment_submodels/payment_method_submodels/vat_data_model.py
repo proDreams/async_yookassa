@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, model_validator
 
-from async_yookassa.models.enums.vat_data_enums import RateEnum, VatDataTypeEnum
+from async_yookassa.enums.vat_data_enums import RateEnum, VatDataTypeEnum
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
 

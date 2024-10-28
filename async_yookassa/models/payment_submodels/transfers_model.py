@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.models.enums.transfers_enums import TransferStatusEnum
+from async_yookassa.enums.transfers_enums import TransferStatusEnum
 from async_yookassa.models.payment_submodels.amount_model import Amount
 
 

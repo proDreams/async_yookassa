@@ -2,7 +2,7 @@ import re
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from async_yookassa.models.enums.card_enums import CardTypeEnum, SourceEnum
+from async_yookassa.enums.card_enums import CardTypeEnum, SourceEnum
 from async_yookassa.models.payment_submodels.payment_method_submodels.card_product_model import (
     CardProduct,
 )
