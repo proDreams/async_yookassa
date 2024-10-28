@@ -3,7 +3,7 @@ from typing import Any
 
 from httpx import AsyncClient, AsyncHTTPTransport, Response
 
-from async_yookassa.configuration import Configuration
+from async_yookassa import Configuration
 from async_yookassa.exceptions.api_error import APIError
 from async_yookassa.exceptions.bad_request_error import BadRequestError
 from async_yookassa.exceptions.forbidden_error import ForbiddenError
@@ -69,11 +69,11 @@ class APIClient:
 
     async def execute(
         self,
-        body: dict[str, Any],
         method: str,
         path: str,
-        query_params: dict[str, str],
         request_headers: dict[str, str],
+        query_params: dict[str, str] | None = None,
+        body: dict[str, Any] | None = None,
     ) -> Response:
         """
         Выполнение запроса.
