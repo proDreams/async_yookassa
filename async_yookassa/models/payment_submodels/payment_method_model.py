@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from async_yookassa.models.enums.payment_method_enums import PaymentMethodTypeEnum
@@ -41,7 +43,7 @@ class PaymentMethod(BaseModel):
     model_config = ConfigDict(use_enum_values=True)
 
     @model_validator(mode="before")
-    def validate_required_fields(cls, values):
+    def validate_required_fields(cls, values: dict[str, Any]):
         type_value = values.get("type")
 
         if type_value == PaymentMethodTypeEnum.sbp:
