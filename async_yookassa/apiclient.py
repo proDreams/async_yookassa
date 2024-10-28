@@ -53,6 +53,7 @@ class APIClient:
         :param query_params: Словарь GET параметров запроса
         :param headers: Словарь заголовков запроса
         :param body: Тело запроса
+        :return: Ответ на запрос в формате JSON
         """
         if isinstance(body, PaymentRequest):
             body = body.model_dump()

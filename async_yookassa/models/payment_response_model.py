@@ -26,7 +26,7 @@ class PaymentResponse(BaseModel):
     id: str = Field(min_length=36, max_length=36)
     status: PaymentResponseStatusEnum
     amount: Amount
-    income_amount: Amount
+    income_amount: Amount | None = None
     description: str | None = Field(max_length=128, default=None)
     recipient: RecipientResponse
     payment_method: PaymentMethod | None = None

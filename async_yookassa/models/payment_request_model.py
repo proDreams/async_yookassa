@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from typing import Any
+from decimal import Decimal
+from typing import Any, Self
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -36,13 +37,13 @@ class PaymentRequest(BaseModel):
     merchant_customer_id: str | None = Field(max_length=200, default=None)
     receiver: Receiver | None = None
 
-    @model_validator(mode="before")
-    def validate_data(cls, values):
-        amount = values.get("amount")
-        if amount is None or amount.value <= 0.0:
+    @model_validator(mode="after")
+    def validate_data(cls, values: Self):
+        amount = values.amount
+        if amount is None or Decimal(amount.value) <= Decimal("0.0"):
             raise ValueError("Invalid or unspecified payment amount")
 
-        receipt = values.get("receipt")
+        receipt = values.receipt
         if receipt and receipt.has_items:
             if not (receipt.email or receipt.phone):
                 raise ValueError("Both email and phone values are empty in receipt")
@@ -51,9 +52,9 @@ class PaymentRequest(BaseModel):
                     if item.vat_code is None:
                         raise ValueError("Item vat_code and receipt tax_system_code not specified")
 
-        payment_token = values.get("payment_token")
-        payment_method_id = values.get("payment_method_id")
-        payment_method_data = values.get("payment_method_data")
+        payment_token = values.payment_token
+        payment_method_id = values.payment_method_id
+        payment_method_data = values.payment_method_data
 
         if payment_token:
             if payment_method_id:

@@ -5,18 +5,18 @@ from pydantic import BaseModel, field_validator
 
 
 class Amount(BaseModel):
-    value: Decimal
+    value: str
     currency: str
 
     @field_validator("value", mode="before")
-    def validate_value(cls, value: Any) -> Decimal:
+    def validate_value(cls, value: Any) -> str:
         """
         Устанавливает value модели Amount.
 
         :param value: value модели Amount.
         :type value: Decimal
         """
-        return Decimal(str(float(value))).quantize(Decimal("1.11"), rounding=ROUND_HALF_UP)
+        return str(Decimal(str(float(value))).quantize(Decimal("1.11"), rounding=ROUND_HALF_UP))
 
     @field_validator("currency", mode="before")
     def validate_currency(cls, value: str) -> str:
