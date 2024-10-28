@@ -1,5 +1,8 @@
 # Async YooKassa (unofficial)
 
+[![Latest Stable Version](https://img.shields.io/pypi/v/async_yookassa.svg)](https://pypi.org/project/async_yookassa/)
+
+
 Неофициальный клиент для работы с платежами по [API ЮKassa](https://yookassa.ru/developers/api)
 
 За основу взята [официальная библиотека от ЮМани](https://git.yoomoney.ru/projects/SDK/repos/yookassa-sdk-python/browse).  
