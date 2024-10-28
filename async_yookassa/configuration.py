@@ -1,7 +1,11 @@
+from dataclasses import dataclass
+from typing import Self
+
 from async_yookassa.exceptions.configuration_errors import ConfigurationError
 from async_yookassa.models.configuration_submodels.version_model import Version
 
 
+@dataclass
 class Configuration:
     api_url: str = "https://api.yookassa.ru/v3"
     account_id: str | None = None
@@ -14,11 +18,11 @@ class Configuration:
     agent_module: Version | None = None
     verify: str | None = None
 
-    def __init__(self, **kwargs):
+    def __post_init__(self):
         self.assert_has_api_credentials()
 
-    @staticmethod
-    async def configure(account_id: str, secret_key: str, **kwargs) -> None:
+    @classmethod
+    def configure(cls, account_id: str, secret_key: str, **kwargs) -> None:
         """
         Устанавливает настройки конфигурации для базовой авторизации.
 
@@ -26,33 +30,32 @@ class Configuration:
         :param secret_key: Секретный ключ.
         :param kwargs: Словарь с дополнительными параметрами.
         """
-        Configuration._account_id = account_id
-        Configuration.secret_key = secret_key
-        Configuration.auth_token = None
-        Configuration.api_url = kwargs.get("api_url", "https://api.yookassa.ru/v3")
-        Configuration.timeout = kwargs.get("timeout", 1800)
-        Configuration.max_attempts = kwargs.get("max_attempts", 3)
-        Configuration.verify = kwargs.get("verify", None)
+        cls.account_id = account_id
+        cls.secret_key = secret_key
+        cls.auth_token = None
+        cls.api_url = kwargs.get("api_url", cls.api_url)
+        cls.timeout = kwargs.get("timeout", cls.timeout)
+        cls.max_attempts = kwargs.get("max_attempts", cls.max_attempts)
+        cls.verify = kwargs.get("verify", None)
 
-    @staticmethod
-    async def configure_auth_token(token: str, **kwargs) -> None:
+    @classmethod
+    def configure_auth_token(cls, token: str, **kwargs) -> None:
         """
         Устанавливает настройки конфигурации для авторизации по OAuth.
 
         :param token: Ключ OAuth.
         :param kwargs: Словарь с дополнительными параметрами.
         """
-        Configuration.account_id = None
-        Configuration.secret_key = None
-        Configuration.auth_token = token
-        Configuration.api_url = kwargs.get("api_url", "https://api.yookassa.ru/v3")
-        Configuration.timeout = kwargs.get("timeout", 1800)
-        Configuration.max_attempts = kwargs.get("max_attempts", 3)
-        Configuration.verify = kwargs.get("verify", None)
+        cls.account_id = None
+        cls.secret_key = None
+        cls.auth_token = token
+        cls.api_url = kwargs.get("api_url", cls.api_url)
+        cls.timeout = kwargs.get("timeout", cls.timeout)
+        cls.max_attempts = kwargs.get("max_attempts", cls.max_attempts)
+        cls.verify = kwargs.get("verify", None)
 
-    @staticmethod
-    async def configure_user_agent(
-        framework: Version | None = None, cms: Version | None = None, module: Version | None = None
+    def configure_user_agent(
+        self, framework: Version | None = None, cms: Version | None = None, module: Version | None = None
     ) -> None:
         """
         Устанавливает настройки конфигурации для User-Agent.
@@ -62,55 +65,43 @@ class Configuration:
         :param module: Версия модуля.
         """
         if isinstance(framework, Version):
-            Configuration.agent_framework = framework
+            self.agent_framework = framework
         if isinstance(cms, Version):
-            Configuration.agent_cms = cms
+            self.agent_cms = cms
         if isinstance(module, Version):
-            Configuration.agent_module = module
+            self.agent_module = module
 
-    @staticmethod
-    async def instantiate() -> "Configuration":
+    @classmethod
+    def instantiate(cls) -> Self:
         """
         Получение объекта конфигурации.
 
         :return: Объект конфигурации
         """
-        return Configuration(
-            account_id=Configuration.account_id,
-            secret_key=Configuration.secret_key,
-            timeout=Configuration.timeout,
-            max_attempts=Configuration.max_attempts,
-            auth_token=Configuration.auth_token,
-            agent_framework=Configuration.agent_framework,
-            agent_cms=Configuration.agent_cms,
-            agent_module=Configuration.agent_module,
-            api_url=Configuration.api_url,
-            verify=Configuration.verify,
+        return cls(
+            account_id=cls.account_id,
+            secret_key=cls.secret_key,
+            timeout=cls.timeout,
+            max_attempts=cls.max_attempts,
+            auth_token=cls.auth_token,
+            agent_framework=cls.agent_framework,
+            agent_cms=cls.agent_cms,
+            agent_module=cls.agent_module,
+            api_url=cls.api_url,
+            verify=cls.verify,
         )
 
-    @staticmethod
-    def api_endpoint() -> str:
-        """
-        Получение объекта конфигурации базового URL для API Кассы.
-
-        :return: Строка с API URL
-        """
-        return Configuration.api_url
+    def api_endpoint(self) -> str:
+        """Возвращает URL для API Кассы."""
+        return self.api_url
 
     def has_api_credentials(self) -> bool:
-        """
-        Установлены ли параметры для базовой авторизации.
-
-        :return: Результат проверки условия
-        """
+        """Проверка наличия параметров базовой авторизации."""
         return self.account_id is not None and self.secret_key is not None
 
     def assert_has_api_credentials(self) -> None:
-        """
-        Установлены ли параметры для базовой авторизации или авторизации по OAuth.
-        Если параметры не установлены, то будет вызвано исключение ConfigurationError
-        """
+        """Проверка наличия API параметров, выброс исключения ConfigurationError при ошибке."""
         if self.auth_token is None and not self.has_api_credentials():
             raise ConfigurationError("account_id and secret_key are required")
         elif self.auth_token and self.has_api_credentials():
-            raise ConfigurationError("Could not configure authorization with auth_token and basic auth")
+            raise ConfigurationError("Could not configure authorization with both auth_token and basic auth")
