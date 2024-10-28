@@ -1,7 +1,7 @@
 from base64 import b64encode
 from typing import Any
 
-from httpx import AsyncClient, Response
+from httpx import AsyncClient, AsyncHTTPTransport, Response
 
 from async_yookassa.configuration import Configuration
 from async_yookassa.exceptions.api_error import APIError
@@ -26,9 +26,8 @@ class APIClient:
         self.account_id = self.configuration.account_id
         self.secret_key = self.configuration.secret_key
         self.auth_token = self.configuration.auth_token
-        self.timeout = self.configuration.timeout
-        self.max_attempts = self.configuration.max_attempts
-        self.async_client = AsyncClient()
+        self.transport = AsyncHTTPTransport(retries=self.configuration.max_attempts)
+        self.async_client = AsyncClient(timeout=self.configuration.timeout, transport=self.transport)
 
         self.user_agent = UserAgent()
         if self.configuration.agent_framework:

@@ -16,7 +16,6 @@ class Configuration:
     agent_framework: Version | None = None
     agent_cms: Version | None = None
     agent_module: Version | None = None
-    verify: str | None = None
 
     def __post_init__(self):
         self.assert_has_api_credentials()
@@ -36,7 +35,6 @@ class Configuration:
         cls.api_url = kwargs.get("api_url", cls.api_url)
         cls.timeout = kwargs.get("timeout", cls.timeout)
         cls.max_attempts = kwargs.get("max_attempts", cls.max_attempts)
-        cls.verify = kwargs.get("verify", None)
 
     @classmethod
     def configure_auth_token(cls, token: str, **kwargs) -> None:
@@ -52,7 +50,6 @@ class Configuration:
         cls.api_url = kwargs.get("api_url", cls.api_url)
         cls.timeout = kwargs.get("timeout", cls.timeout)
         cls.max_attempts = kwargs.get("max_attempts", cls.max_attempts)
-        cls.verify = kwargs.get("verify", None)
 
     def configure_user_agent(
         self, framework: Version | None = None, cms: Version | None = None, module: Version | None = None
@@ -88,7 +85,6 @@ class Configuration:
             agent_cms=cls.agent_cms,
             agent_module=cls.agent_module,
             api_url=cls.api_url,
-            verify=cls.verify,
         )
 
     @staticmethod
