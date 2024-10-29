@@ -33,6 +33,7 @@ class Payment:
             raise ValueError("Invalid payment_id value")
 
         path = instance.base_path + "/" + payment_id
+
         response = await instance.client.request(method=HTTPMethodEnum.GET, path=path)
         return PaymentResponse(**response)
 
@@ -48,12 +49,10 @@ class Payment:
         :return: Объект ответа PaymentResponse, возвращаемого API при запросе платежа
         """
         instance = cls()
-        path = cls.base_path
 
-        if not idempotency_key:
-            idempotency_key = uuid.uuid4()
+        path = instance.base_path
 
-        headers = {"Idempotence-Key": str(idempotency_key)}
+        headers = cls.get_base_headers(idempotency_key=idempotency_key)
 
         if isinstance(params, dict):
             params_object = PaymentRequest(**params)
@@ -62,7 +61,7 @@ class Payment:
         else:
             raise TypeError("Invalid params value type")
 
-        params_object = instance.add_default_cms_name(params_object)
+        params_object = instance.add_default_cms_name(params_object=params_object)
 
         response = await instance.client.request(
             body=params_object, method=HTTPMethodEnum.POST, path=path, query_params=None, headers=headers
@@ -90,10 +89,7 @@ class Payment:
 
         path = instance.base_path + "/" + payment_id + "/capture"
 
-        if not idempotency_key:
-            idempotency_key = uuid.uuid4()
-
-        headers = {"Idempotence-Key": str(idempotency_key)}
+        headers = cls.get_base_headers(idempotency_key=idempotency_key)
 
         if isinstance(params, dict):
             params_object = CapturePaymentRequest(**params)
@@ -106,6 +102,32 @@ class Payment:
             body=params_object, method=HTTPMethodEnum.POST, path=path, headers=headers
         )
         return PaymentResponse(**response)
+
+    @classmethod
+    async def cancel(cls, payment_id: str, idempotency_key: uuid.UUID | None = None):
+        """
+        Отмена платежа
+
+        :param payment_id: Уникальный идентификатор платежа
+        :param idempotency_key: Ключ идемпотентности
+        :return: Объект ответа PaymentResponse, возвращаемого API при запросе платежа
+        """
+        instance = cls()
+        if not isinstance(payment_id, str):
+            raise ValueError("Invalid payment_id value")
+
+        path = instance.base_path + "/" + payment_id + "/cancel"
+
+        headers = cls.get_base_headers(idempotency_key=idempotency_key)
+
+        response = await instance.client.request(method=HTTPMethodEnum.POST, path=path, headers=headers)
+        return PaymentResponse(**response)
+
+    @staticmethod
+    def get_base_headers(idempotency_key: uuid.UUID | None = None) -> dict[str, str]:
+        if not idempotency_key:
+            idempotency_key = uuid.uuid4()
+        return {"Idempotence-Key": str(idempotency_key)}
 
     def add_default_cms_name(self, params_object: PaymentRequest) -> PaymentRequest:
         """
