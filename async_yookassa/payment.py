@@ -3,6 +3,7 @@ from typing import Any
 
 from async_yookassa.apiclient import APIClient
 from async_yookassa.enums.request_methods_enum import HTTPMethodEnum
+from async_yookassa.models.payment_capture_model import CapturePaymentRequest
 from async_yookassa.models.payment_request_model import PaymentRequest
 from async_yookassa.models.payment_response_model import PaymentResponse
 
@@ -25,7 +26,7 @@ class Payment:
         Возвращает информацию о платеже
 
         :param payment_id: Уникальный идентификатор платежа
-        :return: Объект ответа, возвращаемого API при запросе платежа
+        :return: Объект ответа PaymentResponse, возвращаемого API при запросе платежа
         """
         instance = cls()
         if not isinstance(payment_id, str):
@@ -36,13 +37,15 @@ class Payment:
         return PaymentResponse(**response)
 
     @classmethod
-    async def create(cls, params: dict[str, Any], idempotency_key: uuid.UUID = None) -> PaymentResponse:
+    async def create(
+        cls, params: dict[str, Any] | PaymentRequest, idempotency_key: uuid.UUID | None = None
+    ) -> PaymentResponse:
         """
         Создание платежа
 
         :param params: Данные передаваемые в API
         :param idempotency_key: Ключ идемпотентности
-        :return: PaymentResponse Объект ответа, возвращаемого API при запросе платежа
+        :return: Объект ответа PaymentResponse, возвращаемого API при запросе платежа
         """
         instance = cls()
         path = cls.base_path
@@ -63,6 +66,44 @@ class Payment:
 
         response = await instance.client.request(
             body=params_object, method=HTTPMethodEnum.POST, path=path, query_params=None, headers=headers
+        )
+        return PaymentResponse(**response)
+
+    @classmethod
+    async def capture(
+        cls,
+        payment_id: str,
+        params: dict[str, Any] | CapturePaymentRequest | None = None,
+        idempotency_key: uuid.UUID | None = None,
+    ):
+        """
+        Подтверждение платежа
+
+        :param payment_id: Уникальный идентификатор платежа
+        :param params: Данные передаваемые в API
+        :param idempotency_key: Ключ идемпотентности
+        :return: Объект ответа PaymentResponse, возвращаемого API при запросе платежа
+        """
+        instance = cls()
+        if not isinstance(payment_id, str):
+            raise ValueError("Invalid payment_id value")
+
+        path = instance.base_path + "/" + payment_id + "/capture"
+
+        if not idempotency_key:
+            idempotency_key = uuid.uuid4()
+
+        headers = {"Idempotence-Key": str(idempotency_key)}
+
+        if isinstance(params, dict):
+            params_object = CapturePaymentRequest(**params)
+        elif isinstance(params, CapturePaymentRequest):
+            params_object = params
+        else:
+            params_object = None
+
+        response = await instance.client.request(
+            body=params_object, method=HTTPMethodEnum.POST, path=path, headers=headers
         )
         return PaymentResponse(**response)
 
