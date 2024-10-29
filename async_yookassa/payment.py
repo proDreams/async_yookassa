@@ -2,6 +2,7 @@ import uuid
 from typing import Any
 
 from async_yookassa.apiclient import APIClient
+from async_yookassa.enums.request_methods_enum import HTTPMethodEnum
 from async_yookassa.models.payment_request_model import PaymentRequest
 from async_yookassa.models.payment_response_model import PaymentResponse
 
@@ -17,6 +18,22 @@ class Payment:
 
     def __init__(self):
         self.client = APIClient()
+
+    @classmethod
+    async def find_one(cls, payment_id: str) -> PaymentResponse:
+        """
+        Возвращает информацию о платеже
+
+        :param payment_id: Уникальный идентификатор платежа
+        :return: Объект ответа, возвращаемого API при запросе платежа
+        """
+        instance = cls()
+        if not isinstance(payment_id, str):
+            raise ValueError("Invalid payment_id value")
+
+        path = instance.base_path + "/" + payment_id
+        response = await instance.client.request(method=HTTPMethodEnum.GET, path=path)
+        return PaymentResponse(**response)
 
     @classmethod
     async def create(cls, params: dict[str, Any], idempotency_key: uuid.UUID = None) -> PaymentResponse:
@@ -45,7 +62,7 @@ class Payment:
         params_object = instance.add_default_cms_name(params_object)
 
         response = await instance.client.request(
-            body=params_object, method="POST", path=path, query_params=None, headers=headers
+            body=params_object, method=HTTPMethodEnum.POST, path=path, query_params=None, headers=headers
         )
         return PaymentResponse(**response)
 
