@@ -18,19 +18,22 @@ from async_yookassa.models.payment_submodels.recipient_model import Recipient
 from async_yookassa.models.payment_submodels.transfers_model import Transfer
 
 
-class PaymentRequest(BaseModel):
+class PaymentData(BaseModel):
     amount: Amount
-    description: str | None = Field(max_length=128, default=None)
     receipt: Receipt | None = None
     recipient: Recipient | None = None
+    save_payment_method: bool = False
+    capture: bool = False
+    client_ip: str | None = None
+    description: str | None = Field(max_length=128, default=None)
+    metadata: dict[str, Any] | None = None
+
+
+class PaymentRequest(PaymentData):
     payment_token: str | None = None
     payment_method_id: str | None = None
     payment_method_data: PaymentMethodData | None = None
     confirmation: Confirmation | None = None
-    save_payment_method: bool = False
-    capture: bool = False
-    client_ip: str | None = None
-    metadata: dict[str, Any] | None = None
     airline: Airline | None = None
     transfers: list[Transfer] | None = None
     deal: Deal | None = None

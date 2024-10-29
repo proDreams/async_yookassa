@@ -7,6 +7,7 @@ from async_yookassa.models.payment_capture_model import CapturePaymentRequest
 from async_yookassa.models.payment_list_response_model import PaymentListResponse
 from async_yookassa.models.payment_request_model import PaymentRequest
 from async_yookassa.models.payment_response_model import PaymentResponse
+from async_yookassa.utils import get_base_headers
 
 
 class Payment:
@@ -53,7 +54,7 @@ class Payment:
 
         path = instance.base_path
 
-        headers = cls.get_base_headers(idempotency_key=idempotency_key)
+        headers = get_base_headers(idempotency_key=idempotency_key)
 
         if isinstance(params, dict):
             params_object = PaymentRequest(**params)
@@ -90,7 +91,7 @@ class Payment:
 
         path = instance.base_path + "/" + payment_id + "/capture"
 
-        headers = cls.get_base_headers(idempotency_key=idempotency_key)
+        headers = get_base_headers(idempotency_key=idempotency_key)
 
         if isinstance(params, dict):
             params_object = CapturePaymentRequest(**params)
@@ -119,7 +120,7 @@ class Payment:
 
         path = instance.base_path + "/" + payment_id + "/cancel"
 
-        headers = cls.get_base_headers(idempotency_key=idempotency_key)
+        headers = get_base_headers(idempotency_key=idempotency_key)
 
         response = await instance.client.request(method=HTTPMethodEnum.POST, path=path, headers=headers)
         return PaymentResponse(**response)
@@ -138,12 +139,6 @@ class Payment:
 
         response = await instance.client.request(method=HTTPMethodEnum.GET, path=path, query_params=params)
         return PaymentListResponse(**response)
-
-    @staticmethod
-    def get_base_headers(idempotency_key: uuid.UUID | None = None) -> dict[str, str]:
-        if not idempotency_key:
-            idempotency_key = uuid.uuid4()
-        return {"Idempotence-Key": str(idempotency_key)}
 
     def add_default_cms_name(self, params_object: PaymentRequest) -> PaymentRequest:
         """

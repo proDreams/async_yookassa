@@ -16,6 +16,7 @@
 * Класс `Configuration`.
 * Класс `APIClient`.
 * Класс `Payment`.
+* Класс `Invoice`.
 
 
 ## Требования
