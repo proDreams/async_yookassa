@@ -4,6 +4,7 @@ from typing import Any
 from async_yookassa.apiclient import APIClient
 from async_yookassa.enums.request_methods_enum import HTTPMethodEnum
 from async_yookassa.models.payment_capture_model import CapturePaymentRequest
+from async_yookassa.models.payment_list_response_model import PaymentListResponse
 from async_yookassa.models.payment_request_model import PaymentRequest
 from async_yookassa.models.payment_response_model import PaymentResponse
 
@@ -122,6 +123,21 @@ class Payment:
 
         response = await instance.client.request(method=HTTPMethodEnum.POST, path=path, headers=headers)
         return PaymentResponse(**response)
+
+    @classmethod
+    async def list(cls, params: dict[str, Any] | None = None):
+        """
+        Возвращает список платежей
+
+        :param params: Данные передаваемые в API
+        :return: Объект ответа PaymentListResponse, возвращаемого API при запросе списка платежей
+        """
+        instance = cls()
+
+        path = cls.base_path
+
+        response = await instance.client.request(method=HTTPMethodEnum.GET, path=path, query_params=params)
+        return PaymentListResponse(**response)
 
     @staticmethod
     def get_base_headers(idempotency_key: uuid.UUID | None = None) -> dict[str, str]:
