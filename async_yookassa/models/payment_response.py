@@ -3,23 +3,23 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response_enums import (
+from async_yookassa.enums.payment_response import (
     PaymentResponseStatusEnum,
     ReceiptRegistrationEnum,
 )
-from async_yookassa.models.payment_submodels.amount_model import Amount
-from async_yookassa.models.payment_submodels.authorization_details_model import (
+from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment_submodels.authorization_details import (
     AuthorizationDetails,
 )
-from async_yookassa.models.payment_submodels.cancellation_details_model import (
+from async_yookassa.models.payment_submodels.cancellation_details import (
     CancellationDetails,
 )
-from async_yookassa.models.payment_submodels.confirmation_model import Confirmation
-from async_yookassa.models.payment_submodels.deal_model import Deal
-from async_yookassa.models.payment_submodels.invoice_details_model import InvoiceDetails
-from async_yookassa.models.payment_submodels.payment_method_model import PaymentMethod
-from async_yookassa.models.payment_submodels.recipient_model import RecipientResponse
-from async_yookassa.models.payment_submodels.transfers_model import TransferResponse
+from async_yookassa.models.payment_submodels.confirmation import Confirmation
+from async_yookassa.models.payment_submodels.deal import Deal
+from async_yookassa.models.payment_submodels.invoice_details import InvoiceDetails
+from async_yookassa.models.payment_submodels.payment_method import PaymentMethod
+from async_yookassa.models.payment_submodels.recipient import RecipientResponse
+from async_yookassa.models.payment_submodels.transfers import TransferResponse
 
 
 class PaymentResponse(BaseModel):

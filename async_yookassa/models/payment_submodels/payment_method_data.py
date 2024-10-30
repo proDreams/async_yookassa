@@ -1,16 +1,16 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.enums.payment_method_data_enums import PaymentMethodDataTypeEnum
-from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
+from async_yookassa.enums.payment_method_data import PaymentMethodDataTypeEnum
+from async_yookassa.models.payment_submodels.payment_method_submodels.articles import (
     Article,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.card_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
     CardRequest,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate import (
     ElectronicCertificate,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data import (
     VatData,
 )
 

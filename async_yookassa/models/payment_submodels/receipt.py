@@ -1,15 +1,13 @@
 from pydantic import BaseModel, EmailStr, Field
 
-from async_yookassa.models.payment_submodels.receipt_submodels.customer_model import (
-    Customer,
-)
-from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details_model import (
+from async_yookassa.models.payment_submodels.receipt_submodels.customer import Customer
+from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_item_model import (
+from async_yookassa.models.payment_submodels.receipt_submodels.receipt_item import (
     ReceiptItem,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_operational_details_model import (
+from async_yookassa.models.payment_submodels.receipt_submodels.receipt_operational_details import (
     ReceiptOperationalDetails,
 )
 

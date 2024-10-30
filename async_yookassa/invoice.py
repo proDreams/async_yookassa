@@ -2,9 +2,9 @@ import uuid
 from typing import Any
 
 from async_yookassa.apiclient import APIClient
-from async_yookassa.enums.request_methods_enum import HTTPMethodEnum
-from async_yookassa.models.invoice_request_model import InvoiceRequest
-from async_yookassa.models.invoice_response_model import InvoiceResponse
+from async_yookassa.enums.request_methods import HTTPMethodEnum
+from async_yookassa.models.invoice_request import InvoiceRequest
+from async_yookassa.models.invoice_response import InvoiceResponse
 from async_yookassa.utils import get_base_headers
 
 

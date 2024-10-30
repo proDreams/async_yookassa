@@ -71,9 +71,10 @@ Configuration.configure_auth_token(token='<Oauth Token>')
 ```
 
 Если вы согласны участвовать в развитии SDK, вы можете передать данные о вашем фреймворке, cms или модуле:
+
 ```python
 from async_yookassa import Configuration
-from async_yookassa.models.configuration_submodels.version_model import Version
+from async_yookassa.models.configuration_submodels.version import Version
 
 Configuration.configure('<Идентификатор магазина>', '<Секретный ключ>')
 Configuration.configure_user_agent(

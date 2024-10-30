@@ -2,11 +2,11 @@ import uuid
 from typing import Any
 
 from async_yookassa.apiclient import APIClient
-from async_yookassa.enums.request_methods_enum import HTTPMethodEnum
-from async_yookassa.models.payment_capture_model import CapturePaymentRequest
-from async_yookassa.models.payment_list_response_model import PaymentListResponse
-from async_yookassa.models.payment_request_model import PaymentRequest
-from async_yookassa.models.payment_response_model import PaymentResponse
+from async_yookassa.enums.request_methods import HTTPMethodEnum
+from async_yookassa.models.payment_capture import CapturePaymentRequest
+from async_yookassa.models.payment_list_response import PaymentListResponse
+from async_yookassa.models.payment_request import PaymentRequest
+from async_yookassa.models.payment_response import PaymentResponse
 from async_yookassa.utils import get_base_headers
 
 

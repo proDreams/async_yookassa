@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Self
 
 from async_yookassa.exceptions.configuration_errors import ConfigurationError
-from async_yookassa.models.configuration_submodels.version_model import Version
+from async_yookassa.models.configuration_submodels.version import Version
 
 
 @dataclass

@@ -6,7 +6,7 @@ import distro
 from pydantic import BaseModel, Field
 
 import async_yookassa
-from async_yookassa.models.configuration_submodels.version_model import Version
+from async_yookassa.models.configuration_submodels.version import Version
 
 
 class UserAgent(BaseModel):

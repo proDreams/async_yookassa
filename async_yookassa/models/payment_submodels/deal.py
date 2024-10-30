@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.deal_submodels.settlements_model import (
+from async_yookassa.models.payment_submodels.deal_submodels.settlements import (
     Settlement,
 )
 

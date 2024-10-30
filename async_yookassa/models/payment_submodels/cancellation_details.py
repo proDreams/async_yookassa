@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
-from async_yookassa.enums.candellation_details_enums import PartyEnum, ReasonEnum
+from async_yookassa.enums.cancellation_details import PartyEnum, ReasonEnum
 
 
 class CancellationDetails(BaseModel):

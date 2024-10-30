@@ -2,22 +2,22 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.enums.payment_method_enums import PaymentMethodTypeEnum
-from async_yookassa.models.payment_submodels.amount_model import Amount
-from async_yookassa.models.payment_submodels.payment_method_submodels.articles_model import (
+from async_yookassa.enums.payment_method import PaymentMethodTypeEnum
+from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment_submodels.payment_method_submodels.articles import (
     ArticleResponse,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.card_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
     CardResponse,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate import (
     ElectronicCertificate,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.payer_bank_details_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.payer_bank_details import (
     B2BSBPayerBankDetails,
     SBPPayerBankDetails,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data_model import (
+from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data import (
     VatData,
 )
 

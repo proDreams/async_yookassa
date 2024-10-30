@@ -3,9 +3,9 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.invoice_submodels.cart_model import Cart
-from async_yookassa.models.invoice_submodels.delivery_method_model import DeliveryMethod
-from async_yookassa.models.payment_request_model import PaymentData
+from async_yookassa.models.invoice_submodels.cart import Cart
+from async_yookassa.models.invoice_submodels.delivery_method import DeliveryMethod
+from async_yookassa.models.payment_request import PaymentData
 
 
 class InvoiceRequest(BaseModel):

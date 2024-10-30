@@ -2,8 +2,8 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.amount_model import Amount
-from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate_model import (
+from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate import (
     Certificate,
 )
 

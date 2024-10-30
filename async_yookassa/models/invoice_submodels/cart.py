@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.amount_model import Amount
+from async_yookassa.models.payment_submodels.amount import Amount
 
 
 class Cart(BaseModel):

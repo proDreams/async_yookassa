@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, model_validator
 
-from async_yookassa.enums.receiver_enums import ReceiverTypeEnum
+from async_yookassa.enums.receiver import ReceiverTypeEnum
 
 
 class Receiver(BaseModel):

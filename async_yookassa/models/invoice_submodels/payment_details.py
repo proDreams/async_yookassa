@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from async_yookassa.enums.payment_details_enum import PaymentDetailsStatusEnum
+from async_yookassa.enums.payment_details import PaymentDetailsStatusEnum
 
 
 class PaymentDetails(BaseModel):

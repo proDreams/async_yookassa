@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.enums.confirmation_enums import ConfirmationTypeEnum
+from async_yookassa.enums.confirmation import ConfirmationTypeEnum
 
 
 class ConfirmationBase(BaseModel):

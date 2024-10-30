@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from async_yookassa.models.payment_response_model import PaymentResponse
+from async_yookassa.models.payment_response import PaymentResponse
 
 
 class PaymentListResponse(BaseModel):

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.delivery_method_enums import DeliveryMethodTypeEnum
+from async_yookassa.enums.delivery_method import DeliveryMethodTypeEnum
 
 
 class DeliveryMethod(BaseModel):
