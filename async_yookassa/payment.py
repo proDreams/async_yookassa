@@ -75,7 +75,7 @@ class Payment:
         payment_id: str,
         params: dict[str, Any] | CapturePaymentRequest | None = None,
         idempotency_key: uuid.UUID | None = None,
-    ):
+    ) -> PaymentResponse:
         """
         Подтверждение платежа
 
@@ -105,7 +105,7 @@ class Payment:
         return PaymentResponse(**response)
 
     @classmethod
-    async def cancel(cls, payment_id: str, idempotency_key: uuid.UUID | None = None):
+    async def cancel(cls, payment_id: str, idempotency_key: uuid.UUID | None = None) -> PaymentResponse:
         """
         Отмена платежа
 
@@ -125,7 +125,7 @@ class Payment:
         return PaymentResponse(**response)
 
     @classmethod
-    async def list(cls, params: dict[str, Any] | None = None):
+    async def list(cls, params: dict[str, Any] | None = None) -> PaymentListResponse:
         """
         Возвращает список платежей
 

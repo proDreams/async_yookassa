@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.enums.payment_response import ReceiptRegistrationEnum
 from async_yookassa.models.payment_submodels.amount import Amount
@@ -22,6 +22,8 @@ class RefundResponse(BaseModel):
     sources: list[TransferBase] | None = None
     deal: DealRefund | None = None
     refund_method: PaymentMethodRefund | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class RefundListResponse(BaseModel):

@@ -19,7 +19,9 @@ class Refund:
         self.client = APIClient()
 
     @classmethod
-    async def create(cls, params: dict[str, Any] | RefundRequest, idempotency_key: uuid.UUID | None = None):
+    async def create(
+        cls, params: dict[str, Any] | RefundRequest, idempotency_key: uuid.UUID | None = None
+    ) -> RefundResponse:
         """
         Создание возврата
 
@@ -47,7 +49,7 @@ class Refund:
         return RefundResponse(**response)
 
     @classmethod
-    async def find_one(cls, refund_id):
+    async def find_one(cls, refund_id: str) -> RefundResponse:
         """
         Возвращает информацию о возврате
 
@@ -66,7 +68,7 @@ class Refund:
         return RefundResponse(**response)
 
     @classmethod
-    async def list(cls, params):
+    async def list(cls, params: dict[str, str]) -> RefundListResponse:
         """
         Возвращает список возвратов
 

@@ -19,7 +19,7 @@ class Invoice:
         self.client = APIClient()
 
     @classmethod
-    async def find_one(cls, invoice_id: str):
+    async def find_one(cls, invoice_id: str) -> InvoiceResponse:
         """
         Возвращает информацию о счёте
 
@@ -37,13 +37,15 @@ class Invoice:
         return InvoiceResponse(**response)
 
     @classmethod
-    async def create(cls, params: dict[str, Any] | InvoiceRequest, idempotency_key: uuid.UUID | None = None):
+    async def create(
+        cls, params: dict[str, Any] | InvoiceRequest, idempotency_key: uuid.UUID | None = None
+    ) -> InvoiceResponse:
         """
         Создание счёта
 
         :param params: Данные передаваемые в API
         :param idempotency_key: Ключ идемпотентности
-        :return: InvoiceResponse Объект ответа, возвращаемого API при запросе выплате
+        :return: Объект ответа InvoiceResponse, возвращаемого API при запросе выплате
         """
         instance = cls()
 

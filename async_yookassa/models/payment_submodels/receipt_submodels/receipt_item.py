@@ -2,8 +2,9 @@ import re
 from decimal import Decimal
 from typing import Any
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from async_yookassa.enums.agent_type import AgentTypeEnum
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.receipt_submodels.mark_code_info import (
     MarkCodeInfo,
@@ -14,9 +15,10 @@ from async_yookassa.models.payment_submodels.receipt_submodels.mark_quantity imp
 from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
+from async_yookassa.models.receipt_submodels.supplier import Supplier
 
 
-class ReceiptItem(BaseModel):
+class ReceiptItemBase(BaseModel):
     description: str = Field(max_length=128)
     amount: Amount
     vat_code: int = Field(le=6)
@@ -65,3 +67,10 @@ class ReceiptItem(BaseModel):
             raise ValueError(r"Invalid value for `mark_mode`, must be a follow pattern or equal to `/^0$/`")
 
         return value
+
+
+class ReceiptItem(ReceiptItemBase):
+    supplier: Supplier | None = None
+    agent_type: AgentTypeEnum | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
