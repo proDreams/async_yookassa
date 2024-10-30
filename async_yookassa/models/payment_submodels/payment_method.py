@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from async_yookassa.enums.payment_method import PaymentMethodTypeEnum
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles import (
+    ArticleRefund,
     ArticleResponse,
 )
 from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
@@ -22,8 +23,15 @@ from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data i
 )
 
 
-class PaymentMethod(BaseModel):
+class PaymentMethodBase(BaseModel):
     type: PaymentMethodTypeEnum
+    electronic_certificate: ElectronicCertificate | None = None
+    sbp_operation_id: str | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
+
+
+class PaymentMethod(PaymentMethodBase):
     id: str
     saved: bool
     title: str | None = None
@@ -31,16 +39,12 @@ class PaymentMethod(BaseModel):
     loan_option: str | None = None
     login: str | None = None
     payer_bank_details: SBPPayerBankDetails | B2BSBPayerBankDetails | None = None
-    sbp_operation_id: str | None = None
     payment_purpose: str | None = Field(max_length=210, default=None)
     vat_data: VatData | None = None
     articles: ArticleResponse | None = None
     card: CardResponse | None = None
-    electronic_certificate: ElectronicCertificate | None = None
     account_number: str | None = None
     phone: str | None = None
-
-    model_config = ConfigDict(use_enum_values=True)
 
     @model_validator(mode="before")
     def validate_required_fields(cls, values: dict[str, Any]):
@@ -58,3 +62,7 @@ class PaymentMethod(BaseModel):
                 values["payer_bank_details"] = B2BSBPayerBankDetails(**data)
 
         return values
+
+
+class PaymentMethodRefund(PaymentMethodBase):
+    articles: ArticleRefund | None = None

@@ -1,8 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict
 
+from async_yookassa.enums.settlement import SettlementTypeEnum
 from async_yookassa.models.payment_submodels.amount import Amount
 
 
 class Settlement(BaseModel):
-    type: str = Field(default="payout")
+    type: str = SettlementTypeEnum.payout
     amount: Amount
+
+    model_config = ConfigDict(use_enum_values=True)

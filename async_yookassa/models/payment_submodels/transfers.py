@@ -11,6 +11,7 @@ class TransferBase(BaseModel):
     amount: Amount
     description: str | None = Field(max_length=128, default=None)
     metadata: dict[str, Any] | None = None
+    platform_fee_amount: Amount | None = None
 
 
 class Transfer(TransferBase):
@@ -19,6 +20,5 @@ class Transfer(TransferBase):
 
 class TransferResponse(TransferBase):
     status: TransferStatusEnum
-    platform_fee_amount: Amount | None = None
 
     model_config = ConfigDict(use_enum_values=True)

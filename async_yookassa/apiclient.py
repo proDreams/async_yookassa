@@ -13,6 +13,7 @@ from async_yookassa.exceptions.too_many_request_error import TooManyRequestsErro
 from async_yookassa.exceptions.unauthorized_error import UnauthorizedError
 from async_yookassa.models.invoice_request import InvoiceRequest
 from async_yookassa.models.payment_request import PaymentRequest
+from async_yookassa.models.refund_request import RefundRequest
 from async_yookassa.models.user_agent import UserAgent
 
 
@@ -40,7 +41,7 @@ class APIClient:
 
     async def request(
         self,
-        body: PaymentRequest | InvoiceRequest | None = None,
+        body: PaymentRequest | InvoiceRequest | RefundRequest | None = None,
         method: str = "",
         path: str = "",
         query_params: dict[str, str] | None = None,
