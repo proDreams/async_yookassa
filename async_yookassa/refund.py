@@ -4,7 +4,7 @@ from typing import Any
 from async_yookassa.apiclient import APIClient
 from async_yookassa.enums.request_methods import HTTPMethodEnum
 from async_yookassa.models.refund_request import RefundRequest
-from async_yookassa.models.refund_response import RefundResponse
+from async_yookassa.models.refund_response import RefundListResponse, RefundResponse
 from async_yookassa.utils import get_base_headers
 
 
@@ -45,3 +45,38 @@ class Refund:
         )
 
         return RefundResponse(**response)
+
+    @classmethod
+    async def find_one(cls, refund_id):
+        """
+        Возвращает информацию о возврате
+
+        :param refund_id: Уникальный идентификатор возврата
+        :return: Объект ответа RefundResponse, возвращаемого API при запросе информации о возврате
+        """
+        instance = cls()
+
+        if not isinstance(refund_id, str):
+            raise ValueError("Invalid payment_id value")
+
+        path = instance.base_path + "/" + refund_id
+
+        response = await instance.client.request(method=HTTPMethodEnum.GET, path=path)
+
+        return RefundResponse(**response)
+
+    @classmethod
+    async def list(cls, params):
+        """
+        Возвращает список возвратов
+
+        :param params: Данные передаваемые в API
+        :return: Объект ответа RefundListResponse, возвращаемого API при запросе списка возвратов
+        """
+        instance = cls()
+
+        path = cls.base_path
+
+        response = await instance.client.request(method=HTTPMethodEnum.GET, path=path, query_params=params)
+
+        return RefundListResponse(**response)

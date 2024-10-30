@@ -17,6 +17,7 @@
 * Класс `APIClient`.
 * Класс `Payment`.
 * Класс `Invoice`.
+* Класс `Refund`.
 
 
 ## Требования

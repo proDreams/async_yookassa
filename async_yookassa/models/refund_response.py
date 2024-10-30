@@ -22,3 +22,9 @@ class RefundResponse(BaseModel):
     sources: list[TransferBase] | None = None
     deal: DealRefund | None = None
     refund_method: PaymentMethodRefund | None = None
+
+
+class RefundListResponse(BaseModel):
+    type: str
+    items: list[RefundResponse]
+    next_cursor: str | None = None

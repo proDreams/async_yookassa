@@ -48,3 +48,9 @@ class PaymentResponse(BaseModel):
     invoice_details: InvoiceDetails | None = None
 
     model_config = ConfigDict(use_enum_values=True)
+
+
+class PaymentListResponse(BaseModel):
+    type: str
+    items: list[PaymentResponse]
+    next_cursor: str | None = None
