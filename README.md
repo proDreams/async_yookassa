@@ -23,6 +23,8 @@
 * Класс `SbpBanks`.
 * Класс `PersonalData`.
 * Класс `Deal`.
+* Класс `Webhook`.
+* Класс `Settings`.
 * Сопутствующие `Pydantic-модели` и `Enum`.
 
 

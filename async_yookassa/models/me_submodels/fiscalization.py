@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from async_yookassa.enums import FiscalizationProviderEnum
+from async_yookassa.enums.fiscalization import FiscalizationProviderEnum
 
 
 class Fiscalization(BaseModel):

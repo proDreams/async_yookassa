@@ -8,10 +8,12 @@ from async_yookassa.refund import Refund
 from async_yookassa.receipt import Receipt
 from async_yookassa.sbp_banks import SbpBanks
 from async_yookassa.self_employed import SelfEmployed
+from async_yookassa.settings import Settings
+from async_yookassa.webhooks import Webhook
 
 __author__ = "Ivan Ashikhmin and YooMoney"
 __email__ = "sushkoos@gmail.com and cms@yoomoney.ru"
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __all__ = [
     "Configuration",
     "Payment",
@@ -23,4 +25,6 @@ __all__ = [
     "SbpBanks",
     "PersonalData",
     "Deal",
+    "Webhook",
+    "Settings",
 ]
