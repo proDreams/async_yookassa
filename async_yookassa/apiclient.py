@@ -20,6 +20,7 @@ from async_yookassa.models.receipt_request import ReceiptRequest
 from async_yookassa.models.refund_request import RefundRequest
 from async_yookassa.models.self_employed_request import SelfEmployedRequest
 from async_yookassa.models.user_agent import UserAgent
+from async_yookassa.models.webhook_request import WebhookRequest
 
 
 class APIClient:
@@ -55,6 +56,7 @@ class APIClient:
             | SelfEmployedRequest
             | PersonalDataRequest
             | DealRequest
+            | WebhookRequest
             | None
         ) = None,
         method: str = "",
