@@ -20,6 +20,7 @@
 * Класс `Receipt`.
 * Класс `Payout`.
 * Класс `SelfEmployed`.
+* Класс `SbpBanks`.
 * Сопутствующие `Pydantic-модели` и `Enum`.
 
 

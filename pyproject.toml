@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "async_yookassa"
-version = "0.3.6"
+version = "0.3.7"
 description = "Unofficial API client for YooKassa"
 authors = ["prodream <sushkoos@gmail.com>"]
 readme = "README.md"
