@@ -8,8 +8,11 @@ from async_yookassa.models.payment_submodels.payment_method_submodels.card_produ
 )
 
 
-class CardRequest(BaseModel):
+class CardBase(BaseModel):
     number: str
+
+
+class CardRequest(CardBase):
     expiry_year: str
     expiry_month: str
     cardholder: str | None = None

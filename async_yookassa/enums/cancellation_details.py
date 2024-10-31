@@ -45,3 +45,13 @@ class ReasonRefundEnum(ReasonEnumBase):
     payment_tru_code_not_found = "payment_tru_code_not_found"
     some_articles_already_refunded = "some_articles_already_refunded"
     too_many_refunding_articles = "too_many_refunding_articles"
+
+
+class ReasonPayoutEnum(ReasonEnumBase):
+    fraud_suspected = "fraud_suspected"
+    issuer_unavailable = "issuer_unavailable"
+    one_time_limit_exceeded = "one_time_limit_exceeded"
+    periodic_limit_exceeded = "periodic_limit_exceeded"
+    recipient_check_failed = "recipient_check_failed"
+    recipient_not_found = "recipient_not_found"
+    rejected_by_payee = "rejected_by_payee"
