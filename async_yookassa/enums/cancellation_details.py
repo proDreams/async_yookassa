@@ -1,24 +1,15 @@
 from enum import Enum
 
 
-class PartyEnumYM(str, Enum):
+class PartyEnum(str, Enum):
+    merchant = "merchant"
+    payment_network = "payment_network"
     yoo_money = "yoo_money"
 
 
-class PartyEnumPN(PartyEnumYM):
-    payment_network = "payment_network"
-
-
-class PartyEnum(PartyEnumPN):
-    merchant = "merchant"
-
-
-class ReasonEnumBase(str, Enum):
+class ReasonEnum(str, Enum):
     general_decline = "general_decline"
     insufficient_funds = "insufficient_funds"
-
-
-class ReasonEnum(ReasonEnumBase):
     three_d_secure_failed = "3d_secure_failed"
     call_issuer = "call_issuer"
     canceled_by_merchant = "canceled_by_merchant"
@@ -37,9 +28,6 @@ class ReasonEnum(ReasonEnumBase):
     payment_method_restricted = "payment_method_restricted"
     permission_revoked = "permission_revoked"
     unsupported_mobile_operator = "unsupported_mobile_operator"
-
-
-class ReasonRefundEnum(ReasonEnumBase):
     rejected_by_payee = "rejected_by_payee"
     rejected_by_timeout = "rejected_by_timeout"
     yoo_money_account_closed = "yoo_money_account_closed"
@@ -48,16 +36,10 @@ class ReasonRefundEnum(ReasonEnumBase):
     payment_tru_code_not_found = "payment_tru_code_not_found"
     some_articles_already_refunded = "some_articles_already_refunded"
     too_many_refunding_articles = "too_many_refunding_articles"
-
-
-class ReasonPayoutEnum(ReasonEnumBase):
-    fraud_suspected = "fraud_suspected"
-    issuer_unavailable = "issuer_unavailable"
     one_time_limit_exceeded = "one_time_limit_exceeded"
     periodic_limit_exceeded = "periodic_limit_exceeded"
     recipient_check_failed = "recipient_check_failed"
     recipient_not_found = "recipient_not_found"
-    rejected_by_payee = "rejected_by_payee"
 
 
 class PersonalDataReasonEnum(str, Enum):

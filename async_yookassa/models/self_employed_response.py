@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response import SelfEmployedStatusEnum
+from async_yookassa.enums.payment_response import ReceiptRegistrationEnum
 from async_yookassa.models.payment_submodels.confirmation import (
     ConfirmationSelfEmployedResponse,
 )
@@ -10,7 +10,7 @@ from async_yookassa.models.payment_submodels.confirmation import (
 
 class SelfEmployedResponse(BaseModel):
     id: str = Field(min_length=36, max_length=50)
-    status: SelfEmployedStatusEnum
+    status: ReceiptRegistrationEnum
     created_at: datetime
     itn: str | None = None
     phone: str | None = None

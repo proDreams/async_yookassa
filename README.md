@@ -1,6 +1,6 @@
 # Async YooKassa (unofficial)
 
-[![Latest Stable Version](https://img.shields.io/pypi/v/async_yookassa.svg)](https://pypi.org/project/async_yookassa/)
+[![Latest Stable Version](https://img.shields.io/pypi/v/async_yookassa.svg)](https://pypi.org/project/async_yookassa/) [![Downloads](https://img.shields.io/pypi/dm/async_yookassa.svg)](https://pypi.org/project/async_yookassa/) [![Код на салфетке](https://img.shields.io/badge/Telegram-Код_на_салфетке-blue)](https://t.me/press_any_button) [![Заметки на салфетке](https://img.shields.io/badge/Telegram-Заметки_на_салфетке-blue)](https://t.me/writeanynotes) 
 
 
 Неофициальный клиент для работы с платежами по [API ЮKassa](https://yookassa.ru/developers/api)
@@ -22,6 +22,7 @@
 * Класс `SelfEmployed`.
 * Класс `SbpBanks`.
 * Класс `PersonalData`.
+* Класс `Deal`.
 * Сопутствующие `Pydantic-модели` и `Enum`.
 
 

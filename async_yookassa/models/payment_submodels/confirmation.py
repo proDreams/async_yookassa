@@ -1,12 +1,14 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.enums.confirmation import ConfirmationTypeBase, ConfirmationTypeEnum
+from async_yookassa.enums.confirmation import ConfirmationTypeEnum
 
 
 class ConfirmationBase(BaseModel):
     type: ConfirmationTypeEnum
     return_url: str | None = Field(max_length=2048, default=None)
     enforce: bool | None = None
+
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class Confirmation(ConfirmationBase):
@@ -55,7 +57,9 @@ class ConfirmationResponse(ConfirmationBase):
 
 
 class ConfirmationSelfEmployed(BaseModel):
-    type: ConfirmationTypeBase
+    type: ConfirmationTypeEnum
+
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class ConfirmationSelfEmployedResponse(ConfirmationSelfEmployed):

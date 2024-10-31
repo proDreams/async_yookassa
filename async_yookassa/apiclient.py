@@ -11,6 +11,7 @@ from async_yookassa.exceptions.not_found_error import NotFoundError
 from async_yookassa.exceptions.response_processing_error import ResponseProcessingError
 from async_yookassa.exceptions.too_many_request_error import TooManyRequestsError
 from async_yookassa.exceptions.unauthorized_error import UnauthorizedError
+from async_yookassa.models.deal_request import DealRequest
 from async_yookassa.models.invoice_request import InvoiceRequest
 from async_yookassa.models.payment_request import PaymentRequest
 from async_yookassa.models.payout_request import PayoutRequest
@@ -53,6 +54,7 @@ class APIClient:
             | PayoutRequest
             | SelfEmployedRequest
             | PersonalDataRequest
+            | DealRequest
             | None
         ) = None,
         method: str = "",

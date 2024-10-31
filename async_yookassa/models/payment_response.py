@@ -3,10 +3,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response import (
-    PaymentResponseStatusEnum,
-    ReceiptRegistrationEnum,
-)
+from async_yookassa.enums.payment_response import ReceiptRegistrationEnum
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.authorization_details import (
     AuthorizationDetails,
@@ -24,7 +21,7 @@ from async_yookassa.models.payment_submodels.transfers import TransferResponse
 
 class PaymentResponse(BaseModel):
     id: str = Field(min_length=36, max_length=36)
-    status: PaymentResponseStatusEnum
+    status: ReceiptRegistrationEnum
     amount: Amount
     income_amount: Amount | None = None
     description: str | None = Field(max_length=128, default=None)

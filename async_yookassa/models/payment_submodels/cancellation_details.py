@@ -2,12 +2,8 @@ from pydantic import BaseModel, ConfigDict
 
 from async_yookassa.enums.cancellation_details import (
     PartyEnum,
-    PartyEnumPN,
-    PartyEnumYM,
     PersonalDataReasonEnum,
     ReasonEnum,
-    ReasonPayoutEnum,
-    ReasonRefundEnum,
 )
 
 
@@ -21,15 +17,15 @@ class CancellationDetails(Details):
 
 
 class RefundDetails(Details):
-    party: PartyEnumPN
-    reason: ReasonRefundEnum
+    party: PartyEnum
+    reason: ReasonEnum
 
 
 class PayoutDetails(Details):
-    party: PartyEnumPN
-    reason: ReasonPayoutEnum
+    party: PartyEnum
+    reason: ReasonEnum
 
 
 class PersonalDataDetails(Details):
-    party: PartyEnumYM
+    party: PartyEnum
     reason: PersonalDataReasonEnum
