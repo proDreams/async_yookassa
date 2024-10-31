@@ -16,6 +16,7 @@ from async_yookassa.models.payment_request import PaymentRequest
 from async_yookassa.models.payout_request import PayoutRequest
 from async_yookassa.models.receipt_request import ReceiptRequest
 from async_yookassa.models.refund_request import RefundRequest
+from async_yookassa.models.self_employed_request import SelfEmployedRequest
 from async_yookassa.models.user_agent import UserAgent
 
 
@@ -43,7 +44,15 @@ class APIClient:
 
     async def request(
         self,
-        body: PaymentRequest | InvoiceRequest | RefundRequest | ReceiptRequest | PayoutRequest | None = None,
+        body: (
+            PaymentRequest
+            | InvoiceRequest
+            | RefundRequest
+            | ReceiptRequest
+            | PayoutRequest
+            | SelfEmployedRequest
+            | None
+        ) = None,
         method: str = "",
         path: str = "",
         query_params: dict[str, str] | None = None,

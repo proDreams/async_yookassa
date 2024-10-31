@@ -9,3 +9,7 @@ class ReceiptRegistrationEnum(str, Enum):
 
 class PaymentResponseStatusEnum(ReceiptRegistrationEnum):
     waiting_for_capture = "waiting_for_capture"
+
+
+class SelfEmployedStatusEnum(ReceiptRegistrationEnum):
+    unregistered = "unregistered"

@@ -19,6 +19,7 @@
 * Класс `Refund`.
 * Класс `Receipt`.
 * Класс `Payout`.
+* Класс `SelfEmployed`.
 * Сопутствующие `Pydantic-модели` и `Enum`.
 
 

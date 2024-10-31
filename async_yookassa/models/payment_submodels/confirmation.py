@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from async_yookassa.enums.confirmation import ConfirmationTypeEnum
+from async_yookassa.enums.confirmation import ConfirmationTypeBase, ConfirmationTypeEnum
 
 
 class ConfirmationBase(BaseModel):
@@ -52,3 +52,11 @@ class ConfirmationResponse(ConfirmationBase):
                 raise ValueError("Field 'confirmation_data' is required for type 'qr'")
 
         return values
+
+
+class ConfirmationSelfEmployed(BaseModel):
+    type: ConfirmationTypeBase
+
+
+class ConfirmationSelfEmployedResponse(ConfirmationSelfEmployed):
+    confirmation_url: str
