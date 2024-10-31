@@ -2,29 +2,34 @@ from pydantic import BaseModel, ConfigDict
 
 from async_yookassa.enums.cancellation_details import (
     PartyEnum,
-    PartyEnumBase,
+    PartyEnumPN,
+    PartyEnumYM,
+    PersonalDataReasonEnum,
     ReasonEnum,
     ReasonPayoutEnum,
     ReasonRefundEnum,
 )
 
 
-class CancellationDetails(BaseModel):
+class Details(BaseModel):
+    model_config = ConfigDict(use_enum_values=True)
+
+
+class CancellationDetails(Details):
     party: PartyEnum
     reason: ReasonEnum
 
-    model_config = ConfigDict(use_enum_values=True)
 
-
-class RefundDetails(BaseModel):
-    party: PartyEnumBase
+class RefundDetails(Details):
+    party: PartyEnumPN
     reason: ReasonRefundEnum
 
-    model_config = ConfigDict(use_enum_values=True)
 
-
-class PayoutDetails(BaseModel):
-    party: PartyEnumBase
+class PayoutDetails(Details):
+    party: PartyEnumPN
     reason: ReasonPayoutEnum
 
-    model_config = ConfigDict(use_enum_values=True)
+
+class PersonalDataDetails(Details):
+    party: PartyEnumYM
+    reason: PersonalDataReasonEnum

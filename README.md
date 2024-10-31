@@ -21,6 +21,7 @@
 * Класс `Payout`.
 * Класс `SelfEmployed`.
 * Класс `SbpBanks`.
+* Класс `PersonalData`.
 * Сопутствующие `Pydantic-модели` и `Enum`.
 
 

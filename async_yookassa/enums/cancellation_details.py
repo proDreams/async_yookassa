@@ -1,12 +1,15 @@
 from enum import Enum
 
 
-class PartyEnumBase(str, Enum):
+class PartyEnumYM(str, Enum):
     yoo_money = "yoo_money"
+
+
+class PartyEnumPN(PartyEnumYM):
     payment_network = "payment_network"
 
 
-class PartyEnum(PartyEnumBase):
+class PartyEnum(PartyEnumPN):
     merchant = "merchant"
 
 
@@ -55,3 +58,7 @@ class ReasonPayoutEnum(ReasonEnumBase):
     recipient_check_failed = "recipient_check_failed"
     recipient_not_found = "recipient_not_found"
     rejected_by_payee = "rejected_by_payee"
+
+
+class PersonalDataReasonEnum(str, Enum):
+    expired_by_timeout = "expired_by_timeout"

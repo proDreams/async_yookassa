@@ -14,6 +14,7 @@ from async_yookassa.exceptions.unauthorized_error import UnauthorizedError
 from async_yookassa.models.invoice_request import InvoiceRequest
 from async_yookassa.models.payment_request import PaymentRequest
 from async_yookassa.models.payout_request import PayoutRequest
+from async_yookassa.models.personal_data_request import PersonalDataRequest
 from async_yookassa.models.receipt_request import ReceiptRequest
 from async_yookassa.models.refund_request import RefundRequest
 from async_yookassa.models.self_employed_request import SelfEmployedRequest
@@ -51,6 +52,7 @@ class APIClient:
             | ReceiptRequest
             | PayoutRequest
             | SelfEmployedRequest
+            | PersonalDataRequest
             | None
         ) = None,
         method: str = "",
