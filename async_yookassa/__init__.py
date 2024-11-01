@@ -13,7 +13,7 @@ from async_yookassa.webhooks import Webhook
 
 __author__ = "Ivan Ashikhmin and YooMoney"
 __email__ = "sushkoos@gmail.com and cms@yoomoney.ru"
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 __all__ = [
     "Configuration",
     "Payment",
