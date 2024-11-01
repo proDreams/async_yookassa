@@ -11,7 +11,7 @@ from async_yookassa.models.payment_submodels.authorization_details import (
 from async_yookassa.models.payment_submodels.cancellation_details import (
     CancellationDetails,
 )
-from async_yookassa.models.payment_submodels.confirmation import Confirmation
+from async_yookassa.models.payment_submodels.confirmation import ConfirmationResponse
 from async_yookassa.models.payment_submodels.deal import Deal
 from async_yookassa.models.payment_submodels.invoice_details import InvoiceDetails
 from async_yookassa.models.payment_submodels.payment_method import PaymentMethod
@@ -30,7 +30,7 @@ class PaymentResponse(BaseModel):
     captured_at: datetime | None = None
     created_at: datetime
     expires_at: datetime | None = None
-    confirmation: Confirmation | None = None
+    confirmation: ConfirmationResponse | None = None
     test: bool
     refunded_amount: Amount | None = None
     paid: bool
