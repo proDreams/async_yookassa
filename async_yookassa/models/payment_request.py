@@ -47,8 +47,12 @@ class PaymentRequest(PaymentData):
             raise ValueError("Invalid or unspecified payment amount")
 
         receipt = values.receipt
-        if receipt and receipt.has_items:
-            if not (receipt.email or receipt.phone):
+        if receipt and receipt.items:
+            if not (
+                receipt.email or 
+                receipt.phone or 
+                receipt.customer and (receipt.customer.phone or receipt.customer.email)
+            ):
                 raise ValueError("Both email and phone values are empty in receipt")
             if receipt.tax_system_code is None:
                 for item in receipt.items:
