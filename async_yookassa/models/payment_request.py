@@ -41,7 +41,7 @@ class PaymentRequest(PaymentData):
     receiver: Receiver | None = None
 
     @model_validator(mode="after")
-    def validate_data(cls, values: Self):
+    def validate_data(self, values: Self):
         amount = values.amount
         if amount is None or Decimal(amount.value) <= Decimal("0.0"):
             raise ValueError("Invalid or unspecified payment amount")
@@ -49,9 +49,10 @@ class PaymentRequest(PaymentData):
         receipt = values.receipt
         if receipt and receipt.items:
             if not (
-                receipt.email or 
-                receipt.phone or 
-                receipt.customer and (receipt.customer.phone or receipt.customer.email)
+                receipt.email
+                or receipt.phone
+                or receipt.customer
+                and (receipt.customer.phone or receipt.customer.email)
             ):
                 raise ValueError("Both email and phone values are empty in receipt")
             if receipt.tax_system_code is None:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "async_yookassa"
-version = "0.5.2"
+version = "0.5.3"
 description = "Unofficial API client for YooKassa"
 authors = ["prodream <sushkoos@gmail.com>"]
 readme = "README.md"
@@ -9,7 +9,7 @@ license = "MIT"
 keywords = ["yoomoney", "yookassa", "payout", "sdk", "python"]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.9,<3.14"
 pydantic = { extras = ["email"], version = "^2.9.2" }
 pre-commit = "^4.0.1"
 distro = "^1.9.0"
