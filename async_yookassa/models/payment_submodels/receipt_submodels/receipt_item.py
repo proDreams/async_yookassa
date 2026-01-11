@@ -1,10 +1,13 @@
 import re
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, field_validator
 
 from async_yookassa.enums.agent_type import AgentTypeEnum
+from async_yookassa.enums.item_measure import ItemMeasureEnum
+from async_yookassa.enums.payment_subject import PaymentModeEnum, PaymentSubjectEnum
+from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.receipt_submodels.mark_code_info import (
     MarkCodeInfo,
@@ -18,42 +21,70 @@ from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_i
 from async_yookassa.models.receipt_submodels.supplier import Supplier
 
 
-class ReceiptItemBase(BaseModel):
+class ReceiptItemBase(ModelConfigBase):
     description: str = Field(max_length=128)
     amount: Amount
-    vat_code: int = Field(le=6)
+    vat_code: int = Field(ge=1, le=12)
     quantity: str
-    measure: str | None = None
+    measure: ItemMeasureEnum | None = None
     mark_quantity: MarkQuantity | None = None
-    payment_subject: str | None = None
-    payment_mode: str | None = None
+    payment_subject: PaymentSubjectEnum | None = None
+    payment_mode: PaymentModeEnum | None = None
     country_of_origin_code: str | None = Field(min_length=2, max_length=2, default=None)
     customs_declaration_number: str | None = Field(max_length=32, default=None)
     excise: str | None = None
     product_code: str | None = None
+    planned_status: int | None = Field(ge=1, le=6, default=None)
     mark_code_info: MarkCodeInfo | None = None
     mark_mode: str | None = None
     payment_subject_industry_details: PaymentSubjectIndustryDetails | None = None
 
     @field_validator("quantity", mode="before")
-    def quantity_validator(cls, value: Any) -> str:
+    def validate_quantity(cls, value: Any) -> str:
         """
-        Устанавливает quantity модели ReceiptItem.
+        Валидация количества.
+        Лимиты: макс 99999.999, до 3 знаков после точки.
+        """
+        try:
+            d_val = Decimal(str(value))
+        except (InvalidOperation, ValueError, TypeError):
+            raise ValueError("Quantity must be a valid number")
 
-        :param value: quantity модели ReceiptItem.
-        :type value: Decimal
-        """
-        return str(Decimal(str(float(value))))
+        if d_val <= 0:
+            raise ValueError("Quantity must be greater than 0")
+
+        if d_val > Decimal("99999.999"):
+            raise ValueError("Quantity exceeds maximum limit of 99999.999")
+
+        normalized = d_val.normalize()
+        exponent = normalized.as_tuple().exponent
+
+        if isinstance(exponent, int):
+            if exponent < -3:
+                raise ValueError("Quantity allows max 3 decimal places")
+
+        return f"{normalized:f}"
 
     @field_validator("excise", mode="before")
-    def excise_validator(cls, value: Any) -> str:
-        """ "
-        Устанавливает excise модели ReceiptItem.
-
-        :param value: excise модели ReceiptItem.
-        :type value: str
+    def validate_excise(cls, value: Any) -> str | None:
         """
-        return str(Decimal(str(value)))
+        Устанавливает excise (Тег 1229).
+        Десятичное число с точностью до 2 знаков после точки.
+        """
+        if value is None:
+            return None
+
+        try:
+            d_val = Decimal(str(value))
+        except (InvalidOperation, ValueError, TypeError):
+            raise ValueError("Excise must be a valid number")
+
+        if d_val < 0:
+            raise ValueError("Excise cannot be negative")
+
+        quantized = d_val.quantize(Decimal("1.00"), rounding=ROUND_HALF_UP)
+
+        return str(quantized)
 
     @field_validator("mark_mode", mode="before")
     def mark_mode_validator(cls, value: str) -> str:

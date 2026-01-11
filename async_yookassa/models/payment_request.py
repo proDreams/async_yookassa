@@ -2,46 +2,61 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from typing import Any, Self
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import EmailStr, Field, model_validator
 
 from async_yookassa.enums.payment_method_data import PaymentMethodDataTypeEnum
+from async_yookassa.enums.payment_request_statement import PaymentRequestDeliveryMethod, PaymentRequestStatementEnum
+from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment_submodels.airline import Airline
 from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.confirmation import Confirmation
+from async_yookassa.models.payment_submodels.confirmation import ConfirmationRequestUnion
 from async_yookassa.models.payment_submodels.deal import Deal
 from async_yookassa.models.payment_submodels.payment_method_data import (
     PaymentMethodData,
 )
+from async_yookassa.models.payment_submodels.payment_order import PaymentOrder
 from async_yookassa.models.payment_submodels.receipt import Receipt
-from async_yookassa.models.payment_submodels.receiver import Receiver
+from async_yookassa.models.payment_submodels.receiver import ReceiverUnion
 from async_yookassa.models.payment_submodels.recipient import Recipient
-from async_yookassa.models.payment_submodels.transfers import Transfer
+from async_yookassa.models.payment_submodels.transfers import TransferBase
 
 
-class PaymentData(BaseModel):
+class PaymentData(ModelConfigBase):
     amount: Amount
+    description: str | None = Field(max_length=128, default=None)
     receipt: Receipt | None = None
     recipient: Recipient | None = None
     save_payment_method: bool = False
     capture: bool = False
     client_ip: str | None = None
-    description: str | None = Field(max_length=128, default=None)
     metadata: dict[str, Any] | None = None
+
+
+class PaymentRequestStatementDeliveryMethod(ModelConfigBase):
+    type: PaymentRequestDeliveryMethod
+    email: EmailStr
+
+
+class PaymentRequestStatement(ModelConfigBase):
+    type: PaymentRequestStatementEnum
+    delivery_method: PaymentRequestStatementDeliveryMethod
 
 
 class PaymentRequest(PaymentData):
     payment_token: str | None = None
     payment_method_id: str | None = None
     payment_method_data: PaymentMethodData | None = None
-    confirmation: Confirmation | None = None
+    confirmation: ConfirmationRequestUnion | None = None
     airline: Airline | None = None
-    transfers: list[Transfer] | None = None
+    transfers: list[TransferBase] | None = None
     deal: Deal | None = None
     merchant_customer_id: str | None = Field(max_length=200, default=None)
-    receiver: Receiver | None = None
+    payment_order: PaymentOrder | None = None
+    receiver: ReceiverUnion | None = None
+    statements: list[PaymentRequestStatement] | None = None
 
     @model_validator(mode="after")
-    def validate_data(self, values: Self):
+    def validate_data(self, values) -> Self:
         amount = values.amount
         if amount is None or Decimal(amount.value) <= Decimal("0.0"):
             raise ValueError("Invalid or unspecified payment amount")

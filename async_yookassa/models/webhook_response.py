@@ -7,7 +7,7 @@ class WebhookResponse(WebhookRequest):
     id: str
 
 
-class WebhookList(BaseModel):
+class WebhookListResponse(BaseModel):
     type: str
     items: list[WebhookResponse]
     next_cursor: str | None = None

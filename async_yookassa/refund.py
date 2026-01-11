@@ -1,4 +1,5 @@
 import uuid
+import warnings
 from typing import Any
 
 from async_yookassa.apiclient import APIClient
@@ -11,16 +12,26 @@ from async_yookassa.utils import get_base_headers
 class Refund:
     """
     Класс, представляющий модель Refund.
+
+    .. deprecated::
+        Используйте `YooKassaClient.refund` вместо этого класса.
     """
 
     base_path = "/refunds"
 
     def __init__(self):
+        warnings.warn(
+            "Refund class is deprecated. Use YooKassaClient.refund instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.client = APIClient()
 
     @classmethod
     async def create(
-        cls, params: dict[str, Any] | RefundRequest, idempotency_key: uuid.UUID | None = None
+        cls,
+        params: dict[str, Any] | RefundRequest,
+        idempotency_key: uuid.UUID | None = None,
     ) -> RefundResponse:
         """
         Создание возврата

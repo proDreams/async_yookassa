@@ -15,7 +15,7 @@ class ArticleBase(BaseModel):
 
 
 class Article(ArticleBase):
-    article_name: str = Field(max_length=128, default=None)
+    article_name: str = Field(max_length=128)
     quantity: int
     price: Amount
     metadata: dict[str, Any]

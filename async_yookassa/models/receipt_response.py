@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response import ReceiptRegistrationEnum
+from async_yookassa.enums.payment_response import PaymentStatusEnum
 from async_yookassa.enums.receipt_type import ReceiptType
 from async_yookassa.models.payment_submodels.deal_submodels.settlements import (
     SettlementReceipt,
@@ -23,7 +23,7 @@ class ReceiptResponse(BaseModel):
     type: ReceiptType
     payment_id: str | None = None
     refund_id: str | None = None
-    status: ReceiptRegistrationEnum
+    status: PaymentStatusEnum
     fiscal_document_number: str | None = None
     fiscal_storage_number: str | None = None
     fiscal_attribute: str | None = None
@@ -37,3 +37,9 @@ class ReceiptResponse(BaseModel):
     receipt_operational_details: ReceiptOperationalDetails | None = None
 
     model_config = ConfigDict(use_enum_values=True)
+
+
+class ReceiptListResponse(BaseModel):
+    type: str
+    items: list[ReceiptResponse]
+    next_cursor: str | None = None

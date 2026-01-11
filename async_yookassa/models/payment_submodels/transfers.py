@@ -14,10 +14,6 @@ class TransferBase(BaseModel):
     platform_fee_amount: Amount | None = None
 
 
-class Transfer(TransferBase):
-    platform_fee_amount: Amount
-
-
 class TransferResponse(TransferBase):
     status: TransferStatusEnum
 

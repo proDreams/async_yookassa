@@ -1,4 +1,5 @@
 import uuid
+import warnings
 from typing import Any
 
 from async_yookassa.apiclient import APIClient
@@ -12,6 +13,9 @@ from async_yookassa.utils import get_base_headers
 class Payment:
     """
     Класс, представляющий модель Payment.
+
+    .. deprecated::
+        Используйте `YooKassaClient.payment` вместо этого класса.
     """
 
     base_path = "/payments"
@@ -19,6 +23,11 @@ class Payment:
     CMS_NAME = "async_yookassa_python"
 
     def __init__(self):
+        warnings.warn(
+            "Payment class is deprecated. Use YooKassaClient.payment instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.client = APIClient()
 
     @classmethod
@@ -40,7 +49,9 @@ class Payment:
 
     @classmethod
     async def create(
-        cls, params: dict[str, Any] | PaymentRequest, idempotency_key: uuid.UUID | None = None
+        cls,
+        params: dict[str, Any] | PaymentRequest,
+        idempotency_key: uuid.UUID | None = None,
     ) -> PaymentResponse:
         """
         Создание платежа
@@ -65,7 +76,11 @@ class Payment:
         params_object = instance.add_default_cms_name(params_object=params_object)
 
         response = await instance.client.request(
-            body=params_object, method=HTTPMethodEnum.POST, path=path, query_params=None, headers=headers
+            body=params_object,
+            method=HTTPMethodEnum.POST,
+            path=path,
+            query_params=None,
+            headers=headers,
         )
         return PaymentResponse(**response)
 

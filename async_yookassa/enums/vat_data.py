@@ -8,7 +8,8 @@ class VatDataTypeEnum(str, Enum):
 
 
 class RateEnum(str, Enum):
+    five = "5"
     seven = "7"
     ten = "10"
-    eighteen = "18"
     twenty = "20"
+    twenty_two = "22"

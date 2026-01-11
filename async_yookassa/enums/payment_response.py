@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ReceiptRegistrationEnum(str, Enum):
+class PaymentStatusEnum(StrEnum):
     pending = "pending"
     succeeded = "succeeded"
     canceled = "canceled"

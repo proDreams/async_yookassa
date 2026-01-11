@@ -4,7 +4,7 @@ from typing import Any
 from async_yookassa.apiclient import APIClient
 from async_yookassa.enums.request_methods import HTTPMethodEnum
 from async_yookassa.models.webhook_request import WebhookRequest
-from async_yookassa.models.webhook_response import WebhookList, WebhookResponse
+from async_yookassa.models.webhook_response import WebhookListResponse, WebhookResponse
 from async_yookassa.utils import get_base_headers
 
 
@@ -19,11 +19,11 @@ class Webhook:
         self.client = APIClient()
 
     @classmethod
-    async def list(cls) -> WebhookList:
+    async def list(cls) -> WebhookListResponse:
         """
         Возвращает список вебхуков
 
-        :return: Объект ответа WebhookList, возвращаемого API при запросе списка вебхуков
+        :return: Объект ответа WebhookListResponse, возвращаемого API при запросе списка вебхуков
         """
         instance = cls()
 
@@ -31,11 +31,13 @@ class Webhook:
 
         response = await instance.client.request(method=HTTPMethodEnum.GET, path=path)
 
-        return WebhookList(**response)
+        return WebhookListResponse(**response)
 
     @classmethod
     async def add(
-        cls, params: dict[str, Any] | WebhookRequest, idempotency_key: uuid.UUID | None = None
+        cls,
+        params: dict[str, Any] | WebhookRequest,
+        idempotency_key: uuid.UUID | None = None,
     ) -> WebhookResponse:
         """
         Добавление вебхука

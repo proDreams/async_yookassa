@@ -6,6 +6,7 @@ from httpx import AsyncClient, Response
 from async_yookassa import Configuration
 from async_yookassa.exceptions.api_error import APIError
 from async_yookassa.exceptions.bad_request_error import BadRequestError
+from async_yookassa.exceptions.configuration_errors import ConfigurationError
 from async_yookassa.exceptions.forbidden_error import ForbiddenError
 from async_yookassa.exceptions.not_found_error import NotFoundError
 from async_yookassa.exceptions.response_processing_error import ResponseProcessingError
@@ -13,6 +14,7 @@ from async_yookassa.exceptions.too_many_request_error import TooManyRequestsErro
 from async_yookassa.exceptions.unauthorized_error import UnauthorizedError
 from async_yookassa.models.deal_request import DealRequest
 from async_yookassa.models.invoice_request import InvoiceRequest
+from async_yookassa.models.payment_capture import CapturePaymentRequest
 from async_yookassa.models.payment_request import PaymentRequest
 from async_yookassa.models.payout_request import PayoutRequest
 from async_yookassa.models.personal_data_request import PersonalDataRequest
@@ -28,7 +30,7 @@ class APIClient:
     Класс клиента API.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.configuration = Configuration.instantiate()
         self.endpoint = Configuration.api_endpoint()
         self.account_id = self.configuration.account_id
@@ -56,6 +58,7 @@ class APIClient:
             | PersonalDataRequest
             | DealRequest
             | WebhookRequest
+            | CapturePaymentRequest  # temp
             | None
         ) = None,
         method: str = "",
@@ -73,12 +76,14 @@ class APIClient:
         :param body: Тело запроса
         :return: Ответ на запрос в формате JSON
         """
-        if isinstance(body, PaymentRequest):
-            body = body.model_dump()
+        if body:
+            request_body = body.model_dump()
+        else:
+            request_body = None
 
         request_headers = self.prepare_request_headers(headers=headers)
         raw_response = await self.execute(
-            body=body, method=method, path=path, query_params=query_params, request_headers=request_headers
+            body=request_body, method=method, path=path, query_params=query_params, request_headers=request_headers
         )
 
         if raw_response.status_code != 200:
@@ -115,7 +120,7 @@ class APIClient:
 
         return raw_response
 
-    def prepare_request_headers(self, headers: dict[str, str]) -> dict[str, str]:
+    def prepare_request_headers(self, headers: dict[str, str] | None = None) -> dict[str, str]:
         """
         Подготовка заголовков запроса.
 
@@ -125,14 +130,16 @@ class APIClient:
         request_headers = {"Content-type": "application/json"}
         if self.auth_token is not None:
             auth_headers = {"Authorization": "Bearer " + self.auth_token}
+        elif self.account_id and self.secret_key:
+            auth_headers = {"Authorization": self.basic_auth(username=self.account_id, password=self.secret_key)}
         else:
-            auth_headers = {"Authorization": self.basic_auth(self.account_id, self.secret_key)}
+            raise ConfigurationError()
 
         request_headers.update(auth_headers)
 
         request_headers.update({"YM-User-Agent": self.user_agent.get_header_string()})
 
-        if isinstance(headers, dict):
+        if headers and isinstance(headers, dict):
             request_headers.update(headers)
         return request_headers
 

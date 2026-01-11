@@ -1,84 +1,77 @@
+"""UserAgent dataclass for building User-Agent headers."""
+
+from __future__ import annotations
+
 import platform
 import sys
-from typing import Self
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 import distro
-from pydantic import BaseModel, Field
 
-import async_yookassa
 from async_yookassa.models.configuration_submodels.version import Version
 
+if TYPE_CHECKING:
+    pass
 
-class UserAgent(BaseModel):
+
+@dataclass
+class UserAgent:
     """
-    Класс для создания заголовка User-Agent в запросах к API
+    Класс для создания заголовка User-Agent в запросах к API.
     """
 
-    os: Version = Field(default_factory=lambda: UserAgent.define_os())
-    python: Version = Field(default_factory=lambda: UserAgent.define_python())
-    sdk: Version = Field(default_factory=lambda: UserAgent.define_sdk())
+    os: Version = field(default_factory=lambda: UserAgent._define_os())
+    python: Version = field(default_factory=lambda: UserAgent._define_python())
+    sdk: Version = field(default_factory=lambda: UserAgent._define_sdk())
     framework: Version | None = None
     cms: Version | None = None
     module: Version | None = None
 
     @staticmethod
-    def define_os() -> Version:
+    def _define_os() -> Version:
         """Определение системы."""
-        simple = UserAgent.__define_simple_os()
-        if simple.name == "Windows":
-            return Version(name=simple.name, version=simple.version)
-        elif simple.name == "Linux":
-            smart = UserAgent.__define_linux_os()
-            return Version(name=smart.name.capitalize(), version=smart.version)
-        return Version(name=simple.name, version=simple.version)
+        system = platform.system()
+        if system == "Linux":
+            return Version(name=distro.name().capitalize(), version=distro.version())
+        return Version(name=system, version=platform.release())
 
     @staticmethod
-    def define_python() -> Version:
+    def _define_python() -> Version:
         """Определение версии Python."""
         info = sys.version_info
-        version = f"{info.major}.{info.minor}.{info.micro}"
-        return Version(name="Python", version=version)
+        return Version(name="Python", version=f"{info.major}.{info.minor}.{info.micro}")
 
     @staticmethod
-    def define_sdk() -> Version:
+    def _define_sdk() -> Version:
         """Определение версии SDK."""
-        version = async_yookassa.__version__
-        return Version(name="Async YooKassa Python", version=version)
+        import async_yookassa
 
-    def set_framework(self, name: str, version: str) -> Self:
+        return Version(name="Async YooKassa Python", version=async_yookassa.__version__)
+
+    def set_framework(self, name: str, version: str) -> UserAgent:
         """Устанавливает версию фреймворка."""
         self.framework = Version(name=name, version=version)
         return self
 
-    def set_cms(self, name: str, version: str) -> Self:
+    def set_cms(self, name: str, version: str) -> UserAgent:
         """Устанавливает версию CMS."""
         self.cms = Version(name=name, version=version)
         return self
 
-    def set_module(self, name: str, version: str) -> Self:
+    def set_module(self, name: str, version: str) -> UserAgent:
         """Устанавливает версию модуля."""
         self.module = Version(name=name, version=version)
         return self
 
     def get_header_string(self) -> str:
         """Возвращает значения header в виде строки."""
-        part_delimiter = " "
-        headers = [str(self.os), str(self.python)]
+        parts = [str(self.os), str(self.python)]
         if self.framework:
-            headers.append(str(self.framework))
+            parts.append(str(self.framework))
         if self.cms:
-            headers.append(str(self.cms))
+            parts.append(str(self.cms))
         if self.module:
-            headers.append(str(self.module))
-        headers.append(str(self.sdk))
-        return part_delimiter.join(headers)
-
-    @staticmethod
-    def __define_simple_os() -> Version:
-        """Определение данных системы для Windows."""
-        return Version(name=platform.system(), version=platform.release())
-
-    @staticmethod
-    def __define_linux_os() -> Version:
-        """Определение данных системы для Linux."""
-        return Version(name=distro.name(), version=distro.version())
+            parts.append(str(self.module))
+        parts.append(str(self.sdk))
+        return " ".join(parts)

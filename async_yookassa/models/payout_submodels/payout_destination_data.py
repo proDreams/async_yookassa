@@ -19,7 +19,6 @@ class PayoutDestinationBase(BaseModel):
 
 
 class PayoutDestination(PayoutDestinationBase):
-
     @model_validator(mode="before")
     def validate_required_fields(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_value = values.get("type")

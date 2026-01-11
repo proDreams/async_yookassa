@@ -1,30 +1,27 @@
-from pydantic import BaseModel, Field, model_validator
+from typing import Annotated, Literal, Union
+
+from pydantic import Field
 
 from async_yookassa.enums.receiver import ReceiverTypeEnum
+from async_yookassa.models.base import ModelConfigBase
 
 
-class Receiver(BaseModel):
-    type: ReceiverTypeEnum
-    account_number: str | None = Field(min_length=20, max_length=20, default=None)
-    bic: str | None = Field(min_length=9, max_length=9, default=None)
-    phone: str | None = Field(min_length=11, max_length=15, default=None)
+class MobileBalanceReceiver(ModelConfigBase):
+    type: Literal[ReceiverTypeEnum.mobile_balance]
+    phone: str = Field(min_length=11, max_length=15)
 
-    @model_validator(mode="before")
-    def validate_required_fields(cls, values):
-        type_value = values.get("type")
 
-        if type_value == ReceiverTypeEnum.bank_account:
-            if not values.get("account_number"):
-                raise ValueError("Field 'account_number' is required for type 'bank_account'")
-            if not values.get("bic"):
-                raise ValueError("Field 'bic' is required for type 'bank_account'")
+class DigitalWalletReceiver(ModelConfigBase):
+    type: Literal[ReceiverTypeEnum.digital_wallet]
+    account_number: str = Field(min_length=20, max_length=20)
 
-        elif type_value == ReceiverTypeEnum.mobile_balance:
-            if not values.get("phone"):
-                raise ValueError("Field 'phone' are required for type 'mobile_balance'")
 
-        elif type_value == ReceiverTypeEnum.digital_wallet:
-            if not values.get("account_number"):
-                raise ValueError("Field 'account_number' are required for type 'digital_wallet'")
+class BankAccountReceiver(DigitalWalletReceiver):
+    type: Literal[ReceiverTypeEnum.bank_account]
+    bic: str = Field(min_length=9, max_length=9)
 
-        return values
+
+ReceiverUnion = Annotated[
+    Union[MobileBalanceReceiver, DigitalWalletReceiver, BankAccountReceiver],
+    Field(discriminator="type"),
+]

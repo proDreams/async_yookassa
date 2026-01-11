@@ -1,11 +1,12 @@
 import re
+from datetime import date
 
 from pydantic import BaseModel, Field, field_validator
 
 
 class PaymentSubjectIndustryDetails(BaseModel):
     federal_id: str
-    document_date: str
+    document_date: date
     document_number: str = Field(max_length=32)
     value: str = Field(max_length=256)
 

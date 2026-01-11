@@ -1,3 +1,4 @@
+import warnings
 from dataclasses import dataclass
 from typing import Self
 
@@ -7,6 +8,13 @@ from async_yookassa.models.configuration_submodels.version import Version
 
 @dataclass
 class Configuration:
+    """
+    Конфигурация для legacy API.
+
+    .. deprecated::
+        Используйте `YooKassaClient` вместо этого класса.
+    """
+
     api_url: str = "https://api.yookassa.ru/v3"
     account_id: str | None = None
     secret_key: str | None = None
@@ -17,7 +25,7 @@ class Configuration:
     agent_cms: Version | None = None
     agent_module: Version | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.assert_has_api_credentials()
 
     @classmethod
@@ -28,7 +36,15 @@ class Configuration:
         :param account_id: Идентификатор магазина.
         :param secret_key: Секретный ключ.
         :param kwargs: Словарь с дополнительными параметрами.
+
+        .. deprecated::
+            Используйте `YooKassaClient(account_id=..., secret_key=...)` вместо этого.
         """
+        warnings.warn(
+            "Configuration.configure is deprecated. Use YooKassaClient instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         cls.account_id = account_id
         cls.secret_key = secret_key
         cls.auth_token = None
@@ -52,7 +68,10 @@ class Configuration:
         cls.max_attempts = kwargs.get("max_attempts", cls.max_attempts)
 
     def configure_user_agent(
-        self, framework: Version | None = None, cms: Version | None = None, module: Version | None = None
+        self,
+        framework: Version | None = None,
+        cms: Version | None = None,
+        module: Version | None = None,
     ) -> None:
         """
         Устанавливает настройки конфигурации для User-Agent.

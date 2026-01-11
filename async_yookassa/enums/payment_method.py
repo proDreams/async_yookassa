@@ -1,13 +1,14 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class PaymentMethodTypeEnum(str, Enum):
+class PaymentMethodTypeEnum(StrEnum):
     sber_loan = "sber_loan"
     alfabank = "alfabank"
     mobile_balance = "mobile_balance"
     bank_card = "bank_card"
     installments = "installments"
     cash = "cash"
+    sber_bnpl = "sber_bnpl"
     sbp = "sbp"
     b2b_sberbank = "b2b_sberbank"
     electronic_certificate = "electronic_certificate"
@@ -19,3 +20,9 @@ class PaymentMethodTypeEnum(str, Enum):
     tinkoff_bank = "tinkoff_bank"
     wechat = "wechat"
     webmoney = "webmoney"
+
+
+class PaymentMethodStatusEnum(StrEnum):
+    pending = "pending"
+    active = "active"
+    inactive = "inactive"
