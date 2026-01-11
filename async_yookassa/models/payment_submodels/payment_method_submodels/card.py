@@ -2,7 +2,7 @@ import re
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from async_yookassa.enums.card import CardTypeEnum, SourceEnum
+from async_yookassa.enums.payment import CardType, CardSource
 from async_yookassa.models.payment_submodels.payment_method_submodels.card_product import (
     CardProduct,
 )
@@ -65,11 +65,11 @@ class CardResponse(BaseModel):
     last4: str
     expiry_year: str
     expiry_month: str
-    card_type: CardTypeEnum
+    card_type: CardType
     card_product: CardProduct | None = None
     issuer_country: str | None = Field(min_length=2, max_length=2, default=None)
     issuer_name: str | None = None
-    source: SourceEnum | None = None
+    source: CardSource | None = None
 
     model_config = ConfigDict(use_enum_values=True)
 

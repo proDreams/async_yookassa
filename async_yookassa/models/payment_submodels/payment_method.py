@@ -4,7 +4,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from async_yookassa.enums.payment_method import PaymentMethodStatusEnum, PaymentMethodTypeEnum
+from async_yookassa.enums.payment import PaymentMethodStatus, PaymentMethodType
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.payment_method_submodels.articles import (
     ArticleRefund,
@@ -28,14 +28,14 @@ from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data i
 class PaymentMethodBase(BaseModel):
     id: str
     saved: bool
-    status: PaymentMethodStatusEnum
+    status: PaymentMethodStatus
     title: str | None = None
 
     model_config = ConfigDict(use_enum_values=True)
 
 
 class SberLoanPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.sber_loan]
+    type: Literal[PaymentMethodType.sber_loan]
     discount_amount: Amount | None = None
     loan_option: str | None = None
     suspended_until: datetime | None = None
@@ -65,60 +65,60 @@ class SberLoanPaymentMethod(PaymentMethodBase):
 
 
 class AlfabankPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.alfabank]
+    type: Literal[PaymentMethodType.alfabank]
     login: str | None = None
 
 
 class GenericPaymentMethod(PaymentMethodBase):
     type: Literal[
-        PaymentMethodTypeEnum.mobile_balance,
-        PaymentMethodTypeEnum.installments,
-        PaymentMethodTypeEnum.cash,
-        PaymentMethodTypeEnum.sber_bnpl,
-        PaymentMethodTypeEnum.apple_pay,
-        PaymentMethodTypeEnum.google_pay,
-        PaymentMethodTypeEnum.qiwi,
-        PaymentMethodTypeEnum.wechat,
-        PaymentMethodTypeEnum.webmoney,
+        PaymentMethodType.mobile_balance,
+        PaymentMethodType.installments,
+        PaymentMethodType.cash,
+        PaymentMethodType.sber_bnpl,
+        PaymentMethodType.apple_pay,
+        PaymentMethodType.google_pay,
+        PaymentMethodType.qiwi,
+        PaymentMethodType.wechat,
+        PaymentMethodType.webmoney,
     ]
 
 
 class BankCardPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.bank_card]
+    type: Literal[PaymentMethodType.bank_card]
     card: CardResponse | None = None
 
 
 class SBPPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.sbp]
+    type: Literal[PaymentMethodType.sbp]
     payer_bank_details: SBPPayerBankDetails | None = None
     sbp_operation_id: str | None = None
 
 
 class B2BSberbankPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.b2b_sberbank]
+    type: Literal[PaymentMethodType.b2b_sberbank]
     payer_bank_details: B2BSBPayerBankDetails | None = None
     payment_purpose: str = Field(max_length=210)
     vat_data: VatDataUnion
 
 
 class ElectronicCertificatePaymentMethod(BankCardPaymentMethod):
-    type: Literal[PaymentMethodTypeEnum.electronic_certificate]
+    type: Literal[PaymentMethodType.electronic_certificate]
     articles: ArticleResponse | None = None
     electronic_certificate: ElectronicCertificate | None = None
 
 
 class YooMoneyPaymentMethod(PaymentMethodBase):
-    type: Literal[PaymentMethodTypeEnum.yoo_money]
+    type: Literal[PaymentMethodType.yoo_money]
     account_number: str | None = None
 
 
 class SberPayPaymentMethod(BankCardPaymentMethod):
-    type: Literal[PaymentMethodTypeEnum.sberbank]
+    type: Literal[PaymentMethodType.sberbank]
     phone: str | None = None
 
 
 class TPayPaymentMethod(BankCardPaymentMethod):
-    type: Literal[PaymentMethodTypeEnum.tinkoff_bank]
+    type: Literal[PaymentMethodType.tinkoff_bank]
 
 
 class PaymentMethodRefund(PaymentMethodBase):

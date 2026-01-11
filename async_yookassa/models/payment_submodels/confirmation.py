@@ -2,31 +2,31 @@ from typing import Annotated, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.confirmation import ConfirmationTypeEnum
+from async_yookassa.enums.payment import ConfirmationType
 from async_yookassa.models.base import ModelConfigBase
 
 
 class ExternalConfirmation(ModelConfigBase):
-    type: Literal[ConfirmationTypeEnum.external]
+    type: Literal[ConfirmationType.external]
 
 
 class EmbeddedConfirmation(ModelConfigBase):
-    type: Literal[ConfirmationTypeEnum.embedded]
+    type: Literal[ConfirmationType.embedded]
     confirmation_token: str
 
 
 class MobileApplicationConfirmation(ModelConfigBase):
-    type: Literal[ConfirmationTypeEnum.mobile_application]
+    type: Literal[ConfirmationType.mobile_application]
     confirmation_url: str
 
 
 class QRConfirmation(ModelConfigBase):
-    type: Literal[ConfirmationTypeEnum.qr]
+    type: Literal[ConfirmationType.qr]
     confirmation_data: str
 
 
 class RedirectConfirmation(MobileApplicationConfirmation):
-    type: Literal[ConfirmationTypeEnum.redirect]
+    type: Literal[ConfirmationType.redirect]
     enforce: bool | None = None
     return_url: str | None = Field(max_length=2048, default=None)
 
@@ -44,22 +44,22 @@ ConfirmationUnion = Annotated[
 
 
 class ConfirmationRequestBase(ModelConfigBase):
-    type: Literal[ConfirmationTypeEnum.embedded, ConfirmationTypeEnum.external]
+    type: Literal[ConfirmationType.embedded, ConfirmationType.external]
     locale: str | None = None
 
 
 class MobileApplicationConfirmationRequest(ConfirmationRequestBase):
-    type: Literal[ConfirmationTypeEnum.mobile_application]
+    type: Literal[ConfirmationType.mobile_application]
     return_url: str
 
 
 class QRConfirmationRequest(ConfirmationRequestBase):
-    type: Literal[ConfirmationTypeEnum.qr]
+    type: Literal[ConfirmationType.qr]
     return_url: str | None = None
 
 
 class RedirectConfirmationRequest(MobileApplicationConfirmationRequest):
-    type: Literal[ConfirmationTypeEnum.redirect]
+    type: Literal[ConfirmationType.redirect]
     enforce: bool | None = None
 
 
@@ -75,7 +75,7 @@ ConfirmationRequestUnion = Annotated[
 
 
 class ConfirmationSelfEmployed(BaseModel):
-    type: ConfirmationTypeEnum
+    type: ConfirmationType
 
     model_config = ConfigDict(use_enum_values=True)
 

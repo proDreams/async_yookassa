@@ -3,7 +3,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response import PaymentStatusEnum
+from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.invoice_submodels.cart import Cart
 from async_yookassa.models.invoice_submodels.delivery_method import DeliveryMethod
 from async_yookassa.models.invoice_submodels.invoice_cancellation_details import (
@@ -14,7 +14,7 @@ from async_yookassa.models.invoice_submodels.payment_details import PaymentDetai
 
 class InvoiceResponse(BaseModel):
     id: str = Field(min_length=39, max_length=39)
-    status: PaymentStatusEnum
+    status: PaymentStatus
     cart: list[Cart]
     delivery_method: DeliveryMethod | None = None
     payment_details: PaymentDetails | None = None

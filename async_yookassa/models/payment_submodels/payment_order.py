@@ -2,7 +2,7 @@ import re
 
 from pydantic import Field, field_validator
 
-from async_yookassa.enums.payment_order import PaymentOrderEnum
+from async_yookassa.enums.payment import PaymentOrderType
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment_submodels.amount import Amount
 
@@ -48,7 +48,7 @@ class PaymentOrderRecipient(ModelConfigBase):
 
 
 class PaymentOrder(ModelConfigBase):
-    type: PaymentOrderEnum
+    type: PaymentOrderType
     account_number: str | None = None
     amount: Amount
     kbk: str | None = None

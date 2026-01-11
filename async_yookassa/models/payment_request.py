@@ -4,8 +4,7 @@ from typing import Any, Self
 
 from pydantic import EmailStr, Field, model_validator
 
-from async_yookassa.enums.payment_method_data import PaymentMethodDataTypeEnum
-from async_yookassa.enums.payment_request_statement import PaymentRequestDeliveryMethod, PaymentRequestStatementEnum
+from async_yookassa.enums.payment import PaymentMethodType, PaymentStatementType, PaymentStatementDeliveryMethod
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment_submodels.airline import Airline
 from async_yookassa.models.payment_submodels.amount import Amount
@@ -33,12 +32,12 @@ class PaymentData(ModelConfigBase):
 
 
 class PaymentRequestStatementDeliveryMethod(ModelConfigBase):
-    type: PaymentRequestDeliveryMethod
+    type: PaymentStatementDeliveryMethod
     email: EmailStr
 
 
 class PaymentRequestStatement(ModelConfigBase):
-    type: PaymentRequestStatementEnum
+    type: PaymentStatementType
     delivery_method: PaymentRequestStatementDeliveryMethod
 
 
@@ -87,7 +86,7 @@ class PaymentRequest(PaymentData):
         elif payment_method_id and payment_method_data:
             raise ValueError("Both payment_method_id and payment_method_data values are specified")
 
-        if payment_method_data and payment_method_data.type == PaymentMethodDataTypeEnum.bank_card:
+        if payment_method_data and payment_method_data.type == PaymentMethodType.bank_card:
             card = payment_method_data.card
             if card:
                 date_now = datetime.now() - timedelta(hours=27)

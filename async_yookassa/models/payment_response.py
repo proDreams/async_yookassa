@@ -3,7 +3,7 @@ from typing import Annotated, Any, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from async_yookassa.enums.payment_response import PaymentStatusEnum
+from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment_submodels.amount import Amount
 from async_yookassa.models.payment_submodels.authorization_details import (
@@ -49,7 +49,7 @@ PaymentMethodUnion = Annotated[
 
 class PaymentResponse(ModelConfigBase):
     id: str = Field(min_length=36, max_length=36)
-    status: PaymentStatusEnum
+    status: PaymentStatus
     amount: Amount
     income_amount: Amount | None = None
     description: str | None = Field(max_length=128, default=None)
@@ -63,7 +63,7 @@ class PaymentResponse(ModelConfigBase):
     refunded_amount: Amount | None = None
     paid: bool
     refundable: bool
-    receipt_registration: PaymentStatusEnum | None = None
+    receipt_registration: PaymentStatus | None = None
     metadata: dict[str, Any] | None = None
     cancellation_details: CancellationDetails | None = None
     authorization_details: AuthorizationDetails | None = None

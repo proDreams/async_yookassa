@@ -30,7 +30,6 @@ from async_yookassa.client import YooKassaClient
 from async_yookassa.configuration import Configuration
 from async_yookassa.deal import Deal
 from async_yookassa.invoice import Invoice
-from async_yookassa.payment import Payment
 from async_yookassa.payout import Payout
 from async_yookassa.personal_data import PersonalData
 from async_yookassa.receipt import Receipt
@@ -49,7 +48,6 @@ __all__ = [
     "YooKassaClient",
     # Legacy (deprecated, kept for backwards compatibility)
     "Configuration",
-    "Payment",
     "Invoice",
     "Refund",
     "Receipt",
@@ -67,7 +65,6 @@ def __getattr__(name: str):
     """Выдаёт deprecation warning при использовании legacy классов."""
     legacy_classes = {
         "Configuration",
-        "Payment",
         "Invoice",
         "Refund",
         "Receipt",
