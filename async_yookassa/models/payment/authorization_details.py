@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from async_yookassa.models.payment_submodels.authorization_details_submodels.three_d_secure import (
+from async_yookassa.models.payment.three_d_secure import (
     ThreeDSecure,
 )
 

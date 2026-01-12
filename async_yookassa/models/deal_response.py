@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict
 
 from async_yookassa.enums.deal_enums import DealStatusEnum
 from async_yookassa.models.deal_request import DealRequest
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class DealResponse(DealRequest):

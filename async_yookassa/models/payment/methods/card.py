@@ -3,7 +3,7 @@ import re
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from async_yookassa.enums.payment import CardType, CardSource
-from async_yookassa.models.payment_submodels.payment_method_submodels.card_product import (
+from async_yookassa.models.payment.methods.card_product import (
     CardProduct,
 )
 

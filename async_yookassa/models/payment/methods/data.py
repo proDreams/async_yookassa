@@ -4,10 +4,10 @@ from pydantic import Field
 
 from async_yookassa.enums.payment import PaymentMethodType
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
+from async_yookassa.models.payment.methods.card import (
     CardRequest,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data import VatDataUnion
+from async_yookassa.models.payment.methods.vat_data import VatDataUnion
 
 
 class PaymentMethodBase(ModelConfigBase):

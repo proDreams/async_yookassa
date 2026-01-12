@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.enums.payment import PaymentStatus
-from async_yookassa.models.payment_submodels.confirmation import (
+from async_yookassa.models.payment.confirmation import (
     ConfirmationSelfEmployedResponse,
 )
 

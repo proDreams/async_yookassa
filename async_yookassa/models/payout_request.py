@@ -2,8 +2,8 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.deal import DealBase
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.deal import DealBase
 from async_yookassa.models.payout_submodels.payout_destination_data import (
     PayoutDestination,
 )

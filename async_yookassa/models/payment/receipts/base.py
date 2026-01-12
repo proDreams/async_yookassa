@@ -1,13 +1,13 @@
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.receipt_submodels.customer import Customer
-from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details import (
+from async_yookassa.models.payment.receipts.customer import Customer
+from async_yookassa.models.payment.receipts.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_item import (
+from async_yookassa.models.payment.receipts.receipt_item import (
     ReceiptItemBase,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_operational_details import (
+from async_yookassa.models.payment.receipts.receipt_operational_details import (
     ReceiptOperationalDetails,
 )
 

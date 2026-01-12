@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel, model_validator
 
-from async_yookassa.models.payment_submodels.confirmation import (
+from async_yookassa.models.payment.confirmation import (
     ConfirmationSelfEmployed,
 )
 

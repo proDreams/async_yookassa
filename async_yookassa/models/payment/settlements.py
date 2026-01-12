@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 
 from async_yookassa.enums.settlement import SettlementReceiptEnum, SettlementTypeEnum
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class Settlement(BaseModel):

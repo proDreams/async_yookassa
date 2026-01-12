@@ -6,18 +6,16 @@ from pydantic import EmailStr, Field, model_validator
 
 from async_yookassa.enums.payment import PaymentMethodType, PaymentStatementType, PaymentStatementDeliveryMethod
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.airline import Airline
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.confirmation import ConfirmationRequestUnion
-from async_yookassa.models.payment_submodels.deal import Deal
-from async_yookassa.models.payment_submodels.payment_method_data import (
-    PaymentMethodData,
-)
-from async_yookassa.models.payment_submodels.payment_order import PaymentOrder
-from async_yookassa.models.payment_submodels.receipt import Receipt
-from async_yookassa.models.payment_submodels.receiver import ReceiverUnion
-from async_yookassa.models.payment_submodels.recipient import Recipient
-from async_yookassa.models.payment_submodels.transfers import TransferBase
+from async_yookassa.models.payment.airline import Airline
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.confirmation import ConfirmationRequestUnion
+from async_yookassa.models.payment.deal import Deal
+from async_yookassa.models.payment.methods.data import PaymentMethodData
+from async_yookassa.models.payment.order import PaymentOrder
+from async_yookassa.models.payment.receipts.base import Receipt
+from async_yookassa.models.payment.receiver import ReceiverUnion
+from async_yookassa.models.payment.recipient import Recipient
+from async_yookassa.models.payment.transfers import TransferBase
 
 
 class PaymentData(ModelConfigBase):

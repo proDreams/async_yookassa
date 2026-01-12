@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class ElectronicCertificate(BaseModel):

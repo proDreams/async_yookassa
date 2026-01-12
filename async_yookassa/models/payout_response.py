@@ -4,9 +4,9 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from async_yookassa.enums.payment import PaymentStatus
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.cancellation_details import PayoutDetails
-from async_yookassa.models.payment_submodels.deal import DealBase
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.cancellation_details import PayoutDetails
+from async_yookassa.models.payment.deal import DealBase
 from async_yookassa.models.payout_submodels.payout_destination_data import (
     PayoutDestinationResponse,
 )

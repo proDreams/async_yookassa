@@ -4,17 +4,17 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.enums.receipt_type import ReceiptType
-from async_yookassa.models.payment_submodels.deal_submodels.settlements import (
-    SettlementReceipt,
-)
-from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details import (
+from async_yookassa.models.payment.receipts.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_item import (
+from async_yookassa.models.payment.receipts.receipt_item import (
     ReceiptItem,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.receipt_operational_details import (
+from async_yookassa.models.payment.receipts.receipt_operational_details import (
     ReceiptOperationalDetails,
+)
+from async_yookassa.models.payment.settlements import (
+    SettlementReceipt,
 )
 
 

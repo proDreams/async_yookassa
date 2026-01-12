@@ -5,17 +5,17 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.authorization_details import (
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.authorization_details import (
     AuthorizationDetails,
 )
-from async_yookassa.models.payment_submodels.cancellation_details import (
+from async_yookassa.models.payment.cancellation_details import (
     CancellationDetails,
 )
-from async_yookassa.models.payment_submodels.confirmation import ConfirmationUnion
-from async_yookassa.models.payment_submodels.deal import Deal
-from async_yookassa.models.payment_submodels.invoice_details import InvoiceDetails
-from async_yookassa.models.payment_submodels.payment_method import (
+from async_yookassa.models.payment.confirmation import ConfirmationUnion
+from async_yookassa.models.payment.deal import Deal
+from async_yookassa.models.payment.invoice_details import InvoiceDetails
+from async_yookassa.models.payment.methods.base import (
     AlfabankPaymentMethod,
     B2BSberbankPaymentMethod,
     BankCardPaymentMethod,
@@ -27,8 +27,8 @@ from async_yookassa.models.payment_submodels.payment_method import (
     TPayPaymentMethod,
     YooMoneyPaymentMethod,
 )
-from async_yookassa.models.payment_submodels.recipient import RecipientResponse
-from async_yookassa.models.payment_submodels.transfers import TransferResponse
+from async_yookassa.models.payment.recipient import RecipientResponse
+from async_yookassa.models.payment.transfers import TransferResponse
 
 PaymentMethodUnion = Annotated[
     Union[

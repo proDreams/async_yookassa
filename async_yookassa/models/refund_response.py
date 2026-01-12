@@ -3,11 +3,11 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
 from async_yookassa.enums.payment import PaymentStatus
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.cancellation_details import RefundDetails
-from async_yookassa.models.payment_submodels.deal import DealRefund
-from async_yookassa.models.payment_submodels.payment_method import PaymentMethodRefund
-from async_yookassa.models.payment_submodels.transfers import TransferBase
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.cancellation_details import RefundDetails
+from async_yookassa.models.payment.deal import DealRefund
+from async_yookassa.models.payment.methods.base import PaymentMethodRefund
+from async_yookassa.models.payment.transfers import TransferBase
 
 
 class RefundResponse(BaseModel):

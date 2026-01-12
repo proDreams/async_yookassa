@@ -4,7 +4,7 @@ from pydantic import Field, field_validator
 
 from async_yookassa.enums.payment import PaymentOrderType
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class PaymentOrderPeriod(ModelConfigBase):

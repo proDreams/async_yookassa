@@ -3,7 +3,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from async_yookassa.enums.payout import PayoutTypeEnum
-from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
+from async_yookassa.models.payment.methods.card import (
     CardBase,
 )
 

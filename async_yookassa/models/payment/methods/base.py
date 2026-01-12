@@ -5,22 +5,22 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from async_yookassa.enums.payment import PaymentMethodStatus, PaymentMethodType
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.payment_method_submodels.articles import (
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.methods.articles import (
     ArticleRefund,
     ArticleResponse,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.card import (
+from async_yookassa.models.payment.methods.card import (
     CardResponse,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.electronic_certificate import (
+from async_yookassa.models.payment.methods.electronic_certificate import (
     ElectronicCertificate,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.payer_bank_details import (
+from async_yookassa.models.payment.methods.payer_bank_details import (
     B2BSBPayerBankDetails,
     SBPPayerBankDetails,
 )
-from async_yookassa.models.payment_submodels.payment_method_submodels.vat_data import (
+from async_yookassa.models.payment.methods.vat_data import (
     VatDataUnion,
 )
 

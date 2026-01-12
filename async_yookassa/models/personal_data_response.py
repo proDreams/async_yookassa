@@ -7,7 +7,7 @@ from async_yookassa.enums.personal_data_enums import (
     PersonalDataStatusEnum,
     PersonalDataTypeEnum,
 )
-from async_yookassa.models.payment_submodels.cancellation_details import (
+from async_yookassa.models.payment.cancellation_details import (
     PersonalDataDetails,
 )
 

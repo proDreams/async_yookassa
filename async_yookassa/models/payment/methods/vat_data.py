@@ -4,7 +4,7 @@ from pydantic import Field
 
 from async_yookassa.enums.vat_data import RateEnum, VatDataTypeEnum
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class UntaxedVatData(ModelConfigBase):

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from async_yookassa.enums.me import MeStatusEnum, PayoutMethodsEnum
 from async_yookassa.enums.payment import PaymentMethodType
 from async_yookassa.models.me_submodels.fiscalization import Fiscalization
-from async_yookassa.models.payment_submodels.amount import Amount
+from async_yookassa.models.payment.amount import Amount
 
 
 class Me(BaseModel):

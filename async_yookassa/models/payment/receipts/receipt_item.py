@@ -8,14 +8,14 @@ from async_yookassa.enums.agent_type import AgentTypeEnum
 from async_yookassa.enums.item_measure import ItemMeasureEnum
 from async_yookassa.enums.payment_subject import PaymentModeEnum, PaymentSubjectEnum
 from async_yookassa.models.base import ModelConfigBase
-from async_yookassa.models.payment_submodels.amount import Amount
-from async_yookassa.models.payment_submodels.receipt_submodels.mark_code_info import (
+from async_yookassa.models.payment.amount import Amount
+from async_yookassa.models.payment.receipts.mark_code_info import (
     MarkCodeInfo,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.mark_quantity import (
+from async_yookassa.models.payment.receipts.mark_quantity import (
     MarkQuantity,
 )
-from async_yookassa.models.payment_submodels.receipt_submodels.payment_subject_industry_details import (
+from async_yookassa.models.payment.receipts.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
 from async_yookassa.models.receipt_submodels.supplier import Supplier

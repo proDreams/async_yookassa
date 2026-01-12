@@ -2,8 +2,8 @@ import re
 
 from pydantic import BaseModel, Field, field_validator
 
-from async_yookassa.models.payment_submodels.airline_submodels.legs import Leg
-from async_yookassa.models.payment_submodels.airline_submodels.passengers import (
+from async_yookassa.models.payment.airline_legs import Leg
+from async_yookassa.models.payment.airline_passengers import (
     Passenger,
 )
 

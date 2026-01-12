@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 from async_yookassa.models.invoice_submodels.cart import Cart
 from async_yookassa.models.invoice_submodels.delivery_method import DeliveryMethod
-from async_yookassa.models.payment_request import PaymentData
+from async_yookassa.models.payment.request import PaymentData
 
 
 class InvoiceRequest(BaseModel):
