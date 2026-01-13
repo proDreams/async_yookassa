@@ -1,10 +1,11 @@
 from datetime import datetime
-from typing import Annotated, Any, Literal, Union
+from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.base import ModelConfigBase
+from async_yookassa.models.list_options_base import ListOptionsBase
 from async_yookassa.models.payment.amount import Amount
 from async_yookassa.models.payment.authorization_details import (
     AuthorizationDetails,
@@ -15,36 +16,9 @@ from async_yookassa.models.payment.cancellation_details import (
 from async_yookassa.models.payment.confirmation import ConfirmationUnion
 from async_yookassa.models.payment.deal import Deal
 from async_yookassa.models.payment.invoice_details import InvoiceDetails
-from async_yookassa.models.payment.methods.base import (
-    AlfabankPaymentMethod,
-    B2BSberbankPaymentMethod,
-    BankCardPaymentMethod,
-    ElectronicCertificatePaymentMethod,
-    GenericPaymentMethod,
-    SberLoanPaymentMethod,
-    SberPayPaymentMethod,
-    SBPPaymentMethod,
-    TPayPaymentMethod,
-    YooMoneyPaymentMethod,
-)
+from async_yookassa.models.payment.methods.base import PaymentMethodUnion
 from async_yookassa.models.payment.recipient import RecipientResponse
 from async_yookassa.models.payment.transfers import TransferResponse
-
-PaymentMethodUnion = Annotated[
-    Union[
-        SberLoanPaymentMethod,
-        AlfabankPaymentMethod,
-        BankCardPaymentMethod,
-        SBPPaymentMethod,
-        B2BSberbankPaymentMethod,
-        ElectronicCertificatePaymentMethod,
-        YooMoneyPaymentMethod,
-        SberPayPaymentMethod,
-        TPayPaymentMethod,
-        GenericPaymentMethod,
-    ],
-    Field(discriminator="type"),
-]
 
 
 class PaymentResponse(ModelConfigBase):
@@ -73,21 +47,13 @@ class PaymentResponse(ModelConfigBase):
     invoice_details: InvoiceDetails | None = None
 
 
-class PaymentListOptions(BaseModel):
-    created_at_gte: datetime | None = Field(default=None, serialization_alias="created_at.gte")
-    created_at_gt: datetime | None = Field(default=None, serialization_alias="created_at.gt")
-    created_at_lte: datetime | None = Field(default=None, serialization_alias="created_at.lte")
-    created_at_lt: datetime | None = Field(default=None, serialization_alias="created_at.lt")
+class PaymentListOptions(ListOptionsBase):
     captured_at_gte: datetime | None = Field(default=None, serialization_alias="captured_at.gte")
     captured_at_gt: datetime | None = Field(default=None, serialization_alias="captured_at.gt")
     captured_at_lte: datetime | None = Field(default=None, serialization_alias="captured_at.lte")
     captured_at_lt: datetime | None = Field(default=None, serialization_alias="captured_at.lt")
     payment_method: str | None = None
-    status: Literal["pending", "waiting_for_capture", "succeeded", "canceled"] | str | None = None
-    limit: int | None = Field(default=10, ge=1, le=100)
-    cursor: str | None = None
-
-    model_config = ConfigDict(populate_by_name=True)
+    status: Literal["pending", "waiting_for_capture", "succeeded", "canceled"] | None = None
 
 
 class PaymentListResponse(BaseModel):

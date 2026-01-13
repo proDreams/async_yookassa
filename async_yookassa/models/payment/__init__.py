@@ -1,20 +1,20 @@
-from .request import PaymentRequest
-from .response import PaymentResponse
-from .capture import CapturePaymentRequest
-from .amount import Amount
 from .airline import Airline
-from .confirmation import ConfirmationUnion, ConfirmationRequestUnion
-from .deal import Deal
-from .order import PaymentOrder
-from .recipient import Recipient, RecipientResponse
-from .receiver import ReceiverUnion
-from .transfers import TransferBase, TransferResponse
-from .settlements import Settlement, SettlementReceipt
-from .authorization_details import AuthorizationDetails
-from .cancellation_details import CancellationDetails
-from .invoice_details import InvoiceDetails
 from .airline_legs import Leg
 from .airline_passengers import Passenger
+from .amount import Amount
+from .authorization_details import AuthorizationDetails
+from .cancellation_details import CancellationDetails
+from .capture import CapturePaymentRequest
+from .confirmation import ConfirmationRequestUnion, ConfirmationUnion
+from .deal import Deal
+from .invoice_details import InvoiceDetails
+from .order import PaymentOrder
+from .receiver import ReceiverUnion
+from .recipient import Recipient, RecipientResponse
+from .request import PaymentRequest
+from .response import PaymentResponse
+from .settlements import Settlement, SettlementReceipt
+from .transfers import Transfer, TransferResponse
 
 __all__ = [
     "PaymentRequest",
@@ -29,7 +29,7 @@ __all__ = [
     "Recipient",
     "RecipientResponse",
     "ReceiverUnion",
-    "TransferBase",
+    "Transfer",
     "TransferResponse",
     "Settlement",
     "SettlementReceipt",

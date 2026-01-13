@@ -27,4 +27,4 @@ class ArticleResponse(ArticleBase):
 
 class ArticleRefund(ArticleBase):
     payment_article_number: int = Field(ge=1, le=999)
-    quantity: int
+    quantity: int = Field(ge=1)

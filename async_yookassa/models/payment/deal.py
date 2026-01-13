@@ -13,5 +13,5 @@ class Deal(DealBase):
     settlements: list[Settlement]
 
 
-class DealRefund(DealBase):
+class DealRefund(BaseModel):
     refund_settlements: list[Settlement]

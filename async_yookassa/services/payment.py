@@ -141,14 +141,10 @@ class PaymentService(BaseService):
         :param params: Параметры фильтрации (PaymentListOptions)
         :return: PaymentListResponse
         """
-        query_params = {}
-        if params:
-            if isinstance(params, dict):
-                query_params.update(params)
-            elif isinstance(params, PaymentListOptions):
-                query_params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+        if isinstance(params, PaymentListOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
 
-        response = await self._get(self.BASE_PATH, query_params=query_params)
+        response = await self._get(self.BASE_PATH, query_params=params)
         return PaymentListResponse(**response)
 
     def _add_cms_metadata(self, request: PaymentRequest) -> PaymentRequest:

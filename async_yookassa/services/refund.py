@@ -3,8 +3,8 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.refund_request import RefundRequest
-from async_yookassa.models.refund_response import RefundListResponse, RefundResponse
+from async_yookassa.models.refund.request import RefundListOptions, RefundRequest
+from async_yookassa.models.refund.response import RefundListResponse, RefundResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -39,13 +39,11 @@ class RefundService(BaseService):
         :return: RefundResponse
         """
         if isinstance(params, dict):
-            request = RefundRequest(**params)
+            body = params
         elif isinstance(params, RefundRequest):
-            request = params
+            body = self._serialize_request(params)
         else:
             raise TypeError("Invalid params value type")
-
-        body = self._serialize_request(request)
 
         response = await self._post(
             self.BASE_PATH,
@@ -56,7 +54,7 @@ class RefundService(BaseService):
 
     async def list(
         self,
-        params: dict[str, str] | None = None,
+        params: dict[str, Any] | RefundListOptions | None = None,
     ) -> RefundListResponse:
         """
         Возвращает список возвратов.
@@ -64,5 +62,8 @@ class RefundService(BaseService):
         :param params: Параметры фильтрации
         :return: RefundListResponse
         """
+        if isinstance(params, RefundListOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+
         response = await self._get(self.BASE_PATH, query_params=params)
         return RefundListResponse(**response)

@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from typing import Any, Literal
+from typing import Annotated, Any, Literal, Union
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -88,10 +88,13 @@ class BankCardPaymentMethod(PaymentMethodBase):
     card: CardResponse | None = None
 
 
-class SBPPaymentMethod(PaymentMethodBase):
+class SBPPaymentMethodBase(PaymentMethodBase):
     type: Literal[PaymentMethodType.sbp]
-    payer_bank_details: SBPPayerBankDetails | None = None
     sbp_operation_id: str | None = None
+
+
+class SBPPaymentMethodResponse(PaymentMethodBase):
+    payer_bank_details: SBPPayerBankDetails | None = None
 
 
 class B2BSberbankPaymentMethod(PaymentMethodBase):
@@ -101,10 +104,17 @@ class B2BSberbankPaymentMethod(PaymentMethodBase):
     vat_data: VatDataUnion
 
 
-class ElectronicCertificatePaymentMethod(BankCardPaymentMethod):
+class ElectronicCertificatePaymentMethodBase(BankCardPaymentMethod):
     type: Literal[PaymentMethodType.electronic_certificate]
-    articles: ArticleResponse | None = None
     electronic_certificate: ElectronicCertificate | None = None
+
+
+class ElectronicCertificatePaymentMethodResponse(ElectronicCertificatePaymentMethodBase):
+    articles: ArticleResponse | None = None
+
+
+class ElectronicCertificatePaymentMethodRefund(ElectronicCertificatePaymentMethodBase):
+    articles: ArticleRefund | None = None
 
 
 class YooMoneyPaymentMethod(PaymentMethodBase):
@@ -121,5 +131,23 @@ class TPayPaymentMethod(BankCardPaymentMethod):
     type: Literal[PaymentMethodType.tinkoff_bank]
 
 
-class PaymentMethodRefund(PaymentMethodBase):
-    articles: ArticleRefund | None = None
+PaymentMethodUnion = Annotated[
+    Union[
+        SberLoanPaymentMethod,
+        AlfabankPaymentMethod,
+        BankCardPaymentMethod,
+        SBPPaymentMethodResponse,
+        B2BSberbankPaymentMethod,
+        ElectronicCertificatePaymentMethodResponse,
+        YooMoneyPaymentMethod,
+        SberPayPaymentMethod,
+        TPayPaymentMethod,
+        GenericPaymentMethod,
+    ],
+    Field(discriminator="type"),
+]
+
+PaymentMethodRefundUnion = Annotated[
+    Union[SBPPaymentMethodResponse, ElectronicCertificatePaymentMethodRefund],
+    Field(discriminator="type"),
+]

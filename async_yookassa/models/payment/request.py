@@ -4,7 +4,7 @@ from typing import Any, Self
 
 from pydantic import EmailStr, Field, model_validator
 
-from async_yookassa.enums.payment import PaymentMethodType, PaymentStatementType, PaymentStatementDeliveryMethod
+from async_yookassa.enums.payment import PaymentMethodType, PaymentStatementDeliveryMethod, PaymentStatementType
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment.airline import Airline
 from async_yookassa.models.payment.amount import Amount
@@ -15,7 +15,7 @@ from async_yookassa.models.payment.order import PaymentOrder
 from async_yookassa.models.payment.receipts.base import Receipt
 from async_yookassa.models.payment.receiver import ReceiverUnion
 from async_yookassa.models.payment.recipient import Recipient
-from async_yookassa.models.payment.transfers import TransferBase
+from async_yookassa.models.payment.transfers import Transfer
 
 
 class PaymentData(ModelConfigBase):
@@ -45,7 +45,7 @@ class PaymentRequest(PaymentData):
     payment_method_data: PaymentMethodData | None = None
     confirmation: ConfirmationRequestUnion | None = None
     airline: Airline | None = None
-    transfers: list[TransferBase] | None = None
+    transfers: list[Transfer] | None = None
     deal: Deal | None = None
     merchant_customer_id: str | None = Field(max_length=200, default=None)
     payment_order: PaymentOrder | None = None
