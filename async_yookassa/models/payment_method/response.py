@@ -2,8 +2,8 @@ from async_yookassa.enums.payment import PaymentMethodStatus
 from async_yookassa.enums.payment_methods import PaymentMethodType
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment.methods.card import CardResponse
-from async_yookassa.models.payment_methods.confirmation import RedirectConfirmationResponse
-from async_yookassa.models.payment_methods.holder import HolderResponse
+from async_yookassa.models.payment_method.confirmation import RedirectConfirmationResponse
+from async_yookassa.models.payment_method.holder import HolderResponse
 
 
 class PaymentMethodResponse(ModelConfigBase):

@@ -1,5 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class DeliveryMethodTypeEnum(str, Enum):
-    self = "self"
+class DeliveryMethodType(StrEnum):
+    SELF = "self"
+    SMS = "sms"
+    EMAIL = "email"
