@@ -1,8 +1,9 @@
 import re
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, Field, field_validator
 
-from async_yookassa.enums.payment import CardType, CardSource
+from async_yookassa.enums.payment import CardSource, CardType
+from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment.methods.card_product import (
     CardProduct,
 )
@@ -60,7 +61,7 @@ class CardRequest(CardBase):
         return value
 
 
-class CardResponse(BaseModel):
+class CardResponse(ModelConfigBase):
     first6: str | None = None
     last4: str
     expiry_year: str
@@ -70,8 +71,6 @@ class CardResponse(BaseModel):
     issuer_country: str | None = Field(min_length=2, max_length=2, default=None)
     issuer_name: str | None = None
     source: CardSource | None = None
-
-    model_config = ConfigDict(use_enum_values=True)
 
     @field_validator("first6", mode="before")
     def validate_first6(cls, value: str | None) -> str | None:

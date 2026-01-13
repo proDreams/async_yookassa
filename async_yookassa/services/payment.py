@@ -133,7 +133,7 @@ class PaymentService(BaseService):
 
     async def list(
         self,
-        params: PaymentListOptions | None = None,
+        params: dict[str, Any] | PaymentListOptions | None = None,
     ) -> PaymentListResponse:
         """
         Возвращает список платежей.
@@ -143,7 +143,10 @@ class PaymentService(BaseService):
         """
         query_params = {}
         if params:
-            query_params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+            if isinstance(params, dict):
+                query_params.update(params)
+            elif isinstance(params, PaymentListOptions):
+                query_params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
 
         response = await self._get(self.BASE_PATH, query_params=query_params)
         return PaymentListResponse(**response)
