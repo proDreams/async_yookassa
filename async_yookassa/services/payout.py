@@ -57,13 +57,11 @@ class PayoutService(BaseService):
         """
 
         if isinstance(params, dict):
-            request = PayoutRequest(**params)
+            body = params
         elif isinstance(params, PayoutRequest):
-            request = params
+            body = self._serialize_request(params)
         else:
             raise TypeError("Invalid params value type")
-
-        body = self._serialize_request(request)
 
         response = await self._post(
             self.BASE_PATH,

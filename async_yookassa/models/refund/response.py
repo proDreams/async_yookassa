@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.base import ModelConfigBase
 from async_yookassa.models.payment.amount import Amount
-from async_yookassa.models.payment.cancellation_details import RefundDetails
+from async_yookassa.models.payment.cancellation_details import CancellationDetails
 from async_yookassa.models.payment.deal import DealRefund
 from async_yookassa.models.payment.methods.base import PaymentMethodRefundUnion
 from async_yookassa.models.payment.transfers import TransferBase
@@ -20,7 +20,7 @@ class RefundResponse(ModelConfigBase):
     id: str = Field(min_length=36, max_length=36)
     payment_id: str = Field(min_length=36, max_length=36)
     status: PaymentStatus
-    cancellation_details: RefundDetails | None = None
+    cancellation_details: CancellationDetails | None = None
     receipt_registration: PaymentStatus | None = None
     created_at: datetime
     amount: Amount

@@ -10,4 +10,3 @@ class SbpBank(BaseModel):
 class SbpBankListResponse(BaseModel):
     type: str
     items: list[SbpBank]
-    next_cursor: str | None = None

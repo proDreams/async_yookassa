@@ -5,10 +5,10 @@ from pydantic import BaseModel, Field
 
 from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.payment.amount import Amount
-from async_yookassa.models.payment.cancellation_details import PayoutDetails
+from async_yookassa.models.payment.cancellation_details import CancellationDetails
 from async_yookassa.models.payment.deal import DealBase
 from async_yookassa.models.payout.payout_destination import PayoutDestinationUnion
-from async_yookassa.models.payout_submodels.receipt_data import ReceiptDataResponse
+from async_yookassa.models.payout.receipt_data import ReceiptDataResponse
 
 
 class PayoutResponse(BaseModel):
@@ -22,6 +22,6 @@ class PayoutResponse(BaseModel):
     deal: DealBase | None = None
     self_employed: DealBase | None = None
     receipt: ReceiptDataResponse | None = None
-    cancellation_details: PayoutDetails | None = None
+    cancellation_details: CancellationDetails | None = None
     metadata: dict[str, Any] | None = None
     test: bool
