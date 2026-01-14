@@ -1,12 +1,11 @@
 from datetime import datetime
 from typing import Any, Literal
 
-
 from async_yookassa.enums.personal_data_enums import PersonalDataTypeEnum
 from async_yookassa.models.base import ModelConfigBase
 
 
-class SBPPersonalData(ModelConfigBase):
+class SBPPersonalDataRequest(ModelConfigBase):
     type: Literal[PersonalDataTypeEnum.sbp_payout_recipient]
     last_name: str
     first_name: str
@@ -14,5 +13,5 @@ class SBPPersonalData(ModelConfigBase):
     metadata: dict[str, Any] | None = None
 
 
-class PayoutStatementRecipientPersonalData(SBPPersonalData):
+class PayoutStatementRecipientPersonalDataRequest(SBPPersonalDataRequest):
     birthdate: datetime | None = None

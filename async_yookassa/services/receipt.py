@@ -3,8 +3,7 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.receipt.request import ReceiptListOptions, ReceiptRequest
-from async_yookassa.models.receipt.response import ReceiptListResponse, ReceiptResponse
+from async_yookassa.models.receipt import ReceiptListOptions, ReceiptListResponse, ReceiptRequest, ReceiptResponse
 from async_yookassa.services.base import BaseService
 
 

@@ -1,4 +1,7 @@
-from .request import InvoiceRequest
-from .response import InvoiceResponse
+from async_yookassa.models.invoice.request import InvoiceRequest
+from async_yookassa.models.invoice.response import InvoiceResponse
 
-__all__ = ["InvoiceResponse", "InvoiceRequest"]
+__all__ = [
+    "InvoiceResponse",
+    "InvoiceRequest",
+]

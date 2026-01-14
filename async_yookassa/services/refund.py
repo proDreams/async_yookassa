@@ -3,8 +3,7 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.refund.request import RefundListOptions, RefundRequest
-from async_yookassa.models.refund.response import RefundListResponse, RefundResponse
+from async_yookassa.models.refund import RefundListOptions, RefundListResponse, RefundRequest, RefundResponse
 from async_yookassa.services.base import BaseService
 
 

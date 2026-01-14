@@ -3,9 +3,8 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.deal.request import DealListOptions, DealRequest
-from async_yookassa.models.deal.response import DealListResponse, DealResponse
-from async_yookassa.services.base import BaseService
+from async_yookassa.models.deal import DealListOptions, DealListResponse, DealRequest, DealResponse
+from async_yookassa.services import BaseService
 
 
 class DealService(BaseService):

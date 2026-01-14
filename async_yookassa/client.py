@@ -13,10 +13,14 @@ from async_yookassa._http import HttpClient
 if TYPE_CHECKING:
     from async_yookassa.services.deal import DealService
     from async_yookassa.services.invoice import InvoiceService
+    from async_yookassa.services.me import MeService
     from async_yookassa.services.payment import PaymentService
+    from async_yookassa.services.payment_methods import PaymentMethodsService
     from async_yookassa.services.payout import PayoutService
+    from async_yookassa.services.personal_data import PersonalDataService
     from async_yookassa.services.receipt import ReceiptService
     from async_yookassa.services.refund import RefundService
+    from async_yookassa.services.sbp_bank import SBPBanksService
     from async_yookassa.services.webhook import WebhookService
 
 
@@ -39,7 +43,7 @@ class YooKassaClient:
     ```
     """
 
-    __version__ = "0.6.0rc2"
+    __version__ = "1.0.0"
 
     def __init__(
         self,
@@ -76,16 +80,17 @@ class YooKassaClient:
             user_agent_header=self._build_user_agent(),
         )
 
-        # Lazy-initialized services
         self._payment: PaymentService | None = None
+        self._payment_methods: PaymentMethodsService | None = None
+        self._personal_data: PersonalDataService | None = None
         self._refund: RefundService | None = None
         self._receipt: ReceiptService | None = None
         self._payout: PayoutService | None = None
         self._invoice: InvoiceService | None = None
         self._deal: DealService | None = None
         self._webhook: WebhookService | None = None
-
-    # === Context Manager ===
+        self._me: MeService | None = None
+        self._sbp_bank: SBPBanksService | None = None
 
     async def __aenter__(self) -> Self:
         return self
@@ -98,8 +103,6 @@ class YooKassaClient:
         if self._owns_http:
             await self._http.aclose()
 
-    # === Services (lazy loading) ===
-
     @property
     def payment(self) -> PaymentService:
         """Сервис для работы с платежами."""
@@ -108,6 +111,15 @@ class YooKassaClient:
 
             self._payment = PaymentService(self._http_client)
         return self._payment
+
+    @property
+    def payment_methods(self) -> PaymentMethodsService:
+        """Сервис для работы с платежами."""
+        if self._payment_methods is None:
+            from async_yookassa.services.payment_methods import PaymentMethodsService
+
+            self._payment_methods = PaymentMethodsService(self._http_client)
+        return self._payment_methods
 
     @property
     def refund(self) -> RefundService:
@@ -163,7 +175,32 @@ class YooKassaClient:
             self._webhook = WebhookService(self._http_client)
         return self._webhook
 
-    # === User Agent ===
+    @property
+    def me(self) -> MeService:
+        """Сервис для работы с вебхуками."""
+        if self._me is None:
+            from async_yookassa.services.me import MeService
+
+            self._me = MeService(self._http_client)
+        return self._me
+
+    @property
+    def personal_data(self) -> PersonalDataService:
+        """Сервис для работы с вебхуками."""
+        if self._personal_data is None:
+            from async_yookassa.services.personal_data import PersonalDataService
+
+            self._personal_data = PersonalDataService(self._http_client)
+        return self._personal_data
+
+    @property
+    def sbp_bank(self) -> SBPBanksService:
+        """Сервис для работы с вебхуками."""
+        if self._sbp_bank is None:
+            from async_yookassa.services.sbp_bank import SBPBanksService
+
+            self._sbp_bank = SBPBanksService(self._http_client)
+        return self._sbp_bank
 
     def _build_user_agent(self) -> str:
         """Формирует User-Agent строку."""

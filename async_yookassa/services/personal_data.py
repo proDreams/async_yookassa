@@ -3,11 +3,11 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.personal_data.request import (
-    PayoutStatementRecipientPersonalData,
-    SBPPersonalData,
+from async_yookassa.models.personal_data import (
+    PayoutStatementRecipientPersonalDataRequest,
+    PersonalDataResponse,
+    SBPPersonalDataRequest,
 )
-from async_yookassa.models.personal_data.response import PersonalDataResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -29,7 +29,7 @@ class PersonalDataService(BaseService):
 
     async def create(
         self,
-        params: dict[str, Any] | SBPPersonalData | PayoutStatementRecipientPersonalData,
+        params: dict[str, Any] | SBPPersonalDataRequest | PayoutStatementRecipientPersonalDataRequest,
         idempotency_key: uuid.UUID | None = None,
     ) -> PersonalDataResponse:
         """
@@ -38,7 +38,7 @@ class PersonalDataService(BaseService):
 
         if isinstance(params, dict):
             body = params
-        elif isinstance(params, SBPPersonalData | PayoutStatementRecipientPersonalData):
+        elif isinstance(params, SBPPersonalDataRequest | PayoutStatementRecipientPersonalDataRequest):
             body = self._serialize_request(params)
         else:
             raise TypeError("Invalid params value type")

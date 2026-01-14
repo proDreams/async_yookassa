@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 
-class SbpBank(BaseModel):
+class SbpBankResponse(BaseModel):
     bank_id: str = Field(max_length=12)
     name: str = Field(max_length=128)
     bic: str = Field(max_length=9)
@@ -9,4 +9,4 @@ class SbpBank(BaseModel):
 
 class SbpBankListResponse(BaseModel):
     type: str
-    items: list[SbpBank]
+    items: list[SbpBankResponse]

@@ -1,12 +1,13 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
 
 from async_yookassa.enums.me import MeStatusEnum, PayoutMethodsEnum
 from async_yookassa.enums.payment import PaymentMethodType
-from async_yookassa.models.me_submodels.fiscalization import Fiscalization
+from async_yookassa.models.base import ModelConfigBase
+from async_yookassa.models.me.fiscalization import Fiscalization
 from async_yookassa.models.payment.amount import Amount
 
 
-class Me(BaseModel):
+class MeResponse(ModelConfigBase):
     account_id: str
     status: MeStatusEnum
     test: bool

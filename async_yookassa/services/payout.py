@@ -3,13 +3,13 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.payout.request import (
+from async_yookassa.models.payout import (
     PayoutListOptions,
     PayoutListResponse,
     PayoutRequest,
+    PayoutResponse,
     PayoutSearchOptions,
 )
-from async_yookassa.models.payout.response import PayoutResponse
 from async_yookassa.services.base import BaseService
 
 

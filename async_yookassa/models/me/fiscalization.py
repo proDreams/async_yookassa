@@ -1,8 +1,7 @@
-from pydantic import BaseModel
-
 from async_yookassa.enums.fiscalization import FiscalizationProviderEnum
+from async_yookassa.models.base import ModelConfigBase
 
 
-class Fiscalization(BaseModel):
+class Fiscalization(ModelConfigBase):
     enabled: bool
     provider: FiscalizationProviderEnum

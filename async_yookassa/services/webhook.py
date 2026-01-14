@@ -3,8 +3,7 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.webhook.request import WebhookRequest
-from async_yookassa.models.webhook.response import WebhookListResponse, WebhookResponse
+from async_yookassa.models.webhook import WebhookListResponse, WebhookRequest, WebhookResponse
 from async_yookassa.services.base import BaseService
 
 

@@ -3,8 +3,7 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.payment_method.request import PaymentMethodRequest
-from async_yookassa.models.payment_method.response import PaymentMethodResponse
+from async_yookassa.models.payment_method import PaymentMethodRequest, PaymentMethodResponse
 from async_yookassa.services.base import BaseService
 
 

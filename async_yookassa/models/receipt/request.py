@@ -43,9 +43,3 @@ class ReceiptListOptions(ListOptionsBase):
     payment_id: str | None = None
     refund_id: str | None = None
     status: Literal["pending", "succeeded", "canceled"] | None = None
-
-
-class ReceiptListResponse(BaseModel):
-    type: str
-    items: list[ReceiptRequest]
-    next_cursor: str | None = None
