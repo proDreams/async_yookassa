@@ -263,6 +263,6 @@ class PaymentsProvider(Provider):
 - [Поддержать через Tribute в Telegram](https://t.me/tribute/app?startapp=dyds)
 - [Поддержать через наш Telegram-бот](https://t.me/press_any_button_bot?start=donate)
 
-## 📄 Лицензия
+## Лицензия
 
 Проект распространяется под лицензией **MIT**. Подробнее см. файл `LICENSE`.
