@@ -1,7 +1,5 @@
 """Base service class for all YooKassa services."""
 
-from __future__ import annotations
-
 import uuid
 from abc import ABC
 from typing import TYPE_CHECKING, Any

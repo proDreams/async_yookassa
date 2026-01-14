@@ -1,11 +1,9 @@
 """Invoice service for YooKassa API."""
 
-from __future__ import annotations
-
 import uuid
 from typing import Any
 
-from async_yookassa.models.invoice import InvoiceResponse, InvoiceRequest
+from async_yookassa.models.invoice import InvoiceRequest, InvoiceResponse
 from async_yookassa.services.base import BaseService
 
 

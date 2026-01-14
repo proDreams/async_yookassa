@@ -1,7 +1,5 @@
 """Me service for YooKassa API."""
 
-from __future__ import annotations
-
 from async_yookassa.models.me import MeResponse
 from async_yookassa.services.base import BaseService
 

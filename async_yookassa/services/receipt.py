@@ -1,7 +1,5 @@
 """Receipt service for YooKassa API."""
 
-from __future__ import annotations
-
 import uuid
 from typing import Any
 

@@ -1,7 +1,5 @@
 """SBP Banks service for YooKassa API."""
 
-from __future__ import annotations
-
 from async_yookassa.models.sbp_bank import SbpBankListResponse
 from async_yookassa.services.base import BaseService
 
