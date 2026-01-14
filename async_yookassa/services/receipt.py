@@ -1,5 +1,7 @@
 """Receipt service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -8,16 +10,31 @@ from async_yookassa.services.base import BaseService
 
 
 class ReceiptService(BaseService):
-    """Сервис для работы с чеками."""
+    """
+    Сервис для работы с чеками.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание чека
+        receipt = await client.receipt.create(ReceiptRequest(...))
+
+        # Получение чека
+        receipt = await client.receipt.find_one("receipt_id")
+
+        # Список чеков
+        receipts = await client.receipt.list()
+    ```
+    """
 
     BASE_PATH = "/receipts"
 
     async def find_one(self, receipt_id: str) -> ReceiptResponse:
         """
-        Возвращает информацию о чеке.
+        Получение информации о чеке.
 
         :param receipt_id: Уникальный идентификатор чека
-        :return: ReceiptResponse
+        :return: Объект ответа ReceiptResponse
         """
         if not isinstance(receipt_id, str):
             raise ValueError("Invalid receipt_id value")
@@ -31,9 +48,9 @@ class ReceiptService(BaseService):
         """
         Создание чека.
 
-        :param params: Данные чека
-        :param idempotency_key: Ключ идемпотентности
-        :return: ReceiptResponse
+        :param params: Параметры создания чека (словарь или объект ReceiptRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа ReceiptResponse
         """
         if isinstance(params, dict):
             body = params
@@ -51,10 +68,10 @@ class ReceiptService(BaseService):
 
     async def list(self, params: dict[str, Any] | ReceiptListOptions | None = None) -> ReceiptListResponse:
         """
-        Возвращает список чеков.
+        Получение списка чеков с фильтрацией.
 
-        :param params: Параметры фильтрации
-        :return: ReceiptListResponse
+        :param params: Параметры фильтрации (словарь или объект ReceiptListOptions)
+        :return: Объект ответа ReceiptListResponse
         """
 
         if isinstance(params, ReceiptListOptions):

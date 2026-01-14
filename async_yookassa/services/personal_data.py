@@ -1,5 +1,7 @@
 """Personal Data service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -12,13 +14,28 @@ from async_yookassa.services.base import BaseService
 
 
 class PersonalDataService(BaseService):
-    """Сервис для работы с персональными данными."""
+    """
+    Сервис для работы с персональными данными.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Сохранение персональных данных
+        data = await client.personal_data.create(SBPPersonalDataRequest(...))
+
+        # Получение данных
+        data = await client.personal_data.find_one("data_id")
+    ```
+    """
 
     BASE_PATH = "/personal_data"
 
     async def find_one(self, personal_data_id: str) -> PersonalDataResponse:
         """
-        placeholder
+        Получение информации о сохраненных персональных данных.
+
+        :param personal_data_id: Уникальный идентификатор персональных данных
+        :return: Объект ответа PersonalDataResponse
         """
 
         if not isinstance(personal_data_id, str):
@@ -33,7 +50,11 @@ class PersonalDataService(BaseService):
         idempotency_key: uuid.UUID | None = None,
     ) -> PersonalDataResponse:
         """
-        placeholder
+        Создание (сохранение) персональных данных.
+
+        :param params: Параметры сохранения (SBPPersonalDataRequest или PayoutStatementRecipientPersonalDataRequest)
+        :param idempotency_key: Ключ идемпотентности
+        :return: Объект ответа PersonalDataResponse
         """
 
         if isinstance(params, dict):

@@ -1,5 +1,7 @@
 """Payment service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -41,10 +43,10 @@ class PaymentService(BaseService):
 
     async def find_one(self, payment_id: str) -> PaymentResponse:
         """
-        Возвращает информацию о платеже.
+        Получение информации о платеже.
 
         :param payment_id: Уникальный идентификатор платежа
-        :return: PaymentResponse
+        :return: Объект ответа PaymentResponse
         """
         if not isinstance(payment_id, str):
             raise ValueError("Invalid payment_id value")
@@ -60,9 +62,9 @@ class PaymentService(BaseService):
         """
         Создание платежа.
 
-        :param params: Данные платежа (dict или PaymentRequest)
-        :param idempotency_key: Ключ идемпотентности
-        :return: PaymentResponse
+        :param params: Параметры создания платежа (словарь или объект PaymentRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа PaymentResponse
         """
         if isinstance(params, dict):
             request = PaymentRequest(**params)
@@ -91,9 +93,9 @@ class PaymentService(BaseService):
         Подтверждение платежа.
 
         :param payment_id: Уникальный идентификатор платежа
-        :param params: Данные для подтверждения (опционально)
-        :param idempotency_key: Ключ идемпотентности
-        :return: PaymentResponse
+        :param params: Параметры подтверждения (словарь или объект CapturePaymentRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа PaymentResponse
         """
         if not isinstance(payment_id, str):
             raise ValueError("Invalid payment_id value")
@@ -124,8 +126,8 @@ class PaymentService(BaseService):
         Отмена платежа.
 
         :param payment_id: Уникальный идентификатор платежа
-        :param idempotency_key: Ключ идемпотентности
-        :return: PaymentResponse
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа PaymentResponse
         """
         if not isinstance(payment_id, str):
             raise ValueError("Invalid payment_id value")
@@ -141,10 +143,10 @@ class PaymentService(BaseService):
         params: dict[str, Any] | PaymentListOptions | None = None,
     ) -> PaymentListResponse:
         """
-        Возвращает список платежей.
+        Получение списка платежей с фильтрацией.
 
-        :param params: Параметры фильтрации (PaymentListOptions)
-        :return: PaymentListResponse
+        :param params: Параметры фильтрации (словарь или объект PaymentListOptions)
+        :return: Объект ответа PaymentListResponse со списком платежей
         """
         if isinstance(params, PaymentListOptions):
             params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
@@ -153,7 +155,7 @@ class PaymentService(BaseService):
         return PaymentListResponse(**response)
 
     def _add_cms_metadata(self, request: PaymentRequest) -> PaymentRequest:
-        """Добавляет cms_name в metadata."""
+        """Добавляет информацию о CMS в метаданные платежа."""
         if request.metadata is None:
             request.metadata = {"cms_name": self.CMS_NAME}
         elif "cms_name" not in request.metadata:

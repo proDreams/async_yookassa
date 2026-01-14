@@ -1,5 +1,7 @@
 """Refund service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -8,16 +10,31 @@ from async_yookassa.services.base import BaseService
 
 
 class RefundService(BaseService):
-    """Сервис для работы с возвратами."""
+    """
+    Сервис для работы с возвратами.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание возврата
+        refund = await client.refund.create(RefundRequest(...))
+
+        # Получение возврата
+        refund = await client.refund.find_one("refund_id")
+
+        # Список возвратов
+        refunds = await client.refund.list()
+    ```
+    """
 
     BASE_PATH = "/refunds"
 
     async def find_one(self, refund_id: str) -> RefundResponse:
         """
-        Возвращает информацию о возврате.
+        Получение информации о возврате.
 
         :param refund_id: Уникальный идентификатор возврата
-        :return: RefundResponse
+        :return: Объект ответа RefundResponse
         """
         if not isinstance(refund_id, str):
             raise ValueError("Invalid refund_id value")
@@ -33,9 +50,9 @@ class RefundService(BaseService):
         """
         Создание возврата.
 
-        :param params: Данные возврата
-        :param idempotency_key: Ключ идемпотентности
-        :return: RefundResponse
+        :param params: Параметры создания возврата (словарь или объект RefundRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа RefundResponse
         """
         if isinstance(params, dict):
             body = params
@@ -56,10 +73,10 @@ class RefundService(BaseService):
         params: dict[str, Any] | RefundListOptions | None = None,
     ) -> RefundListResponse:
         """
-        Возвращает список возвратов.
+        Получение списка возвратов с фильтрацией.
 
-        :param params: Параметры фильтрации
-        :return: RefundListResponse
+        :param params: Параметры фильтрации (словарь или объект RefundListOptions)
+        :return: Объект ответа RefundListResponse
         """
         if isinstance(params, RefundListOptions):
             params = params.model_dump(mode="json", by_alias=True, exclude_none=True)

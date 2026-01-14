@@ -37,14 +37,15 @@ class HttpClient:
         headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """
-        Выполнение запроса к API.
+        Выполнение HTTP запроса к API YooKassa.
 
-        :param method: HTTP метод (GET, POST, etc.)
-        :param path: Путь запроса (например, /payments)
-        :param body: Тело запроса (JSON)
-        :param query_params: Query параметры
-        :param headers: Дополнительные заголовки
-        :return: JSON ответ
+        :param method: HTTP метод (GET, POST, PUT, DELETE)
+        :param path: Относительный путь запроса (например, /payments)
+        :param body: Тело запроса (словарь, будет преобразован в JSON)
+        :param query_params: GET параметры запроса
+        :param headers: Дополнительные заголовки запроса
+        :return: Ответ от API в виде словаря
+        :raises APIError: При ошибках API
         """
         request_headers = self._prepare_headers(headers)
         url = self._config.api_url + path
@@ -63,7 +64,11 @@ class HttpClient:
         return response.json()
 
     def _prepare_headers(self, extra_headers: dict[str, str] | None) -> dict[str, str]:
-        """Подготовка заголовков запроса."""
+        """
+        Подготовка заголовков для запроса.
+
+        Добавляет Authorization и YM-User-Agent.
+        """
         headers = {
             "Content-Type": "application/json",
             "YM-User-Agent": self._user_agent,
@@ -83,7 +88,12 @@ class HttpClient:
 
     @staticmethod
     def _handle_error(response: Response) -> None:
-        """Выбрасывает исключение по коду ошибки."""
+        """
+        Обработка ошибок HTTP ответа.
+
+        :param response: Объект ответа httpx
+        :raises: Соответствующее исключение из async_yookassa.exceptions
+        """
         status = response.status_code
 
         error_map = {

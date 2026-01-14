@@ -1,5 +1,7 @@
 """Invoice service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -8,16 +10,28 @@ from async_yookassa.services.base import BaseService
 
 
 class InvoiceService(BaseService):
-    """Сервис для работы со счетами."""
+    """
+    Сервис для работы со счетами.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание счета
+        invoice = await client.invoice.create(InvoiceRequest(...))
+
+        # Получение счета
+        invoice = await client.invoice.find_one("invoice_id")
+    ```
+    """
 
     BASE_PATH = "/invoices"
 
     async def find_one(self, invoice_id: str) -> InvoiceResponse:
         """
-        Возвращает информацию о счёте.
+        Получение информации о счёте.
 
         :param invoice_id: Уникальный идентификатор счёта
-        :return: InvoiceResponse
+        :return: Объект ответа InvoiceResponse
         """
         if not isinstance(invoice_id, str):
             raise ValueError("Invalid invoice_id value")
@@ -33,9 +47,9 @@ class InvoiceService(BaseService):
         """
         Создание счёта.
 
-        :param params: Данные счёта
-        :param idempotency_key: Ключ идемпотентности
-        :return: InvoiceResponse
+        :param params: Параметры создания счёта (словарь или объект InvoiceRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа InvoiceResponse
         """
         if isinstance(params, dict):
             body = params

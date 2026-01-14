@@ -1,17 +1,30 @@
 """SBP Banks service for YooKassa API."""
 
+from __future__ import annotations
+
 from async_yookassa.models.sbp_bank import SbpBankListResponse
 from async_yookassa.services.base import BaseService
 
 
 class SBPBanksService(BaseService):
-    """Сервис для работы с участниками СБП."""
+    """
+    Сервис для работы с участниками СБП.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Получение списка банков
+        banks = await client.sbp_bank.list()
+    ```
+    """
 
     BASE_PATH = "/sbp_banks"
 
     async def list(self) -> SbpBankListResponse:
         """
-        placeholder
+        Получение списка банков-участников СБП.
+
+        :return: Объект ответа SbpBankListResponse
         """
 
         response = await self._get(self.BASE_PATH)

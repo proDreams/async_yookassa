@@ -1,5 +1,7 @@
 """Payout service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -14,16 +16,28 @@ from async_yookassa.services.base import BaseService
 
 
 class PayoutService(BaseService):
-    """Сервис для работы с выплатами."""
+    """
+    Сервис для работы с выплатами.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание выплаты
+        payout = await client.payout.create(PayoutRequest(...))
+
+        # Получение выплаты
+        payout = await client.payout.find_one("payout_id")
+    ```
+    """
 
     BASE_PATH = "/payouts"
 
     async def find_one(self, payout_id: str) -> PayoutResponse:
         """
-        Возвращает информацию о выплате.
+        Получение информации о выплате.
 
         :param payout_id: Уникальный идентификатор выплаты
-        :return: PayoutResponse
+        :return: Объект ответа PayoutResponse
         """
 
         if not isinstance(payout_id, str):
@@ -34,7 +48,10 @@ class PayoutService(BaseService):
 
     async def find(self, params: dict[str, Any] | PayoutSearchOptions | None = None) -> PayoutListResponse:
         """
-        placeholder
+        Поиск выплат по реквизитам.
+
+        :param params: Параметры поиска (словарь или объект PayoutSearchOptions)
+        :return: Объект ответа PayoutListResponse
         """
 
         if isinstance(params, PayoutSearchOptions):
@@ -51,9 +68,9 @@ class PayoutService(BaseService):
         """
         Создание выплаты.
 
-        :param params: Данные выплаты
-        :param idempotency_key: Ключ идемпотентности
-        :return: PayoutResponse
+        :param params: Параметры создания выплаты (словарь или объект PayoutRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа PayoutResponse
         """
 
         if isinstance(params, dict):
@@ -72,7 +89,10 @@ class PayoutService(BaseService):
 
     async def list(self, params: dict[str, Any] | PayoutListOptions | None = None) -> PayoutListResponse:
         """
-        placeholder
+        Получение списка выплат с фильтрацией.
+
+        :param params: Параметры фильтрации (словарь или объект PayoutListOptions)
+        :return: Объект ответа PayoutListResponse
         """
 
         if isinstance(params, PayoutListOptions):

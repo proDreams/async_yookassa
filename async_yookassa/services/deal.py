@@ -1,5 +1,7 @@
 """Deal service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -8,16 +10,31 @@ from async_yookassa.services import BaseService
 
 
 class DealService(BaseService):
-    """Сервис для работы со сделками."""
+    """
+    Сервис для работы со сделками.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание сделки
+        deal = await client.deal.create(DealRequest(...))
+
+        # Получение сделки
+        deal = await client.deal.find_one("deal_id")
+
+        # Список сделок
+        deals = await client.deal.list()
+    ```
+    """
 
     BASE_PATH = "/deals"
 
     async def find_one(self, deal_id: str) -> DealResponse:
         """
-        Возвращает информацию о сделке.
+        Получение информации о сделке.
 
         :param deal_id: Уникальный идентификатор сделки
-        :return: DealResponse
+        :return: Объект ответа DealResponse
         """
         if not isinstance(deal_id, str):
             raise ValueError("Invalid deal_id value")
@@ -33,9 +50,9 @@ class DealService(BaseService):
         """
         Создание сделки.
 
-        :param params: Данные сделки
-        :param idempotency_key: Ключ идемпотентности
-        :return: DealResponse
+        :param params: Параметры создания сделки (словарь или объект DealRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа DealResponse
         """
         if isinstance(params, dict):
             request = DealRequest(**params)
@@ -58,10 +75,10 @@ class DealService(BaseService):
         params: dict[str, str] | DealListOptions | None = None,
     ) -> DealListResponse:
         """
-        Возвращает список сделок.
+        Получение списка сделок с фильтрацией.
 
-        :param params: Параметры фильтрации
-        :return: DealListResponse
+        :param params: Параметры фильтрации (словарь или объект DealListOptions)
+        :return: Объект ответа DealListResponse со списком сделок
         """
 
         if isinstance(params, DealListOptions):

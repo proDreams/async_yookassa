@@ -99,7 +99,7 @@ class YooKassaClient:
         await self.close()
 
     async def close(self) -> None:
-        """Закрывает HTTP клиент (если он создан нами)."""
+        """Закрывает HTTP клиент (если он был создан внутри класса)."""
         if self._owns_http:
             await self._http.aclose()
 
@@ -114,7 +114,7 @@ class YooKassaClient:
 
     @property
     def payment_methods(self) -> PaymentMethodsService:
-        """Сервис для работы с платежами."""
+        """Сервис для работы со способами оплаты."""
         if self._payment_methods is None:
             from async_yookassa.services.payment_methods import PaymentMethodsService
 
@@ -177,7 +177,7 @@ class YooKassaClient:
 
     @property
     def me(self) -> MeService:
-        """Сервис для работы с вебхуками."""
+        """Сервис для получения информации о магазине."""
         if self._me is None:
             from async_yookassa.services.me import MeService
 
@@ -186,7 +186,7 @@ class YooKassaClient:
 
     @property
     def personal_data(self) -> PersonalDataService:
-        """Сервис для работы с вебхуками."""
+        """Сервис для работы с персональными данными."""
         if self._personal_data is None:
             from async_yookassa.services.personal_data import PersonalDataService
 
@@ -195,7 +195,7 @@ class YooKassaClient:
 
     @property
     def sbp_bank(self) -> SBPBanksService:
-        """Сервис для работы с вебхуками."""
+        """Сервис для получения списка банков-участников СБП."""
         if self._sbp_bank is None:
             from async_yookassa.services.sbp_bank import SBPBanksService
 

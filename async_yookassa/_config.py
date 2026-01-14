@@ -35,5 +35,9 @@ class ClientConfig:
 
     @property
     def is_oauth(self) -> bool:
-        """Возвращает True если используется OAuth авторизация."""
+        """
+        Проверяет использование OAuth авторизации.
+
+        :return: True, если установлен auth_token, иначе False.
+        """
         return self.auth_token is not None

@@ -1,5 +1,7 @@
 """Payment Methods service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -9,15 +11,27 @@ from async_yookassa.services.base import BaseService
 
 class PaymentMethodsService(BaseService):
     """
-    placeholder
+    Сервис для работы со способами оплаты.
 
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Список способов оплаты
+        methods = await client.payment_methods.list()
+
+        # Получение конкретного способа
+        method = await client.payment_methods.find_one("method_id")
+    ```
     """
 
     BASE_PATH = "/payment_methods"
 
     async def find_one(self, payment_method_id: str) -> PaymentMethodResponse:
         """
-        placeholder
+        Получение информации о сохраненном способе оплаты.
+
+        :param payment_method_id: Уникальный идентификатор способа оплаты
+        :return: Объект ответа PaymentMethodResponse
         """
         if not isinstance(payment_method_id, str):
             raise ValueError("Invalid payment_method_id value")
@@ -31,7 +45,11 @@ class PaymentMethodsService(BaseService):
         idempotency_key: uuid.UUID | None = None,
     ) -> PaymentMethodResponse:
         """
-        placeholder
+        Создание (сохранение) способа оплаты.
+
+        :param params: Параметры создания способа оплаты
+        :param idempotency_key: Ключ идемпотентности
+        :return: Объект ответа PaymentMethodResponse
         """
         if isinstance(params, dict):
             body = params

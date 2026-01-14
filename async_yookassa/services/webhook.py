@@ -1,5 +1,7 @@
 """Webhook service for YooKassa API."""
 
+from __future__ import annotations
+
 import uuid
 from typing import Any
 
@@ -8,7 +10,22 @@ from async_yookassa.services.base import BaseService
 
 
 class WebhookService(BaseService):
-    """Сервис для работы с вебхуками."""
+    """
+    Сервис для работы с вебхуками.
+
+    Использование:
+    ```python
+    async with YooKassaClient(...) as client:
+        # Создание вебхука
+        webhook = await client.webhook.create(WebhookRequest(...))
+
+        # Список вебхуков
+        webhooks = await client.webhook.list()
+
+        # Удаление вебхука
+        await client.webhook.delete("webhook_id")
+    ```
+    """
 
     BASE_PATH = "/webhooks"
 
@@ -18,11 +35,11 @@ class WebhookService(BaseService):
         idempotency_key: uuid.UUID | None = None,
     ) -> WebhookResponse:
         """
-        Создание вебхука.
+        Создание (подписка) вебхука.
 
-        :param params: Данные вебхука
-        :param idempotency_key: Ключ идемпотентности
-        :return: WebhookResponse
+        :param params: Параметры создании вебхука (словарь или объект WebhookRequest)
+        :param idempotency_key: Ключ идемпотентности (опционально)
+        :return: Объект ответа WebhookResponse
         """
 
         if isinstance(params, dict):
@@ -47,10 +64,10 @@ class WebhookService(BaseService):
         idempotency_key: uuid.UUID | None = None,
     ) -> None:
         """
-        Удаление вебхука.
+        Удаление (отписка) вебхука.
 
         :param webhook_id: Уникальный идентификатор вебхука
-        :param idempotency_key: Ключ идемпотентности
+        :param idempotency_key: Ключ идемпотентности (опционально)
         """
         if not isinstance(webhook_id, str):
             raise ValueError("Invalid webhook_id value")
@@ -63,9 +80,9 @@ class WebhookService(BaseService):
 
     async def list(self) -> WebhookListResponse:
         """
-        Возвращает список вебхуков.
+        Получение списка вебхуков.
 
-        :return: WebhookListResponse
+        :return: Объект ответа WebhookListResponse
         """
         response = await self._get(self.BASE_PATH)
         return WebhookListResponse(**response)
