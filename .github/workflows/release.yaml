@@ -1,0 +1,79 @@
+name: Publish to PyPI and GitHub Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "pyproject.toml"
+      - "src/**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.14"
+          enable-cache: true
+
+      - name: Check if version exists on PyPI
+        id: check_pypi
+        run: |
+          VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          NAME=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['name'])")
+
+          echo "Detected version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/$NAME/$VERSION/json)
+
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "::notice::Version $VERSION already exists on PyPI. Skipping publish."
+            echo "SKIP_PUBLISH=true" >> $GITHUB_ENV
+          else
+            echo "Version $VERSION not found on PyPI. Proceeding with publish."
+            echo "SKIP_PUBLISH=false" >> $GITHUB_ENV
+          fi
+
+      - name: Build package
+        if: env.SKIP_PUBLISH == 'false'
+        run: uv build
+
+      - name: Publish to PyPI
+        if: env.SKIP_PUBLISH == 'false'
+        run: uv publish
+
+      - name: Create GitHub Release
+        if: env.SKIP_PUBLISH == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
+          files: dist/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Telegram Notify Action
+        uses: proDreams/actions-telegram-notifier@main
+        if: always() && env.SKIP_PUBLISH == 'false'
+        with:
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          status: ${{ job.status }}
+          message: |
+            <b>New Release: v${{ env.VERSION }}</b>
+            Repository: ${{ github.repository }}
+            Actor: ${{ github.actor }}
+            Status: ${{ job.status }}
