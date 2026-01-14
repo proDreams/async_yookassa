@@ -3,8 +3,8 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.deal_request import DealRequest
-from async_yookassa.models.deal_response import DealListResponse, DealResponse
+from async_yookassa.models.deal.request import DealListOptions, DealRequest
+from async_yookassa.models.deal.response import DealListResponse, DealResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -56,7 +56,7 @@ class DealService(BaseService):
 
     async def list(
         self,
-        params: dict[str, str] | None = None,
+        params: dict[str, str] | DealListOptions | None = None,
     ) -> DealListResponse:
         """
         Возвращает список сделок.
@@ -64,5 +64,9 @@ class DealService(BaseService):
         :param params: Параметры фильтрации
         :return: DealListResponse
         """
+
+        if isinstance(params, DealListOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+
         response = await self._get(self.BASE_PATH, query_params=params)
         return DealListResponse(**response)

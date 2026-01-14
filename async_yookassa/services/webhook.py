@@ -3,8 +3,8 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.webhook_request import WebhookRequest
-from async_yookassa.models.webhook_response import WebhookListResponse, WebhookResponse
+from async_yookassa.models.webhook.request import WebhookRequest
+from async_yookassa.models.webhook.response import WebhookListResponse, WebhookResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -12,19 +12,6 @@ class WebhookService(BaseService):
     """Сервис для работы с вебхуками."""
 
     BASE_PATH = "/webhooks"
-
-    async def find_one(self, webhook_id: str) -> WebhookResponse:
-        """
-        Возвращает информацию о вебхуке.
-
-        :param webhook_id: Уникальный идентификатор вебхука
-        :return: WebhookResponse
-        """
-        if not isinstance(webhook_id, str):
-            raise ValueError("Invalid webhook_id value")
-
-        response = await self._get(f"{self.BASE_PATH}/{webhook_id}")
-        return WebhookResponse(**response)
 
     async def create(
         self,
@@ -38,6 +25,7 @@ class WebhookService(BaseService):
         :param idempotency_key: Ключ идемпотентности
         :return: WebhookResponse
         """
+
         if isinstance(params, dict):
             request = WebhookRequest(**params)
         elif isinstance(params, WebhookRequest):
