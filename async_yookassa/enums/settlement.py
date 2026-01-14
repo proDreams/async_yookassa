@@ -1,11 +1,11 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class SettlementTypeEnum(str, Enum):
+class SettlementTypeEnum(StrEnum):
     payout = "payout"
 
 
-class SettlementReceiptEnum(str, Enum):
+class SettlementReceiptEnum(StrEnum):
     cashless = "cashless"
     prepayment = "prepayment"
     postpayment = "postpayment"

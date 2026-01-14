@@ -3,8 +3,8 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.receipt_request import ReceiptRequest
-from async_yookassa.models.receipt_response import ReceiptListResponse, ReceiptResponse
+from async_yookassa.models.receipt.request import ReceiptListOptions, ReceiptRequest
+from async_yookassa.models.receipt.response import ReceiptListResponse, ReceiptResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -27,9 +27,7 @@ class ReceiptService(BaseService):
         return ReceiptResponse(**response)
 
     async def create(
-        self,
-        params: dict[str, Any] | ReceiptRequest,
-        idempotency_key: uuid.UUID | None = None,
+        self, params: dict[str, Any] | ReceiptRequest, idempotency_key: uuid.UUID | None = None
     ) -> ReceiptResponse:
         """
         Создание чека.
@@ -39,13 +37,11 @@ class ReceiptService(BaseService):
         :return: ReceiptResponse
         """
         if isinstance(params, dict):
-            request = ReceiptRequest(**params)
+            body = params
         elif isinstance(params, ReceiptRequest):
-            request = params
+            body = self._serialize_request(params)
         else:
             raise TypeError("Invalid params value type")
-
-        body = self._serialize_request(request)
 
         response = await self._post(
             self.BASE_PATH,
@@ -54,15 +50,16 @@ class ReceiptService(BaseService):
         )
         return ReceiptResponse(**response)
 
-    async def list(
-        self,
-        params: dict[str, str] | None = None,
-    ) -> ReceiptListResponse:
+    async def list(self, params: dict[str, Any] | ReceiptListOptions | None = None) -> ReceiptListResponse:
         """
         Возвращает список чеков.
 
         :param params: Параметры фильтрации
         :return: ReceiptListResponse
         """
+
+        if isinstance(params, ReceiptListOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+
         response = await self._get(self.BASE_PATH, query_params=params)
         return ReceiptListResponse(**response)
