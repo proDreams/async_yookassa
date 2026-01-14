@@ -7,9 +7,7 @@ from async_yookassa.enums.payment import PaymentStatus
 from async_yookassa.models.payment.amount import Amount
 from async_yookassa.models.payment.cancellation_details import PayoutDetails
 from async_yookassa.models.payment.deal import DealBase
-from async_yookassa.models.payout_submodels.payout_destination_data import (
-    PayoutDestinationResponse,
-)
+from async_yookassa.models.payout.payout_destination import PayoutDestinationUnion
 from async_yookassa.models.payout_submodels.receipt_data import ReceiptDataResponse
 
 
@@ -17,9 +15,10 @@ class PayoutResponse(BaseModel):
     id: str = Field(min_length=36, max_length=50)
     amount: Amount
     status: PaymentStatus
-    payout_destination: PayoutDestinationResponse
+    payout_destination: PayoutDestinationUnion
     description: str | None = Field(max_length=128, default=None)
     created_at: datetime
+    succeeded_at: datetime | None = None
     deal: DealBase | None = None
     self_employed: DealBase | None = None
     receipt: ReceiptDataResponse | None = None

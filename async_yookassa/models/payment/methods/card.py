@@ -61,16 +61,12 @@ class CardRequest(CardBase):
         return value
 
 
-class CardResponse(ModelConfigBase):
+class CardResponseBase(ModelConfigBase):
     first6: str | None = None
     last4: str
-    expiry_year: str
-    expiry_month: str
     card_type: CardType
-    card_product: CardProduct | None = None
     issuer_country: str | None = Field(min_length=2, max_length=2, default=None)
     issuer_name: str | None = None
-    source: CardSource | None = None
 
     @field_validator("first6", mode="before")
     def validate_first6(cls, value: str | None) -> str | None:
@@ -88,6 +84,13 @@ class CardResponse(ModelConfigBase):
             raise ValueError("Invalid last4 value")
 
         return value
+
+
+class CardResponse(CardResponseBase):
+    expiry_year: str
+    expiry_month: str
+    card_product: CardProduct | None = None
+    source: CardSource | None = None
 
     @field_validator("expiry_year", mode="before")
     def validate_expiry_year(cls, value: str) -> str:

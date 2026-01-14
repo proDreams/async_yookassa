@@ -3,8 +3,13 @@
 import uuid
 from typing import Any
 
-from async_yookassa.models.payout_request import PayoutRequest
-from async_yookassa.models.payout_response import PayoutResponse
+from async_yookassa.models.payout.request import (
+    PayoutListOptions,
+    PayoutListResponse,
+    PayoutRequest,
+    PayoutSearchOptions,
+)
+from async_yookassa.models.payout.response import PayoutResponse
 from async_yookassa.services.base import BaseService
 
 
@@ -20,11 +25,23 @@ class PayoutService(BaseService):
         :param payout_id: Уникальный идентификатор выплаты
         :return: PayoutResponse
         """
+
         if not isinstance(payout_id, str):
             raise ValueError("Invalid payout_id value")
 
         response = await self._get(f"{self.BASE_PATH}/{payout_id}")
         return PayoutResponse(**response)
+
+    async def find(self, params: dict[str, Any] | PayoutSearchOptions | None = None) -> PayoutListResponse:
+        """
+        placeholder
+        """
+
+        if isinstance(params, PayoutSearchOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+
+        response = await self._get(f"{self.BASE_PATH}/search", query_params=params)
+        return PayoutListResponse(**response)
 
     async def create(
         self,
@@ -38,6 +55,7 @@ class PayoutService(BaseService):
         :param idempotency_key: Ключ идемпотентности
         :return: PayoutResponse
         """
+
         if isinstance(params, dict):
             request = PayoutRequest(**params)
         elif isinstance(params, PayoutRequest):
@@ -53,3 +71,14 @@ class PayoutService(BaseService):
             idempotency_key=idempotency_key,
         )
         return PayoutResponse(**response)
+
+    async def list(self, params: dict[str, Any] | PayoutListOptions | None = None) -> PayoutListResponse:
+        """
+        placeholder
+        """
+
+        if isinstance(params, PayoutListOptions):
+            params = params.model_dump(mode="json", by_alias=True, exclude_none=True)
+
+        response = await self._get(self.BASE_PATH, query_params=params)
+        return PayoutListResponse(**response)
