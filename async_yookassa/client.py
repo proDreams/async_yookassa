@@ -1,5 +1,7 @@
 """Main async client for YooKassa API."""
 
+from __future__ import annotations
+
 import platform
 import sys
 from typing import TYPE_CHECKING, Self
@@ -43,7 +45,7 @@ class YooKassaClient:
     ```
     """
 
-    __version__ = "1.0.0"
+    __version__ = "1.0.1"
 
     def __init__(
         self,
