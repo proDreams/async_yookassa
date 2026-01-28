@@ -1,6 +1,6 @@
 [project]
 name = "async_yookassa"
-version = "1.0.0"
+version = "1.0.1"
 description = "Unofficial API client for YooKassa"
 authors = [{ name = "prodream", email = "sushkoos@gmail.com" }]
 requires-python = ">=3.11,<3.15"
