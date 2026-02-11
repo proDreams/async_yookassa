@@ -93,7 +93,7 @@ class SBPPaymentMethodBase(PaymentMethodBase):
     sbp_operation_id: str | None = None
 
 
-class SBPPaymentMethodResponse(PaymentMethodBase):
+class SBPPaymentMethodResponse(SBPPaymentMethodBase):
     payer_bank_details: SBPPayerBankDetails | None = None
 
 
