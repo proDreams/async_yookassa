@@ -53,28 +53,24 @@ class PaymentRequest(PaymentData):
     statements: list[PaymentRequestStatement] | None = None
 
     @model_validator(mode="after")
-    def validate_data(self, values) -> Self:
-        amount = values.amount
+    def validate_data(self) -> Self:
+        amount = self.amount
+
         if amount is None or Decimal(amount.value) <= Decimal("0.0"):
             raise ValueError("Invalid or unspecified payment amount")
 
-        receipt = values.receipt
+        receipt = self.receipt
         if receipt and receipt.items:
-            if not (
-                receipt.email
-                or receipt.phone
-                or receipt.customer
-                and (receipt.customer.phone or receipt.customer.email)
-            ):
+            if not (receipt.customer and (receipt.customer.phone or receipt.customer.email)):
                 raise ValueError("Both email and phone values are empty in receipt")
             if receipt.tax_system_code is None:
                 for item in receipt.items:
                     if item.vat_code is None:
                         raise ValueError("Item vat_code and receipt tax_system_code not specified")
 
-        payment_token = values.payment_token
-        payment_method_id = values.payment_method_id
-        payment_method_data = values.payment_method_data
+        payment_token = self.payment_token
+        payment_method_id = self.payment_method_id
+        payment_method_data = self.payment_method_data
 
         if payment_token:
             if payment_method_id:
@@ -85,7 +81,7 @@ class PaymentRequest(PaymentData):
             raise ValueError("Both payment_method_id and payment_method_data values are specified")
 
         if payment_method_data and payment_method_data.type == PaymentMethodType.bank_card:
-            card = payment_method_data.card
+            card = payment_method_data.card  # ty:ignore[unresolved-attribute]
             if card:
                 date_now = datetime.now() - timedelta(hours=27)
                 date_expiry = (
@@ -96,4 +92,4 @@ class PaymentRequest(PaymentData):
                 if date_now >= date_expiry:
                     raise ValueError("Card expired")
 
-        return values
+        return self

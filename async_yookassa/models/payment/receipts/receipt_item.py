@@ -18,7 +18,7 @@ from async_yookassa.models.payment.receipts.mark_quantity import (
 from async_yookassa.models.payment.receipts.payment_subject_industry_details import (
     PaymentSubjectIndustryDetails,
 )
-from async_yookassa.models.receipt.supplier import Supplier
+from async_yookassa.models.payment.receipts.supplier import Supplier
 
 
 class ReceiptItemBase(ModelConfigBase):
