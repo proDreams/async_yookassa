@@ -77,6 +77,7 @@ class GenericPaymentMethod(PaymentMethodBase):
         PaymentMethodType.sber_bnpl,
         PaymentMethodType.apple_pay,
         PaymentMethodType.google_pay,
+        PaymentMethodType.psb,
         PaymentMethodType.qiwi,
         PaymentMethodType.wechat,
         PaymentMethodType.webmoney,
@@ -131,10 +132,21 @@ class TPayPaymentMethod(BankCardPaymentMethod):
     type: Literal[PaymentMethodType.tinkoff_bank]
 
 
+class AlfaPayPaymentMethod(BankCardPaymentMethod):
+    """Alfa Pay (Альфа-Плати) — обёртка над банковской картой Альфа-Банка,
+    оплата подтверждается через приложение банка. YooKassa возвращает
+    ``payment_method.card`` с реквизитами карты, поэтому наследуемся от
+    ``BankCardPaymentMethod``.
+    """
+
+    type: Literal[PaymentMethodType.alfa_pay]
+
+
 PaymentMethodUnion = Annotated[
     Union[
         SberLoanPaymentMethod,
         AlfabankPaymentMethod,
+        AlfaPayPaymentMethod,
         BankCardPaymentMethod,
         SBPPaymentMethodResponse,
         B2BSberbankPaymentMethod,
