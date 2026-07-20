@@ -25,6 +25,7 @@ class PaymentMethodType(StrEnum):
 
     sber_loan = "sber_loan"
     alfabank = "alfabank"
+    alfa_pay = "alfa_pay"
     mobile_balance = "mobile_balance"
     bank_card = "bank_card"
     installments = "installments"
@@ -36,6 +37,7 @@ class PaymentMethodType(StrEnum):
     yoo_money = "yoo_money"
     apple_pay = "apple_pay"
     google_pay = "google_pay"
+    psb = "psb"
     qiwi = "qiwi"
     sberbank = "sberbank"
     tinkoff_bank = "tinkoff_bank"
